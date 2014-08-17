@@ -6,16 +6,6 @@ angular.module('starter.controllers', [])
 
 .run(function($rootScope, $ionicPlatform, $state, $stateParams) {
 
-  // Broadcast events
-  $rootScope.$on('kocStatsRetrieved', function(event, stats) {
-    console.log("Root received kocStatsRetrieved");
-    $rootScope.$broadcast('kocStats', stats);
-  });
-  $rootScope.$on('kocAdvisorHelp', function(event, help) {
-    console.log("Root received kocAdvisorHelp");
-    $rootScope.$broadcast('kocAdvisor', help);
-  });
-
   // Disable BACK button on base
   $ionicPlatform.registerBackButtonAction(function(event) {
     if ($state.current.name == "app.base") {

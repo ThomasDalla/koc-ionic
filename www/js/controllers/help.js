@@ -2,8 +2,8 @@
 
 angular.module('starter.controllers')
 
-.controller('HelpCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', 'User', 'KoC',
-  function($scope, $stateParams, $state, $ionicLoading, User, KoC) {
+.controller('HelpCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', '$rootScope', 'User', 'KoC',
+  function($scope, $stateParams, $state, $ionicLoading, $rootScope, User, KoC) {
 
   console.log("HelpCtrl");
 
@@ -12,6 +12,7 @@ angular.module('starter.controllers')
   $scope.titles       = [];
   $scope.currentLevel = "";
   $scope.test         = ionic.Platform.platform();
+  $rootScope.$broadcast('kocAdvisor', "");
 
   $scope.updateCurrentLevel = function() {
     var output = [];
@@ -41,11 +42,13 @@ angular.module('starter.controllers')
   };
 
   $scope.upHelp = function() {
-    $scope.items = $scope.previousHelp.pop();
-    $scope.title = $scope.items.title || "Main";
-    $scope.help = $scope.items.help || "";
-    $scope.titles.pop();
-    $scope.updateCurrentLevel();
+    if($scope.previousHelp.length) {
+      $scope.items = $scope.previousHelp.pop();
+      $scope.title = $scope.items.title || "Main";
+      $scope.help = $scope.items.help || "";
+      $scope.titles.pop();
+      $scope.updateCurrentLevel();
+    }
   };
 
   $scope.reloadHelp = function(cacheTimeInSeconds) {

@@ -43,25 +43,23 @@ function($scope, $stateParams, $state, $ionicLoading, $ionicViewService, $rootSc
         //console.log("$scope.userStats", response.user);
         $scope.userStats = response.user;
         $scope.stats = response.stats;
-        console.log("emitting kocStatsRetrieved");
-        $scope.$emit('kocStatsRetrieved', response.stats);
         console.log("retrieved the stats");
         $ionicLoading.show({
           template: 'Retrieved user stats',
           noBackdrop: true,
-          duration: 2000
+          duration: 1000
         });
       }
       else {
         $scope.statsError = response.error;
       }
     }).error(function(error) {
-      $ionicLoading.hide();
+      //$ionicLoading.hide();
       $scope.statsError = "An error occurred retrieving the stats";
     }).
     finally(function() {
       console.log("finally");
-      $ionicLoading.hide();
+      //$ionicLoading.hide();
       // Stop the ion-refresher from spinning
       $scope.$broadcast('scroll.refreshComplete');
     });
