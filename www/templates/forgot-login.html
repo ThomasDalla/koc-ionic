@@ -1,0 +1,25 @@
+<ion-modal-view>
+    <ion-header-bar class="bar-dark">
+      <h1 class="title">Forgot Login</h1>
+      <button class="button button-clear button-light" ng-click="closeForgotLogin()">Close</button>
+    </ion-header-bar>
+    <ion-content>
+        <form ng-submit="forgotLogin()" name="forgotLoginForm">
+          <div class="list">
+            <label class="item">Specify your username or e-mail</label>
+            <label class="item item-input item-floating-label">
+              <span class="input-label">Username</span>
+              <input type="text" name="username" ng-model="loginData.username" placeholder="Username" ng-required="false">
+            </label>
+            <label class="item item-input item-floating-label">
+              <span class="input-label">E-Mail</span>
+              <input type="email" name="email" ng-model="loginData.email" placeholder="E-Mail" ng-required="false">
+            </label>
+            <label class="item">
+              <div class="error center">{{forgotLoginError}}</div>
+              <button class="button button-block button-stable" type="submit">Send me my login info</button>
+            </label>
+          </div>
+        </form>
+    </ion-content>
+</ion-modal-view>

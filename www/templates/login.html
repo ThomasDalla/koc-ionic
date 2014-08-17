@@ -1,0 +1,32 @@
+<!--ion-nav-bar class="bar-dark nav-title-slide-ios7">
+  <ion-nav-back-button class="button-icon ion-arrow-left-c">
+  </ion-nav-back-button>
+</ion-nav-bar-->
+<ion-view title="Kings of Chaos">
+  <ion-content style="background-color:#333;">
+  <div class="koc_logo"><p align="center"><img src="./img/koc_logo_png24.png" /></p></div>
+  <div class="card">
+    <form ng-submit="doLogin()" name="loginForm">
+      <div class="list">
+        <label class="item item-input">
+          <span class="input-label">Username</span>
+          <input type="text" name="username" ng-model="loginData.username" placeholder="Username" ng-required="true">
+        </label>
+        <label class="item item-input">
+          <span class="input-label">Password</span>
+          <input type="password" name="password" ng-model="loginData.password" placeholder="Password" ng-required="true">
+        </label>
+        <label class="item">
+          <div ng-hide="!loginError.length" class="error center">{{loginError}}</div>
+          <button class="button button-block button-stable" type="submit">Login</button>
+        </label>
+      </div>
+    </form>
+    </div>
+  </ion-content>
+</ion-view>
+<div class="bar bar-dark bar-footer hide-on-keyboard-open">
+  <button class="button button-small button-assertive" ui-sref="register">Register</button>
+  <div class="title">Age {{age}}</div>
+  <button class="button button-small button-assertive" ng-click="openForgotLogin()">Forgot Login?</button>
+</div>

@@ -1,0 +1,21 @@
+<ion-view title="Settings">
+  <ion-nav-buttons side="left">
+    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+  </ion-nav-buttons>
+  <ion-content class="has-header">
+    <ion-list>
+      <ion-item class="item item-toggle">
+         Show Advisor (Help)
+         <label class="toggle toggle-dark">
+           <input type="checkbox" ng-model="showAdvisor" ng-change="onShowAdvisorChange()">
+           <div class="track">
+             <div class="handle"></div>
+           </div>
+         </label>
+      </ion-item>
+      <ion-item ng-click="clearCache()">
+         Clear Cache
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

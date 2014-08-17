@@ -1,0 +1,14 @@
+/* Empty. Add your own CSS if you like */
+.koc_logo {
+    padding-top: 15px;
+    text-align: center;
+    width: 100%;
+}
+
+.error {
+    color: red;
+}
+
+.center {
+    text-align: center;
+}
