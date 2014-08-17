@@ -43,7 +43,7 @@ function($scope, $stateParams, $state, $ionicLoading, $ionicViewService, $rootSc
         //console.log("$scope.userStats", response.user);
         $scope.userStats = response.user;
         $scope.stats = response.stats;
-        //$rootScope.$broadcast('kocAdvisor', response.help);
+        $rootScope.$broadcast('kocAdvisor', response.help);
         console.log("retrieved the stats");
         // $ionicLoading.show({
         //   template: 'Retrieved user stats',

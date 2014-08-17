@@ -34,10 +34,11 @@ function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform
         //User.setBase(response.user);
         $scope.base = response.user;
         console.log("retrieved the base");
+        $rootScope.$broadcast('kocAdvisor', response.help);
         // current race features
-        if ($scope.races !== undefined && $scope.races.length) {
+        if ($scope.races !== undefined && $scope.races.length && response.user.userInfo !== undefined) {
           $scope.races.forEach(function(race) {
-            if (race.race == $scope.base.userInfo.race) $scope.currentRaceFeatures = race.features;
+            if (race.race == response.user.userInfo.race) $scope.currentRaceFeatures = race.features;
           });
         }
         //$ionicLoading.show({ template: 'Retrieved the base', noBackdrop: true, duration: 1000 });
@@ -67,7 +68,6 @@ function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform
     $scope.racesError = "";
     $scope.races = response.races;
     $scope.kocHost = response.kocHost;
-    //$rootScope.$broadcast('kocAdvisor', response.help);
     // current race features
     if ($scope.base !== undefined && $scope.base.userInfo !== undefined) {
       response.races.forEach(function(race) {

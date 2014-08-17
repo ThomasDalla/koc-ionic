@@ -6,6 +6,7 @@ angular.module('starter.controllers')
   function($scope, $stateParams, $state, $ionicLoading, $rootScope, User, KoC) {
 
   console.log("SettingsCtrl");
+  $scope.test        = ionic.Platform.platform();
   $scope.showAdvisor = User.showAdvisor();
   $rootScope.$broadcast('kocAdvisor', "");
 

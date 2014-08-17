@@ -11,7 +11,6 @@ angular.module('starter.controllers')
   $scope.title        = "Main";
   $scope.titles       = [];
   $scope.currentLevel = "";
-  $scope.test         = ionic.Platform.platform();
   $rootScope.$broadcast('kocAdvisor', "");
 
   $scope.updateCurrentLevel = function() {
@@ -29,8 +28,8 @@ angular.module('starter.controllers')
       $scope.items = [];
   });
 
-  console.log($state);
-  console.log($stateParams);
+  // console.log($state);
+  // console.log($stateParams);
 
   $scope.subHelp = function(index){
     $scope.previousHelp.push($scope.items);
