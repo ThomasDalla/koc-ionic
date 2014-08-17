@@ -127,8 +127,11 @@ angular.module('starter.controllers')
     },
     // getCacheDirect returns an object/array
     getCacheDirect: function(page, maxTimeInSeconds) {
-      if( this.isCacheAvailable( page, maxTimeInSeconds ) )
-        return JSON.parse(window.localStorage[this.getLsKeyForPage(page)]);
+      if( this.isCacheAvailable( page, maxTimeInSeconds ) ) {
+        var cache = JSON.parse(window.localStorage[this.getLsKeyForPage(page)]);
+        $rootScope.$broadcast('kocAdvisor', cache.help);
+        return cache;
+      }
       return null;
     },
     // getCache returns a Promise

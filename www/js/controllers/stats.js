@@ -28,7 +28,7 @@ function($scope, $stateParams, $state, $ionicLoading, $ionicViewService, $rootSc
   };
 
   $scope.alliancesList = function(alliances) {
-    if (alliances === undefined || alliances == null || !alliances.length) return "None";
+    if (alliances === undefined || alliances === null || !alliances.length) return "None";
     return alliances.map(function(alliance) {
       return alliance.name + (alliance.primary ? " (Primary)" : "");
     }).join(", ");
@@ -43,12 +43,13 @@ function($scope, $stateParams, $state, $ionicLoading, $ionicViewService, $rootSc
         //console.log("$scope.userStats", response.user);
         $scope.userStats = response.user;
         $scope.stats = response.stats;
+        //$rootScope.$broadcast('kocAdvisor', response.help);
         console.log("retrieved the stats");
-        $ionicLoading.show({
-          template: 'Retrieved user stats',
-          noBackdrop: true,
-          duration: 1000
-        });
+        // $ionicLoading.show({
+        //   template: 'Retrieved user stats',
+        //   noBackdrop: true,
+        //   duration: 1000
+        // });
       }
       else {
         $scope.statsError = response.error;

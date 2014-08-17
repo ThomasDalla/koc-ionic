@@ -67,6 +67,7 @@ function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform
     $scope.racesError = "";
     $scope.races = response.races;
     $scope.kocHost = response.kocHost;
+    //$rootScope.$broadcast('kocAdvisor', response.help);
     // current race features
     if ($scope.base !== undefined && $scope.base.userInfo !== undefined) {
       response.races.forEach(function(race) {
