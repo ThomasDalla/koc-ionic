@@ -14,7 +14,7 @@
       <!-- Current Inventory -->
       <div ng-repeat="weaponType in weaponTypes">
         <div ng-hide="!armory.currentWeapons[weaponType].length">
-          <div class="item item-divider item-stable">{{weaponType}}</div>
+          <div class="item item-divider item-dark">{{weaponType}}</div>
           <div class="item item-stable" style="height:30px;padding:5px;">
             <div class="row" style="height:30px;padding:0px;">
               <div class="col col-33" style="height:30px;padding:0px;">Weapon Name</div>
@@ -60,21 +60,25 @@
         </div>
       </div>
 
-      <div class="item item-divider item-stable">Fortification</div>
+      <div class="item item-divider item-dark">Fortification</div>
       <div class="item item-stable">
         <div class="row">
-          <div class="col col-50">{{armory.upgrades.fortification.current}}</div>
-          <div class="col col-50">
+          <div class="col center">{{armory.upgrades.fortification.current}}</div>
+        </div>
+        <div class="row">
+          <div class="col center">
             <button class="button button-small button-dark" ng-click="upgradeFortification()">{{armory.upgrades.fortification.next}}</button>
           </div>
         </div>
       </div>
 
-      <div class="item item-divider item-stable">Siege Technology</div>
+      <div class="item item-divider item-dark">Siege Technology</div>
       <div class="item item-stable">
         <div class="row">
-          <div class="col col-50">{{armory.upgrades.siegeTechnology.current}}</div>
-          <div class="col col-50">
+          <div class="col center">{{armory.upgrades.siegeTechnology.current}}</div>
+        </div>
+        <div class="row">
+          <div class="col center">
             <button class="button button-small button-dark" ng-click="upgradeSiegeTechnology()">{{armory.upgrades.siegeTechnology.next}}</button>
           </div>
         </div>
@@ -94,7 +98,7 @@
       <!-- Buy Weapons -->
       <div ng-repeat="weaponType in weaponTypes">
         <div ng-hide="!armory.buyWeapons[weaponType].length">
-          <div class="item item-divider item-stable">{{weaponType}}</div>
+          <div class="item item-divider item-dark">{{weaponType}}</div>
           <div class="item item-stable" style="height:30px;padding:5px;">
             <div class="row" style="height:30px;padding:0px;">
               <div class="col col-33" style="height:30px;padding:0px;">Weapon Name</div>
