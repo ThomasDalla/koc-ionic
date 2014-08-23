@@ -10,10 +10,11 @@ angular.module('starter.controllers')
   });
   $scope.showAdvisor = User.showAdvisor();
 
+  $scope.username = User.get().username;
+
   $scope.$on('kocStats', function(event, stats) {
     console.log("MainCtrl received kocStats");
-    if(stats.username=="???")
-      stats.username = $scope.stats !== undefined ? ( $scope.stats.username || "Menu" ) : "Menu";
+    stats.username = User.get().username;
     $scope.stats = stats;
   });
   $scope.$on('kocAdvisor', function(event, help) {

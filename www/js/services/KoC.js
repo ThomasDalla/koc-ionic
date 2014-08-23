@@ -48,14 +48,18 @@ angular.module('starter.controllers')
               var originalRequestConfig = response.config;
               var KoC = $injector.get('KoC');
               var $http = $injector.get('$http');
-              return KoC.login(user.username, user.password).then(function(r){
-                if(r.success)
-                  return $http(originalRequestConfig);
-                var defer = $q.defer();
-                var p = defer.promise;
+              var defer = $q.defer();
+              var p = defer.promise;
+              KoC.login(user.username, user.password).success(function(r){
+                console.log("we re-logged in", r);
+                if(r.success) {
+                  console.log("successfully, retrying initial request", originalRequestConfig);
+                  return defer.resolve($http(originalRequestConfig));
+                }
+                console.log("failed to login");
                 defer.resolve(r);
-                return p;
               });
+              return p;
             }
         }
         // propagate the response
@@ -79,6 +83,12 @@ angular.module('starter.controllers')
     },
     getBase: function(cacheTimeInSeconds) {
       return this.getPage("GET", "/base", {}, cacheTimeInSeconds, true);
+    },
+    getArmory: function(cacheTimeInSeconds) {
+      return this.getPage("GET", "/armory", {}, cacheTimeInSeconds, true);
+    },
+    buyWeapons: function(turing, inputNameValue) {
+      return this.getPage("POST", "/armory", { turing: turing, inputNameValue: inputNameValue }, 0, true);
     },
     getHelp: function(cacheTimeInSeconds) {
       return this.getPage("GET", "/help", {}, cacheTimeInSeconds);

@@ -10,7 +10,7 @@
     <ion-header-bar class="bar bar-subheader bar-dark" style="text-align:center;vertical-align:middle;">
       <!--button class="button button-clear button-light"><img src="./img/gold.png"> {{stats.gold}}</button>
       <button class="button button-clear button-light">Rank {{stats.rank}}</button-->
-      <img src="./img/gold.png" style="vertical-align:middle;"> {{stats.gold}} | #{{stats.rank}} | XP {{stats.experience}} | {{stats.turns}} Turns
+      <img src="./img/gold.png" style="vertical-align:middle;"> {{stats.goldText}} | #{{stats.rank}} | XP {{stats.experience}} | {{stats.turns}} Turns
       <br />Attacked {{stats.lastAttacked}} | {{stats.mails}} Mails
     </ion-header-bar>
 
@@ -19,22 +19,15 @@
 
   <ion-side-menu side="left">
     <header class="bar bar-header bar-stable">
-      <h1 class="title">{{stats.username}}</h1>
+      <h1 class="title">{{username}}</h1>
     </header>
     <ion-content class="has-header">
       <ion-list>
-        <ion-item nav-clear menu-close href="#/app/base">
-          Command Center
-        </ion-item>
-        <ion-item nav-clear menu-close href="#/app/help">
-          Help
-        </ion-item>
-        <ion-item nav-clear menu-close href="#/app/settings">
-          Settings
-        </ion-item>
-        <ion-item nav-clear menu-close href="#/logout">
-          Logout
-        </ion-item>
+        <ion-item nav-clear menu-close href="#/app/base">Command Center</ion-item>
+        <ion-item nav-clear menu-close href="#/app/armory">Armory</ion-item>
+        <ion-item nav-clear menu-close href="#/app/help">Help</ion-item>
+        <ion-item nav-clear menu-close href="#/app/settings">Settings</ion-item>
+        <ion-item nav-clear menu-close href="#/logout">Logout</ion-item>
       </ion-list>
     </ion-content>
   </ion-side-menu>

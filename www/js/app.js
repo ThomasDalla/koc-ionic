@@ -98,6 +98,16 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     }
   })
 
+  .state('app.armory', {
+    url: "/armory",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/armory.html",
+        controller: 'ArmoryCtrl'
+      }
+    }
+  })
+
   .state('app.stats', {
     url: "/stats/:userid",
     views: {

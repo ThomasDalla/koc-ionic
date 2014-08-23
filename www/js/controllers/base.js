@@ -12,7 +12,7 @@ function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform
   User.getCache("/base", - 1).success(function(response) {
     if (response !== null) {
       $scope.baseError = "";
-      $scope.base = response;
+      $scope.base = response.user;
     }
   }).error(function(error) {
     $scope.baseError = error.toString();
