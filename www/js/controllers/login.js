@@ -22,13 +22,7 @@ angular.module('starter.controllers')
     });
   }
 
-  var user = User.get();
-
-  // Form data for the login modal
-  $scope.loginData = {
-    username: user.username,
-    password: user.password
-  };
+  $scope.user = User.get();
 
   $scope.age = 17;
 
@@ -45,9 +39,24 @@ angular.module('starter.controllers')
     };
   });
 
+  $ionicModal.fromTemplateUrl('templates/verify-account.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.verifyAccountModal = modal;
+    $scope.openVerifyAccount = function() {
+      $scope.verifyAccountModal.show();
+    };
+    $scope.closeVerifyAccount = function() {
+      $scope.loginError = "";
+      $scope.verifyAccountModal.hide();
+    };
+  });
+
   //Cleanup the modals when we're done with them
   $scope.$on('$destroy', function() {
-    if ($scope.forgotLoginModal !== undefined) $scope.forgotLoginModal.remove();
+    if ($scope.forgotLoginModal   !== undefined) $scope.forgotLoginModal.remove();
+    if ($scope.verifyAccountModal !== undefined) $scope.verifyAccountModal.remove();
   });
 
   $scope.openRegister = function() {
@@ -59,10 +68,10 @@ angular.module('starter.controllers')
     $ionicLoading.show({
       template: 'Signing-in...'
     });
-    User.set($scope.loginData.username, $scope.loginData.password);
+    User.set($scope.user.username, $scope.user.password);
     User.setLoggedIn(false);
 
-    KoC.login($scope.loginData.username, $scope.loginData.password).success(function(response) {
+    KoC.login($scope.user.username, $scope.user.password).success(function(response) {
       User.setSession(response.session);
       if (response.success) {
         //User.setBase(response.user);
@@ -71,6 +80,9 @@ angular.module('starter.controllers')
       }
       else {
         $scope.loginError = response.error;
+        if(response.error.indexOf("verify your account")>=0) {
+          $scope.openVerifyAccount();
+        }
       }
     }).error(function(err) {
       $scope.loginError = "Error trying to login";
@@ -80,9 +92,35 @@ angular.module('starter.controllers')
     });
   };
 
+  $scope.verifyAccount = function() {
+    console.log("verifyAccount()");
+    $scope.verifyAccountError = "";
+    if( $scope.user.email === undefined || !$scope.user.email.length || !User.validateEmail($scope.user.email) )
+      $scope.verifyAccountError = "Specify a valid e-mail address";
+    else {
+      User.setEmail($scope.user.email);
+      KoC.validateEmail($scope.user.email).success(function(response) {
+        if (response.success) {
+          $ionicPopup.alert({
+            title: 'E-Mail sent',
+            template: response.message,
+            okType: "button-dark"
+          }).then(function(res) {
+            $scope.verifyAccountModal.hide();
+          });
+        }
+        else {
+          $scope.verifyAccountError = response.error;
+        }
+      }).error(function(err) {
+        $scope.verifyAccountError = "Error trying to verify your e-mail";
+      });
+    }
+  };
+
   // Forgot Login
   $scope.forgotLogin = function() {
-    if (($scope.loginData.username === undefined || !$scope.loginData.username.length) && ($scope.loginData.email === undefined || !$scope.loginData.email)) {
+    if (($scope.user.username === undefined || !$scope.user.username.length) && ($scope.user.email === undefined || !$scope.user.email)) {
       $scope.forgotLoginError = "Specify at least one of them...";
     }
     else {
@@ -92,13 +130,14 @@ angular.module('starter.controllers')
       $scope.forgotLoginError = "";
 
       // If one of them is blank, set it to "", not undefined
-      if ($scope.loginData.username === undefined) $scope.loginData.username = "";
-      if ($scope.loginData.email === undefined) $scope.loginData.email = "";
+      if ($scope.user.username === undefined) $scope.user.username = "";
+      if ($scope.user.email === undefined) $scope.user.email = "";
 
       // Communicate with KoC
-      KoC.forgotLogin($scope.loginData.username, $scope.loginData.email).success(function(response) {
+      KoC.forgotLogin($scope.user.username, $scope.user.email).success(function(response) {
         if (response.success) {
           $scope.forgotLoginError = response.message;
+          User.setEmail($scope.user.email);
           $ionicPopup.alert({
             title: 'Credentials sent',
             template: response.message,
@@ -117,7 +156,7 @@ angular.module('starter.controllers')
     }
   };
 
-  if (user.loggedIn) {
+  if ($scope.user.loggedIn) {
     // try to login
     $scope.doLogin();
   }

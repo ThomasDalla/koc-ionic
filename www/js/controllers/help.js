@@ -2,8 +2,8 @@
 
 angular.module('starter.controllers')
 
-.controller('HelpCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', '$rootScope', 'User', 'KoC',
-  function($scope, $stateParams, $state, $ionicLoading, $rootScope, User, KoC) {
+.controller('HelpCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', '$rootScope', '$ionicScrollDelegate', 'User', 'KoC',
+  function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicScrollDelegate, User, KoC) {
 
   console.log("HelpCtrl");
 
@@ -19,6 +19,7 @@ angular.module('starter.controllers')
       output.push(title);
     });
     $scope.currentLevel =  output.join( " > " );
+    $ionicScrollDelegate.scrollTop();
   };
 
   User.getCache( "/help", -1 ).then(function(help){

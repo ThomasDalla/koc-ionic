@@ -35,22 +35,35 @@ angular.module('starter.controllers')
       return {
         username: window.localStorage['username'],
         password: window.localStorage['password'],
+        email: this.getEmail(),
         session: this.getSession(),
         loggedIn: this.hasLoggedIn()
       };
     },
     getSession: function() {
-      return   window.localStorage['session'] || "";
+      return window.localStorage['session'] || "";
     },
-    set: function(username, password, session) {
+    set: function(username, password, session, email) {
       window.localStorage['username'] = username;
       window.localStorage['password'] = password;
+      this.setEmail(email);
       this.setSession(session);
     },
     setSession: function(session) {
       if (session !== undefined && session !== null && session.length) {
         window.localStorage['session'] = session;
       }
+    },
+    setEmail: function(email) {
+      if(email!==undefined&&email.length)
+        window.localStorage['email'] = email;
+    },
+    getEmail: function() {
+      return window.localStorage['email'] || "";
+    },
+    validateEmail: function(email) {
+      var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email);
     },
     // setBase: function(user) {
     //   window.localStorage['base'] = JSON.stringify(user);

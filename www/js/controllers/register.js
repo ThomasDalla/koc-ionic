@@ -68,7 +68,7 @@ angular.module('starter.controllers')
         $scope.registerErrorMessage = "";
         if (response.success) {
           $scope.registerErrorMessage = "";
-          User.set($scope.loginData.username, $scope.loginData.password, response.session);
+          User.set($scope.loginData.username, $scope.loginData.password, response.session, $scope.loginData.email);
           var alertPopup = $ionicPopup.alert({
             title: 'Registered!',
             template: response.message,

@@ -1,0 +1,20 @@
+<ion-modal-view>
+    <ion-header-bar class="bar-dark">
+      <h1 class="title">Verify Your Account</h1>
+      <button class="button button-clear button-light" ng-click="closeVerifyAccount()">Close</button>
+    </ion-header-bar>
+    <ion-content>
+        <form ng-submit="verifyAccount()" name="verifyAccountForm">
+          <div class="list">
+            <label class="item item-input item-floating-label">
+              <span class="input-label">E-Mail</span>
+              <input type="email" name="email" ng-model="user.email" placeholder="E-Mail" ng-required="false">
+            </label>
+            <label class="item">
+              <div class="error center">{{verifyAccountError}}</div>
+              <button class="button button-block button-dark" type="submit">Verify my e-mail</button>
+            </label>
+          </div>
+        </form>
+    </ion-content>
+</ion-modal-view>

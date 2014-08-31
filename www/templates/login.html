@@ -10,11 +10,11 @@
       <div class="list">
         <label class="item item-input">
           <span class="input-label">Username</span>
-          <input type="text" name="username" ng-model="loginData.username" placeholder="Username" ng-required="true">
+          <input type="text" name="username" ng-model="user.username" placeholder="Username" ng-required="true">
         </label>
         <label class="item item-input">
           <span class="input-label">Password</span>
-          <input type="password" name="password" ng-model="loginData.password" placeholder="Password" ng-required="true">
+          <input type="password" name="password" ng-model="user.password" placeholder="Password" ng-required="true">
         </label>
         <label class="item">
           <div ng-hide="!loginError.length" class="error center">{{loginError}}</div>

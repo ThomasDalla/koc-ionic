@@ -9,11 +9,11 @@
             <label class="item">Specify your username or e-mail</label>
             <label class="item item-input item-floating-label">
               <span class="input-label">Username</span>
-              <input type="text" name="username" ng-model="loginData.username" placeholder="Username" ng-required="false">
+              <input type="text" name="username" ng-model="user.username" placeholder="Username" ng-required="false">
             </label>
             <label class="item item-input item-floating-label">
               <span class="input-label">E-Mail</span>
-              <input type="email" name="email" ng-model="loginData.email" placeholder="E-Mail" ng-required="false">
+              <input type="email" name="email" ng-model="user.email" placeholder="E-Mail" ng-required="false">
             </label>
             <label class="item">
               <div class="error center">{{forgotLoginError}}</div>

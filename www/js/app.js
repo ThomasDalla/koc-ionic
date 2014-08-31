@@ -4,7 +4,7 @@
 
 angular.module('starter.controllers', [])
 
-.run(function($rootScope, $ionicPlatform, $state, $stateParams) {
+.run( [ '$rootScope', '$ionicPlatform', '$state', '$stateParams', function($rootScope, $ionicPlatform, $state, $stateParams) {
 
   // Disable BACK button on base
   $ionicPlatform.registerBackButtonAction(function(event) {
@@ -20,7 +20,7 @@ angular.module('starter.controllers', [])
     }
   }, 100);
 
-});
+}]);
 
 angular.module('starter', ['ionic', 'starter.controllers'])
 
