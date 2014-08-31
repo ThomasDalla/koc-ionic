@@ -151,6 +151,9 @@ angular.module('starter.controllers')
     },
     logout: function() {
       return this.getPage("GET", "/logout", {});
+    },
+    verifyEmail: function(email) {
+      return this.getPage("POST", "/verify-email", { email: email } );
     }
   };
 }]);

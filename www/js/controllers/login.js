@@ -99,14 +99,14 @@ angular.module('starter.controllers')
       $scope.verifyAccountError = "Specify a valid e-mail address";
     else {
       User.setEmail($scope.user.email);
-      KoC.validateEmail($scope.user.email).success(function(response) {
+      KoC.verifyEmail($scope.user.email).success(function(response) {
         if (response.success) {
           $ionicPopup.alert({
             title: 'E-Mail sent',
             template: response.message,
             okType: "button-dark"
           }).then(function(res) {
-            $scope.verifyAccountModal.hide();
+            $scope.closeVerifyAccount();
           });
         }
         else {
