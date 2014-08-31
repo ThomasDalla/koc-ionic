@@ -7,6 +7,7 @@ angular.module('starter.controllers')
 function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform, $ionicPopup, $ionicScrollDelegate, $timeout, User, KoC) {
 
   console.log("ArmoryCtrl");
+  $scope.disableActions = false;
 
   $scope.weaponTypes = [
     'Attack Weapons',
@@ -67,6 +68,7 @@ function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform
   };
 
   var buyWeapons = function(turing, inputNameValue, successMessage, actionMessage) {
+    $scope.disableActions = true;
     KoC.buyWeapons($scope.armory.turing,inputNameValue).success(function(response) {
       if (response.success === true) {
         $scope.armory = response.armory;
@@ -86,6 +88,7 @@ function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform
       $ionicLoading.show({ template: "An error occurred " + actionMessage, noBackdrop: true, duration: 2000 });
     }).
     finally(function() {
+      $scope.disableActions = false;
       $scope.$broadcast('scroll.refreshComplete');
     });
   };
@@ -93,8 +96,8 @@ function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform
   $scope.buyWeapons = function() {
     $scope.armoryError = "";
     var inputNameValue = $scope.getInputNameValue();
-    console.log("buying weapons!", $scope.armory.turing, inputNameValue, "Weapons bought!", "buying weapons");
-    buyWeapons($scope.armory.turing, inputNameValue);
+    console.log("buying weapons!", $scope.armory.turing, inputNameValue);
+    buyWeapons($scope.armory.turing, inputNameValue, "Weapons bought!", "buying weapons");
   };
 
   $scope.sellWeapons = {};
@@ -151,8 +154,8 @@ function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform
   $scope.reloadArmory = function(cacheTimeInSeconds) {
     console.log("load the armory, cacheTimeInSeconds=" + cacheTimeInSeconds);
     $scope.armoryError = "";
+    $scope.disableActions = true;
     KoC.getArmory(cacheTimeInSeconds).success(function(response) {
-        console.log(response);
       if (response.success === true) {
         $scope.armory = response.armory;
         $scope.stats = response.stats;
@@ -168,6 +171,7 @@ function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform
     }).
     finally(function() {
       console.log("finally");
+      $scope.disableActions = false;
       $scope.$broadcast('scroll.refreshComplete');
     });
   };
