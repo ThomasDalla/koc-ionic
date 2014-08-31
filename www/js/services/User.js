@@ -61,6 +61,15 @@ angular.module('starter.controllers')
     getEmail: function() {
       return window.localStorage['email'] || "";
     },
+    getCacheSize: function() {
+      var total= 0;
+      for(var x in localStorage) {
+        if( x.indexOf("cache_")>=0)
+          total += localStorage[x].length;
+      }
+      total = total*2/1024;
+      return total;
+    },
     validateEmail: function(email) {
       var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(email);
