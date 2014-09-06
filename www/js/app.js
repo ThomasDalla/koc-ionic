@@ -108,6 +108,16 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     }
   })
 
+  .state('app.training', {
+    url: "/training",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/training.html",
+        controller: 'TrainingCtrl'
+      }
+    }
+  })
+
   .state('app.stats', {
     url: "/stats/:userid",
     views: {

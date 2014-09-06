@@ -73,19 +73,19 @@ function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform
       if (response.success === true) {
         $scope.armory = response.armory;
         if(response.armory.error.length)
-          $ionicLoading.show({ template: response.armory.error, noBackdrop: true, duration: 2000 });
+          $ionicLoading.show({ template: response.armory.error, noBackdrop: true, duration: 1000 });
         else
-          $ionicLoading.show({ template: successMessage, noBackdrop: true, duration: 2000 });
+          $ionicLoading.show({ template: successMessage, noBackdrop: true, duration: 1000 });
         $scope.stats = response.stats;
         $scope.recalcBuyTotal();
         console.log("retrieved the armory");
         $rootScope.$broadcast('kocAdvisor', response.help);
       }
       else {
-        $ionicLoading.show({ template: response.error, noBackdrop: true, duration: 2000 });
+        $ionicLoading.show({ template: response.error, noBackdrop: true, duration: 1000 });
       }
     }).error(function(error) {
-      $ionicLoading.show({ template: "An error occurred " + actionMessage, noBackdrop: true, duration: 2000 });
+      $ionicLoading.show({ template: "An error occurred " + actionMessage, noBackdrop: true, duration: 1000 });
     }).
     finally(function() {
       $scope.disableActions = false;
@@ -161,7 +161,7 @@ function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform
         $scope.stats = response.stats;
         $scope.recalcBuyTotal();
         console.log("retrieved the armory");
-        $rootScope.$broadcast('kocAdvisor', response.help);
+        //$rootScope.$broadcast('kocAdvisor', response.help);
       }
       else {
         $scope.armoryError = response.error;

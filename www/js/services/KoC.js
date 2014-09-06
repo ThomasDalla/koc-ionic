@@ -90,6 +90,12 @@ angular.module('starter.controllers')
     buyWeapons: function(turing, inputNameValue) {
       return this.getPage("POST", "/armory", { turing: turing, inputNameValue: inputNameValue }, 0, true);
     },
+    getTraining: function(cacheTimeInSeconds) {
+      return this.getPage("GET", "/train", {}, cacheTimeInSeconds, true);
+    },
+    trainTroops: function(turing, inputNameValue) {
+      return this.getPage("POST", "/train", { turing: turing, inputNameValue: inputNameValue }, 0, true);
+    },
     getHelp: function(cacheTimeInSeconds) {
       return this.getPage("GET", "/help", {}, cacheTimeInSeconds);
     },
