@@ -79,6 +79,15 @@ function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform
     train($scope.training.turing, inputNameValue, "Soldiers trained!", "training troops");
   };
 
+  $scope.upgradeTechnology = function(index) {
+    $scope.trainError = "";
+    var inputNameValue = {};
+    var upgrade = $scope.training.upgrades[index];
+    inputNameValue[upgrade.inputName] = upgrade.inputValue;
+    console.log("upgrading technology!", $scope.training.turing, inputNameValue);
+    train($scope.training.turing, inputNameValue, "Upgrade completed!", "upgrading");
+  };
+
   $scope.reloadTraining = function(cacheTimeInSeconds) {
     console.log("load the training, cacheTimeInSeconds=" + cacheTimeInSeconds);
     $scope.trainError = "";

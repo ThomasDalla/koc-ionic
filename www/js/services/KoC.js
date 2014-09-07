@@ -96,6 +96,12 @@ angular.module('starter.controllers')
     trainTroops: function(turing, inputNameValue) {
       return this.getPage("POST", "/train", { turing: turing, inputNameValue: inputNameValue }, 0, true);
     },
+    getMercenaries: function(cacheTimeInSeconds) {
+      return this.getPage("GET", "/mercenaries", {}, cacheTimeInSeconds, true);
+    },
+    hireMercenaries: function(turing, inputNameValue) {
+      return this.getPage("POST", "/mercenaries", { turing: turing, inputNameValue: inputNameValue }, 0, true);
+    },
     getHelp: function(cacheTimeInSeconds) {
       return this.getPage("GET", "/help", {}, cacheTimeInSeconds);
     },

@@ -118,6 +118,16 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     }
   })
 
+  .state('app.mercenaries', {
+    url: "/mercenaries",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/mercenaries.html",
+        controller: 'MercenariesCtrl'
+      }
+    }
+  })
+
   .state('app.stats', {
     url: "/stats/:userid",
     views: {

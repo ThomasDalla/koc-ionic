@@ -1,52 +1,39 @@
-<ion-view title="Training" hide-back-button="true">
+<ion-view title="Mercenaries" hide-back-button="true">
   <ion-nav-buttons side="left">
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
 
   <ion-content class="has-header" style="background-color:black;">
-    <ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadTraining()"></ion-refresher>
-    <div ng-hide="!trainError.length" class="error center">{{trainError}}</div>
+    <ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadMercenaries()"></ion-refresher>
+    <div ng-hide="!mercsError.length" class="error center">{{mercsError}}</div>
     <div class="list">
       <div>
-        <div class="item item-divider item-dark">Train Your Troops</div>
-        <div class="item item-text-wrap" ng-repeat="program in training.train">
+        <div class="item item-divider item-dark">Hire Mercenaries</div>
+        <div class="item item-text-wrap" ng-repeat="program in mercenaries.hire">
           <div class="row">
-            <div class="col col-50" style="text-align:right;">{{program.trainingProgram}}</div>
-            <div class="col col-50">{{program.costPerUnitText}}</div>
+            <div class="col col-33" style="text-align:right;">{{program.mercenaryType}}</div>
+            <div class="col col-33">Available: {{program.quantityAvailableText}}</div>
+            <div class="col col-33">{{program.costPerUnitText}}</div>
           </div>
           <div class="row">
             <div class="col col-33" style="text-align:right;">
-              <button class="button button-small button-stable" ng-disabled="disableActions" ng-click="trainQuantity($index,-100)">-100</button>
-              <button class="button button-small button-stable" ng-disabled="disableActions" ng-click="trainQuantity($index,-10)">-10</button>
-              <button class="button button-small button-stable" ng-disabled="disableActions" ng-click="trainQuantity($index,-1)">-1</button>
+              <button class="button button-small button-stable" ng-disabled="disableActions" ng-click="hireQuantity($index,-100)">-100</button>
+              <button class="button button-small button-stable" ng-disabled="disableActions" ng-click="hireQuantity($index,-10)">-10</button>
+              <button class="button button-small button-stable" ng-disabled="disableActions" ng-click="hireQuantity($index,-1)">-1</button>
             </div>
             <div class="col col-33" style="text-align:center;">
               {{program.inputValue|number:0}} ({{program.inputValue*program.costPerUnit|number:0}} Gold)
             </div>
             <div class="col col-33" style="text-align:left;">
-              <button class="button button-small button-stable" ng-disabled="disableActions" ng-click="trainQuantity($index,+1)">+1</button>
-              <button class="button button-small button-stable" ng-disabled="disableActions" ng-click="trainQuantity($index,+10)">+10</button>
-              <button class="button button-small button-stable" ng-disabled="disableActions" ng-click="trainQuantity($index,+100)">+100</button>
+              <button class="button button-small button-stable" ng-disabled="disableActions" ng-click="hireQuantity($index,+1)">+1</button>
+              <button class="button button-small button-stable" ng-disabled="disableActions" ng-click="hireQuantity($index,+10)">+10</button>
+              <button class="button button-small button-stable" ng-disabled="disableActions" ng-click="hireQuantity($index,+100)">+100</button>
             </div>
           </div>
         </div>
         <div class="item item-divider item-stable">
           <div class="error center" ng-hide="buyTotal<stats.gold">More than you seem to be able to afford!</div>
-          <button class="button button-block button-dark" ng-disabled="disableActions" ng-click="trainTroops()">Train {{soldiersTrained|number:0}} Soldiers for {{buyTotal|number:0}} Gold</button>
-        </div>
-      </div>
-      <div ng-repeat="upgrade in training.upgrades">
-        <div class="item item-divider item-dark">{{upgrade.title}}</div>
-        <div class="item item-text-wrap">
-          <div class="row">
-            <div class="col col-50" style="text-align:right;">{{upgrade.currentTitle}}:</div>
-            <div class="col col-50"><b>{{upgrade.currentLevel}}</b></div>
-          </div>
-          <div class="row">
-          <button class="button button-block button-dark" ng-disabled="disableActions" ng-click="upgradeTechnology($index)">
-            {{upgrade.upgradeName}} for {{upgrade.cost}}
-          </button>
-          </div>
+          <button class="button button-block button-dark" ng-disabled="disableActions" ng-click="hireMercs()">Hire {{mercsHired|number:0}} Mercenaries for {{buyTotal|number:0}} Gold</button>
         </div>
       </div>
       <div>
