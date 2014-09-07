@@ -39,8 +39,7 @@
         <div class="item item-divider item-dark">{{upgrade.title}}</div>
         <div class="item item-text-wrap">
           <div class="row">
-            <div class="col col-50" style="text-align:right;">{{upgrade.currentTitle}}:</div>
-            <div class="col col-50"><b>{{upgrade.currentLevel}}</b></div>
+            <div class="col" style="text-align:center;">{{upgrade.currentTitle}}: <b>{{upgrade.currentLevel}}</b></div>
           </div>
           <div class="row">
           <button class="button button-block button-dark" ng-disabled="disableActions" ng-click="upgradeTechnology($index)">

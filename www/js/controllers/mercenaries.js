@@ -26,9 +26,9 @@ function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform
   User.getCache("/mercenaries", - 1).success(function(response) {
     if (response !== null) {
       $scope.mercsError = "";
-      $scope.mercenaries = response.mercenaries;
-      $scope.personnel = response.mercenaries.personnel;
-      $scope.turing = response.mercenaries.turing;
+      $scope.mercenaries = response;
+      $scope.personnel = response.personnel;
+      $scope.turing = response.turing;
       recalcBuyTotal();
     }
   }).error(function(error) {
@@ -50,10 +50,11 @@ function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform
     $scope.disableActions = true;
     KoC.hireMercenaries($scope.mercenaries.turing,inputNameValue).success(function(response) {
       if (response.success === true) {
-        $scope.mercenaries = response.mercenaries;
-        $scope.personnel = response.mercenaries.personnel;
-        if(response.mercenaries.message.length)
-          $ionicLoading.show({ template: response.mercenaries.message, noBackdrop: true, duration: 1000 });
+        $scope.mercenaries = response;
+        $scope.personnel = response.personnel;
+        $scope.turing = response.turing;
+        if(response.message.length)
+          $ionicLoading.show({ template: response.message, noBackdrop: true, duration: 1000 });
         else
           $ionicLoading.show({ template: successMessage, noBackdrop: true, duration: 1000 });
         $scope.stats = response.stats;
@@ -87,9 +88,10 @@ function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform
     $scope.mercsError = "";
     $scope.disableActions = true;
     KoC.getMercenaries(cacheTimeInSeconds).success(function(response) {
+      console.log("got the mercs:", response);
       if (response.success === true) {
-        $scope.mercenaries = response.mercenaries;
-        $scope.personnel = response.mercenaries.personnel;
+        $scope.mercenaries = response;
+        $scope.personnel = response.personnel;
         console.log("retrieved the mecenaries");
         //$rootScope.$broadcast('kocAdvisor', response.help);
       }

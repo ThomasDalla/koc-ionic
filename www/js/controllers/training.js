@@ -26,9 +26,9 @@ function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform
   User.getCache("/train", - 1).success(function(response) {
     if (response !== null) {
       $scope.trainError = "";
-      $scope.training = response.training;
-      $scope.personnel = response.training.personnel;
-      $scope.turing = response.training.turing;
+      $scope.training = response;
+      $scope.personnel = response.personnel;
+      $scope.turing = response.turing;
       recalcBuyTotal();
     }
   }).error(function(error) {
@@ -47,10 +47,11 @@ function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform
     $scope.disableActions = true;
     KoC.trainTroops($scope.training.turing,inputNameValue).success(function(response) {
       if (response.success === true) {
-        $scope.training = response.training;
-        $scope.personnel = response.training.personnel;
-        if(response.training.message.length)
-          $ionicLoading.show({ template: response.training.message, noBackdrop: true, duration: 1000 });
+        $scope.training = response;
+        $scope.personnel = response.personnel;
+        $scope.turing = response.turing;
+        if(response.message.length)
+          $ionicLoading.show({ template: response.message, noBackdrop: true, duration: 1000 });
         else
           $ionicLoading.show({ template: successMessage, noBackdrop: true, duration: 1000 });
         $scope.stats = response.stats;
@@ -93,9 +94,10 @@ function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform
     $scope.trainError = "";
     $scope.disableActions = true;
     KoC.getTraining(cacheTimeInSeconds).success(function(response) {
+      console.log("got the training:", response);
       if (response.success === true) {
-        $scope.training = response.training;
-        $scope.personnel = response.training.personnel;
+        $scope.training = response;
+        $scope.personnel = response.personnel;
         console.log("retrieved the training");
         //$rootScope.$broadcast('kocAdvisor', response.help);
       }
