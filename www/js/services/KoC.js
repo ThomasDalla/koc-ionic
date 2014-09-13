@@ -103,10 +103,10 @@ angular.module('starter.controllers')
       return this.getPage("POST", "/mercenaries", { turing: turing, inputNameValue: inputNameValue }, 0, true);
     },
     getRecruit: function() {
-      return this.getPage("GET", "/recruit", {}, 0, true);
+      return this.getPage("GET", "/clicker", {}, 0, true);
     },
     postRecruit: function(data) {
-      return this.getPage("POST", "/recruit", {data:data}, 0, true);
+      return this.getPage("POST", "/clicker", {data:data}, 0, true);
     },
     getHelp: function(cacheTimeInSeconds) {
       return this.getPage("GET", "/help", {}, cacheTimeInSeconds);

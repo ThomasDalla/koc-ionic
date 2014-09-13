@@ -5,9 +5,9 @@
 
   <ion-content class="has-header" style="background-color:black;">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadRecruit()"></ion-refresher>
-    <div ng-hide="!mercsError.length" class="error center">{{recruitError}}</div>
+    <div ng-hide="!recruitError.length" class="error center">{{recruitError}}</div>
     <div style="text-align:center;">
-      <img ng-src="data:image/png;base64,{{recruit.imageData}}" ng-hide="!recruit.imageData.length" width="320" />
+      <img ng-src="data:image/png;base64,{{recruit.imageData}}" ng-hide="!recruit.imageData.length||recruitError.length" width="320" />
     </div>
     <div style="background-color:black; margin: 0px; padding: 0px;">
       <div class="row" style="margin: 0px; padding: 0px;">
