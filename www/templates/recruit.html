@@ -1,0 +1,57 @@
+<ion-view title="Recruit" hide-back-button="true">
+  <ion-nav-buttons side="left">
+    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+  </ion-nav-buttons>
+
+  <ion-content class="has-header" style="background-color:black;">
+    <ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadRecruit()"></ion-refresher>
+    <div ng-hide="!mercsError.length" class="error center">{{recruitError}}</div>
+    <div style="text-align:center;">
+      <img ng-src="data:image/png;base64,{{recruit.imageData}}" ng-hide="!recruit.imageData.length" width="320" />
+    </div>
+    <div style="background-color:black; margin: 0px; padding: 0px;">
+      <div class="row" style="margin: 0px; padding: 0px;">
+        <div class="col col-33" style="text-align:center; padding-top: 0px; padding-bottom: 0px;">
+          <button class="button button-outline button-block button-light" ng-disabled="disableActions" ng-click="sendLetter('k')">K</button>
+        </div>
+        <div class="col col-33" style="text-align:center; padding-top: 0px; padding-bottom: 0px;">
+          <button class="button button-outline button-block button-light" ng-disabled="disableActions" ng-click="sendLetter('i')">I</button>
+        </div>
+        <div class="col col-33" style="text-align:center; padding-top: 0px; padding-bottom: 0px;">
+          <button class="button button-outline button-block button-light" ng-disabled="disableActions" ng-click="sendLetter('n')">N</button>
+        </div>
+      </div>
+      <div class="row" style="margin: 0px; padding: 0px;">
+        <div class="col col-33" style="text-align:center; padding-top: 0px; padding-bottom: 0px;">
+          <button class="button button-outline button-block button-light" ng-disabled="disableActions" ng-click="sendLetter('g')">G</button>
+        </div>
+        <div class="col col-33" style="text-align:center; padding-top: 0px; padding-bottom: 0px;">
+          <button class="button button-outline button-block button-light" ng-disabled="disableActions" ng-click="sendLetter('c')">C</button>
+        </div>
+        <div class="col col-33" style="text-align:center; padding-top: 0px; padding-bottom: 0px;">
+          <button class="button button-outline button-block button-light" ng-disabled="disableActions" ng-click="sendLetter('h')">H</button>
+        </div>
+      </div>
+      <div class="row" style="margin: 0px; padding: 0px;">
+        <div class="col col-33" style="text-align:center; padding-top: 0px; padding-bottom: 0px;">
+          <button class="button button-outline button-block button-light" ng-disabled="disableActions" ng-click="sendLetter('a')">A</button>
+        </div>
+        <div class="col col-33" style="text-align:center; padding-top: 0px; padding-bottom: 0px;">
+          <button class="button button-outline button-block button-light" ng-disabled="disableActions" ng-click="sendLetter('o')">O</button>
+        </div>
+        <div class="col col-33" style="text-align:center; padding-top: 0px; padding-bottom: 0px;">
+          <button class="button button-outline button-block button-light" ng-disabled="disableActions" ng-click="sendLetter('s')">S</button>
+        </div>
+      </div>
+    </div>
+    <div class="list">
+      <div class="item item-text-wrap">
+        <div class="row center">
+          <div class="col center">
+          Army Morale: {{recruit.morale}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

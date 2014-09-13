@@ -2,7 +2,7 @@
 
 // Ionic Starter App
 
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', [/*'ngCookies'*/] )
 
 .run( [ '$rootScope', '$ionicPlatform', '$state', '$stateParams', function($rootScope, $ionicPlatform, $state, $stateParams) {
 
@@ -124,6 +124,16 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       'menuContent': {
         templateUrl: "templates/mercenaries.html",
         controller: 'MercenariesCtrl'
+      }
+    }
+  })
+
+  .state('app.recruit', {
+    url: "/recruit",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/recruit.html",
+        controller: 'RecruitCtrl'
       }
     }
   })

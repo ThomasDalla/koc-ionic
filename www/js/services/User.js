@@ -52,6 +52,7 @@ angular.module('starter.controllers')
     setSession: function(session) {
       if (session !== undefined && session !== null && session.length) {
         window.localStorage['session'] = session;
+        //$cookies.koc_session = session;
       }
     },
     setEmail: function(email) {

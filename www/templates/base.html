@@ -3,6 +3,10 @@
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
 
+      <button class="button btn-round btn-float">
+      <i class="icon ion-chevron-up"></i>
+    </button>
+
   <ion-content class="has-header" style="background-color:black;">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadBase()"></ion-refresher>
     <div ng-hide="!baseError.length" class="error center">{{baseError}}</div>
