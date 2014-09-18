@@ -59,11 +59,12 @@ angular.module('starter.controllers')
     };
 
     $scope.resultCallback = function(result) {
-      //console.log(result);
+      console.log(result);
       $scope.speechMsg = result.results[0][0].transcript;
     };
 
     $scope.errorCallback = function(error) {
+      console.log(error);
       $scope.speechErr = "Err: " + error;
     };
 
