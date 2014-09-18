@@ -6,85 +6,107 @@
   <ion-content class="has-header" style="background-color:black;">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadRecruit()"></ion-refresher>
     <div ng-hide="!recruitError.length" class="error center">{{recruitError}}</div>
-    <div style="text-align:center;">
-      <img ng-src="data:image/png;base64,{{recruit.imageData}}" ng-hide="!recruit.imageData.length||recruitError.length" width="320" />
+    <div ng-hide="recruit.challenge_url!==undefined">
+      <div style="text-align:center;">
+        <img ng-src="data:image/png;base64,{{recruit.imageData}}" ng-hide="!recruit.imageData.length||recruitError.length" width="320" />
+      </div>
+      <div style="background-color:black; margin: 0px; padding: 0px;">
+        <div class="row" style="margin: 0px; padding: 0px;">
+          <div class="col col-33" style="text-align:center; padding-top: 0px; padding-bottom: 0px;">
+            <button class="button button-outline button-block button-light" ng-disabled="disableActions" ng-click="sendLetter('k')">K</button>
+          </div>
+          <div class="col col-33" style="text-align:center; padding-top: 0px; padding-bottom: 0px;">
+            <button class="button button-outline button-block button-light" ng-disabled="disableActions" ng-click="sendLetter('i')">I</button>
+          </div>
+          <div class="col col-33" style="text-align:center; padding-top: 0px; padding-bottom: 0px;">
+            <button class="button button-outline button-block button-light" ng-disabled="disableActions" ng-click="sendLetter('n')">N</button>
+          </div>
+        </div>
+        <div class="row" style="margin: 0px; padding: 0px;">
+          <div class="col col-33" style="text-align:center; padding-top: 0px; padding-bottom: 0px;">
+            <button class="button button-outline button-block button-light" ng-disabled="disableActions" ng-click="sendLetter('g')">G</button>
+          </div>
+          <div class="col col-33" style="text-align:center; padding-top: 0px; padding-bottom: 0px;">
+            <button class="button button-outline button-block button-light" ng-disabled="disableActions" ng-click="sendLetter('c')">C</button>
+          </div>
+          <div class="col col-33" style="text-align:center; padding-top: 0px; padding-bottom: 0px;">
+            <button class="button button-outline button-block button-light" ng-disabled="disableActions" ng-click="sendLetter('h')">H</button>
+          </div>
+        </div>
+        <div class="row" style="margin: 0px; padding: 0px;">
+          <div class="col col-33" style="text-align:center; padding-top: 0px; padding-bottom: 0px;">
+            <button class="button button-outline button-block button-light" ng-disabled="disableActions" ng-click="sendLetter('a')">A</button>
+          </div>
+          <div class="col col-33" style="text-align:center; padding-top: 0px; padding-bottom: 0px;">
+            <button class="button button-outline button-block button-light" ng-disabled="disableActions" ng-click="sendLetter('o')">O</button>
+          </div>
+          <div class="col col-33" style="text-align:center; padding-top: 0px; padding-bottom: 0px;">
+            <button class="button button-outline button-block button-light" ng-disabled="disableActions" ng-click="sendLetter('s')">S</button>
+          </div>
+        </div>
+      </div>
+      <div class="list">
+        <div class="item item-text-wrap">
+          <div class="row center">
+            <div class="col center">
+            Army Morale: {{recruit.morale}}
+            </div>
+          </div>
+        </div>
+        <div class="item item-text-wrap">
+          <div class="row center">
+            <div class="col center">
+              Msg: {{speechMsg}}
+            </div>
+          </div>
+          <div class="row center">
+            <div class="col center">
+              Err: {{speechErr}}
+            </div>
+          </div>
+        </div>
+        <div class="item item-text-wrap">
+          <div class="row center">
+            <div class="col center">
+              <button ng-click="recognizeSpeech();" class="button button-block">Start recognition</button>
+            </div>
+          </div>
+        </div>
+        <div class="item item-text-wrap">
+          <div class="row center">
+            <div class="col center">
+          <button ng-click="stopRecognition();" class="button button-block">Stop recognition</button>
+            </div>
+          </div>
+        </div>
+        <div class="item item-text-wrap">
+          <div class="row center">
+            <div class="col center">
+          <button ng-click="getSupportedLanguages();" class="button button-block">Get Supported Languages</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div style="background-color:black; margin: 0px; padding: 0px;">
-      <div class="row" style="margin: 0px; padding: 0px;">
-        <div class="col col-33" style="text-align:center; padding-top: 0px; padding-bottom: 0px;">
-          <button class="button button-outline button-block button-light" ng-disabled="disableActions" ng-click="sendLetter('k')">K</button>
-        </div>
-        <div class="col col-33" style="text-align:center; padding-top: 0px; padding-bottom: 0px;">
-          <button class="button button-outline button-block button-light" ng-disabled="disableActions" ng-click="sendLetter('i')">I</button>
-        </div>
-        <div class="col col-33" style="text-align:center; padding-top: 0px; padding-bottom: 0px;">
-          <button class="button button-outline button-block button-light" ng-disabled="disableActions" ng-click="sendLetter('n')">N</button>
-        </div>
-      </div>
-      <div class="row" style="margin: 0px; padding: 0px;">
-        <div class="col col-33" style="text-align:center; padding-top: 0px; padding-bottom: 0px;">
-          <button class="button button-outline button-block button-light" ng-disabled="disableActions" ng-click="sendLetter('g')">G</button>
-        </div>
-        <div class="col col-33" style="text-align:center; padding-top: 0px; padding-bottom: 0px;">
-          <button class="button button-outline button-block button-light" ng-disabled="disableActions" ng-click="sendLetter('c')">C</button>
-        </div>
-        <div class="col col-33" style="text-align:center; padding-top: 0px; padding-bottom: 0px;">
-          <button class="button button-outline button-block button-light" ng-disabled="disableActions" ng-click="sendLetter('h')">H</button>
-        </div>
-      </div>
-      <div class="row" style="margin: 0px; padding: 0px;">
-        <div class="col col-33" style="text-align:center; padding-top: 0px; padding-bottom: 0px;">
-          <button class="button button-outline button-block button-light" ng-disabled="disableActions" ng-click="sendLetter('a')">A</button>
-        </div>
-        <div class="col col-33" style="text-align:center; padding-top: 0px; padding-bottom: 0px;">
-          <button class="button button-outline button-block button-light" ng-disabled="disableActions" ng-click="sendLetter('o')">O</button>
-        </div>
-        <div class="col col-33" style="text-align:center; padding-top: 0px; padding-bottom: 0px;">
-          <button class="button button-outline button-block button-light" ng-disabled="disableActions" ng-click="sendLetter('s')">S</button>
-        </div>
-      </div>
-    </div>
-    <div class="list">
-      <div class="item item-text-wrap">
-        <div class="row center">
-          <div class="col center">
-          Army Morale: {{recruit.morale}}
+    <div ng-hide="recruit.challenge_url===undefined">
+        <form ng-submit="sendCaptcha()" name="captchaForm">
+          <div class="list">
+            <div class="item item-text-wrap">
+              <div class="row center">
+                <div class="col center">
+                  <img ng-src="{{challengeImage}}" class="input input-block" ng-width="300" ng-height="57" />
+                </div>
+              </div>
+            </div>
+            <label class="item">
+              <input type="text" name="response" ng-model="recruit.response" placeholder="Copy the text" ng-required="true" class="center">
+            </label>
+            <label class="item">
+              <div class="error center">{{captchaError}}</div>
+              <button class="button button-block button-stable" type="submit">I'm not a robot!</button>
+            </label>
           </div>
-        </div>
-      </div>
-      <div class="item item-text-wrap">
-        <div class="row center">
-          <div class="col center">
-            Msg: {{speechMsg}}
-          </div>
-        </div>
-        <div class="row center">
-          <div class="col center">
-            Err: {{speechErr}}
-          </div>
-        </div>
-      </div>
-      <div class="item item-text-wrap">
-        <div class="row center">
-          <div class="col center">
-            <button ng-click="recognizeSpeech();" class="button button-block">Start recognition</button>
-          </div>
-        </div>
-      </div>
-      <div class="item item-text-wrap">
-        <div class="row center">
-          <div class="col center">
-        <button ng-click="stopRecognition();" class="button button-block">Stop recognition</button>
-          </div>
-        </div>
-      </div>
-      <div class="item item-text-wrap">
-        <div class="row center">
-          <div class="col center">
-        <button ng-click="getSupportedLanguages();" class="button button-block">Get Supported Languages</button>
-          </div>
-        </div>
-      </div>
+        </form>
     </div>
   </ion-content>
 </ion-view>

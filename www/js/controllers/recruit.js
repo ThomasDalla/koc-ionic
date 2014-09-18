@@ -1,21 +1,28 @@
-/*global angular*/
+/*global angular, ionic*/
 
 angular.module('starter.controllers')
 
-.controller('RecruitCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', '$rootScope', '$ionicPlatform', '$ionicPopup', '$ionicScrollDelegate', '$timeout', '$http', 'User', 'KoC',
+.controller('RecruitCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', '$rootScope', '$ionicPlatform', '$ionicPopup', '$ionicScrollDelegate', '$ionicModal', '$timeout', '$http', 'User', 'KoC',
 
-  function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform, $ionicPopup, $ionicScrollDelegate, $timeout, $http, User, KoC) {
+  function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform, $ionicPopup, $ionicScrollDelegate, $ionicModal, $timeout, $http, User, KoC) {
 
     console.log("RecruitCtrl");
     $scope.disableActions = false;
     $scope.recruitError = "";
+    var listening = false;
+    var found = false;
+    var speechRecognitionEnabled = ionic.Platform.platform() == "android";
 
     var updateRecruit = function(promise) {
+      $scope.stopRecognition();
       promise.success(function(response) {
         console.log("got the recruit page:", response);
         if (response.success === true) {
-          $scope.recruit = response;
           console.log("retrieved the recruit");
+          $scope.recruit = response;
+          $scope.recruit.response = "";
+          if(response.challenge_url!==undefined)
+            $scope.challengeImage = response.image;
           //$rootScope.$broadcast('kocAdvisor', response.help);
         }
         else {
@@ -27,6 +34,8 @@ angular.module('starter.controllers')
       finally(function() {
         $scope.disableActions = false;
         $scope.$broadcast('scroll.refreshComplete');
+        $scope.recognizeSpeech();
+        found = false;
       });
     };
 
@@ -42,41 +51,117 @@ angular.module('starter.controllers')
       updateRecruit(KoC.postRecruit(data));
     };
 
-    $scope.reloadRecruit();
-
+    $scope.sendCaptcha = function() {
+      var data = $scope.recruit.hiddenFields;
+      console.log("response",$scope.recruit.response);
+      data[$scope.recruit.challengeField] = $scope.recruit.challenge;
+      data[$scope.recruit.challengeResponseField] = $scope.recruit.response;
+      updateRecruit(KoC.postRecruit(data));
+      $scope.recruit.response = "";
+    };
 
     // speech
 
     $scope.recognizeSpeech = function() {
+      // Not supported device => Nothing
+      if(!speechRecognitionEnabled) return;
+      // Stop recognition if it was already running
+      $scope.stopRecognition();
+
       var maxMatches = 1;
       var language = "en-US";
-      $scope.speechMsg = "started";
+      $scope.speechMsg = "listening";
+      found = false;
       window.plugins.speechrecognizer.start(resultCallback, errorCallback, maxMatches, language);
+      listening = true;
     };
 
     $scope.stopRecognition = function() {
-      window.plugins.speechrecognizer.stop(resultCallback2, errorCallback2);
+      if(speechRecognitionEnabled && listening)
+        window.plugins.speechrecognizer.stop(resultCallback, errorCallback);
     };
 
     var resultCallback = function(result) {
-      console.log(result);
-      $scope.speechMsg = "temp:" + result.results[0][0].transcript;
+      console.log("msg",result);
+      if(result.type=="result") {
+        var text = result.results[0][0].transcript;
+        $scope.speechMsg = "temp:" + text;
+        $scope.stopRecognition();
+        if(text=="skip"){
+          $ionicLoading.show({ template: "skipping...", noBackdrop: true, duration: 1000 });
+          $scope.reloadRecruit();
+          return;
+        }
+        var letter = "";
+        switch(text) {
+          case "k":
+          case "key":
+          case "hey":
+          case "kate":
+            letter = "k"; break;
+          case "i":
+          case "hi":
+          case "aye":
+          case "aight":
+          case "8":
+          case "height":
+            letter = "i"; break;
+          case "n":
+          case "m":
+            letter = "n"; break;
+          case "g":
+            letter = "g"; break;
+          case "c":
+          case "sea":
+          case "see":
+          case "6":
+          case "six":
+            letter = "c"; break;
+          case "h":
+          case "age":
+          case "edge":
+            letter = "h"; break;
+          case "a":
+          case "abc":
+          case "letter a":
+            letter = "a"; break;
+          case "o":
+          case "oh":
+          case "ow":
+          case "owl":
+          case "letter o":
+            letter = "o"; break;
+          case "s":
+          case "f":
+            letter = "s"; break;
+          default:
+            letter = "";
+        }
+        if(letter.length) {
+          found = true;
+          $ionicLoading.show({ template: letter.toUpperCase(), noBackdrop: true, duration: 1000 });
+          $scope.sendLetter(letter);
+        }
+        else {
+          $ionicLoading.show({ template: text + " ??", noBackdrop: true, duration: 1000 });
+          $scope.recognizeSpeech();
+        }
+      }
+      else if (result.type == "end" && found === false) {
+        console.log("retrying to find (not really)");
+        $scope.speechMsg = "end";
+        //$scope.recognizeSpeech();
+      }
     };
 
     var errorCallback = function(error) {
       console.log(error);
-      $scope.speechErr = "Err: " + error;
-    };
-
-    var resultCallback2 = function(result) {
-      console.log("msg2",result);
-      $scope.speechMsg = "final: " + result.results[0][0].transcript;
-      $scope.stopRecognition();
-    };
-
-    var errorCallback2 = function(error) {
-      console.log(error);
-      $scope.speechErr = "Err2: " + error;
+      $scope.speechErr = "Err: " + error.code;
+      if(error.code==7/*||error.code==6*/){
+        console.log("should I retry?");
+        $ionicLoading.show({ template: "try again", noBackdrop: true, duration: 1000 });
+        $scope.recognizeSpeech();
+      }
     };
 
     // Show the list of the supported languages
@@ -88,6 +173,8 @@ angular.module('starter.controllers')
         $scope.speechErr = "Could not retrieve the supported languages : " + error;
       });
     };
+
+    $scope.reloadRecruit();
 
   }
 ]);
