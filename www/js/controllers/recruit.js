@@ -48,25 +48,35 @@ angular.module('starter.controllers')
     // speech
 
     $scope.recognizeSpeech = function() {
-      var maxMatches = 5;
+      var maxMatches = 1;
       var language = "en-US";
       $scope.speechMsg = "started";
-      window.plugins.speechrecognizer.start($scope.resultCallback, $scope.errorCallback, maxMatches, language);
+      window.plugins.speechrecognizer.start(resultCallback, errorCallback, maxMatches, language);
     };
 
     $scope.stopRecognition = function() {
-      window.plugins.speechrecognizer.stop($scope.resultCallback, $scope.errorCallback);
+      window.plugins.speechrecognizer.stop(resultCallback2, errorCallback2);
     };
 
-    $scope.resultCallback = function(result) {
+    var resultCallback = function(result) {
       console.log(result);
-      $scope.speechMsg = result.results[0][0].transcript;
+      $scope.speechMsg = "temp:" + result.results[0][0].transcript;
+    };
+
+    var errorCallback = function(error) {
+      console.log(error);
+      $scope.speechErr = "Err: " + error;
+    };
+
+    var resultCallback2 = function(result) {
+      console.log("msg2",result);
+      $scope.speechMsg = "final: " + result.results[0][0].transcript;
       $scope.stopRecognition();
     };
 
-    $scope.errorCallback = function(error) {
+    var errorCallback2 = function(error) {
       console.log(error);
-      $scope.speechErr = "Err: " + error;
+      $scope.speechErr = "Err2: " + error;
     };
 
     // Show the list of the supported languages
