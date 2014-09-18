@@ -56,7 +56,6 @@ angular.module('starter.controllers')
 
     $scope.stopRecognition = function() {
       window.plugins.speechrecognizer.stop($scope.resultCallback, $scope.errorCallback);
-      $scope.speechMsg = "stopped";
     };
 
     $scope.resultCallback = function(result) {
