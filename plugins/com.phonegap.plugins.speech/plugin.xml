@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android"
+    id="com.phonegap.plugins.speech" version="1.0.0">
+  <engines>
+    <engine name="cordova" version=">=3.0.0" />
+  </engines>
+  
+  <name>XSpeechRecognizer</name>
+  <description>Recognizes speech input</description>
+  <license>MIT</license>
+  
+  <js-module src="www/XSpeechRecognizer.js" name="XSpeechRecognizer">
+    <clobbers target="plugins.speechrecognizer" /> 
+  </js-module>
+  
+
+  <platform name="android">
+
+    <config-file target="res/xml/config.xml" parent="/*">
+      <feature name="XSpeechRecognizer" >
+        <param name="android-package" value="com.phonegap.plugins.speech.XSpeechRecognizer"/>
+      </feature>
+    </config-file>
+
+    <config-file target="AndroidManifest.xml" parent="/manifest">
+      <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+      <uses-permission android:name="android.permission.INTERNET"/>
+    </config-file>
+    
+    <source-file src="src/android/XSpeechRecognizer.java" target-dir="src/com/phonegap/plugins/speech" />
+    <source-file src="src/android/LanguageDetailsChecker.java" target-dir="src/com/phonegap/plugins/speech" />
+    
+  </platform>
+  
+</plugin>
