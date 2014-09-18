@@ -61,6 +61,7 @@ angular.module('starter.controllers')
     $scope.resultCallback = function(result) {
       console.log(result);
       $scope.speechMsg = result.results[0][0].transcript;
+      $scope.stopRecognition();
     };
 
     $scope.errorCallback = function(error) {
