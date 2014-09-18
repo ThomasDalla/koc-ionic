@@ -55,6 +55,18 @@
       <div class="item item-text-wrap">
         <div class="row center">
           <div class="col center">
+            Msg: {{speechMsg}}
+          </div>
+        </div>
+        <div class="row center">
+          <div class="col center">
+            Err: {{speechErr}}
+          </div>
+        </div>
+      </div>
+      <div class="item item-text-wrap">
+        <div class="row center">
+          <div class="col center">
             <button ng-click="recognizeSpeech();" class="button button-block">Start recognition</button>
           </div>
         </div>
@@ -62,14 +74,14 @@
       <div class="item item-text-wrap">
         <div class="row center">
           <div class="col center">
-        <button ng-click="stopRecognition();">Stop recognition</button>
+        <button ng-click="stopRecognition();" class="button button-block">Stop recognition</button>
           </div>
         </div>
       </div>
       <div class="item item-text-wrap">
         <div class="row center">
           <div class="col center">
-        <button ng-click="getSupportedLanguages();">Get Supported Languages</button>
+        <button ng-click="getSupportedLanguages();" class="button button-block">Get Supported Languages</button>
           </div>
         </div>
       </div>

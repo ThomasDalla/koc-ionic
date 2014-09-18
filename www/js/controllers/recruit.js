@@ -50,30 +50,31 @@ angular.module('starter.controllers')
     $scope.recognizeSpeech = function() {
       var maxMatches = 5;
       var language = "en-US";
+      $scope.speechMsg = "started";
       window.plugins.speechrecognizer.start($scope.resultCallback, $scope.errorCallback, maxMatches, language);
     };
 
     $scope.stopRecognition = function() {
       window.plugins.speechrecognizer.stop($scope.resultCallback, $scope.errorCallback);
-
+      $scope.speechMsg = "stopped";
     };
 
     $scope.resultCallback = function(result) {
-      console.log(result);
-      alert(result.results[0][0].transcript);
+      //console.log(result);
+      $scope.speechMsg = result.results[0][0].transcript;
     };
 
     $scope.errorCallback = function(error) {
-      console.log(error);
+      $scope.speechErr = "Err: " + error;
     };
 
     // Show the list of the supported languages
     $scope.getSupportedLanguages = function() {
       window.plugins.speechrecognizer.getSupportedLanguages(function(languages) {
         // display the json array
-        alert(languages);
+        $scope.speechMsg = languages;
       }, function(error) {
-        alert("Could not retrieve the supported languages : " + error);
+        $scope.speechErr = "Could not retrieve the supported languages : " + error;
       });
     };
 
