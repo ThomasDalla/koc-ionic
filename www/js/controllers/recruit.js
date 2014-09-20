@@ -122,6 +122,7 @@ angular.module('starter.controllers')
           case "see":
           case "6":
           case "six":
+          case "seat":
             letter = "c"; break;
           case "h":
           case "age":
