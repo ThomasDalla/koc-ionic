@@ -130,6 +130,7 @@ angular.module('starter.controllers')
           case "a":
           case "abc":
           case "letter a":
+          case "literaki":
             letter = "a"; break;
           case "o":
           case "oh":
