@@ -37,17 +37,18 @@ angular.module('starter.controllers')
         password: window.localStorage['password'],
         email: this.getEmail(),
         session: this.getSession(),
-        loggedIn: this.hasLoggedIn()
+        loggedIn: this.hasLoggedIn(),
+        speechRecognition: this.useSpeechRecognition(),
       };
-    },
-    getSession: function() {
-      return window.localStorage['session'] || "";
     },
     set: function(username, password, session, email) {
       window.localStorage['username'] = username;
       window.localStorage['password'] = password;
       this.setEmail(email);
       this.setSession(session);
+    },
+    getSession: function() {
+      return window.localStorage['session'] || "";
     },
     setSession: function(session) {
       if (session !== undefined && session !== null && session.length) {
@@ -86,6 +87,12 @@ angular.module('starter.controllers')
     },
     hasLoggedIn: function() {
       return window.localStorage['loggedIn']=="true" || false;
+    },
+    setSpeechRecognition: function(speechRecognition) {
+      window.localStorage['speechRecognition'] = !! speechRecognition;
+    },
+    useSpeechRecognition: function() {
+      return window.localStorage['speechRecognition']=="true" || false;
     },
     setPageRetrieved: function(page, data) {
         if(page!==undefined&&page.length&&data!==undefined){

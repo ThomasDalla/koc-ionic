@@ -14,6 +14,15 @@
            </div>
          </label>
       </ion-item>
+      <ion-item class="item item-toggle" ng-hide="!speechRecognitionSupported">
+         Use Speech Recognition (Recruit)
+         <label class="toggle toggle-dark">
+           <input type="checkbox" ng-model="speechRecognition" ng-change="onSpeechRecognitionChange()">
+           <div class="track">
+             <div class="handle"></div>
+           </div>
+         </label>
+      </ion-item>
       <ion-item ng-click="clearCache()">
          Clear Cache ({{cacheSize|number:2}} kB)
       </ion-item>

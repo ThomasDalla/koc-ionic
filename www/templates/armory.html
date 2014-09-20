@@ -7,6 +7,10 @@
 
   <ion-tab title="Buy Weapons">
 
+    <button class="button btn-rectangle btn-float" ng-hide="buyTotal<=0" ng-click="buyWeapons()">
+      Buy
+    </button>
+
   <ion-content style="background-color:black;">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadArmory()"></ion-refresher>
     <div ng-hide="!armoryError.length" class="error center">{{armoryError}}</div>

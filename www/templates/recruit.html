@@ -53,36 +53,24 @@
             </div>
           </div>
         </div>
-        <div class="item item-text-wrap">
-          <div class="row center">
-            <div class="col center">
-              Msg: {{speechMsg}}
-            </div>
-          </div>
-          <div class="row center">
-            <div class="col center">
-              Err: {{speechErr}}
-            </div>
-          </div>
-        </div>
-        <div class="item item-text-wrap">
-          <div class="row center">
-            <div class="col center">
-              <button ng-click="recognizeSpeech();" class="button button-block">Start recognition</button>
+        <div ng-hide="!speechRecognitionSupported">
+          <div class="item item-text-wrap">
+            <div class="row center">
+              <div class="col col-50 center">
+                <button ng-click="startRecognition();" class="button button-block button-dark" ng-disabled="listening">Start recognition</button>
+              </div>
+              <div class="col col-50 center">
+                <button ng-click="stopRecognition();" class="button button-block button-dark" ng-disabled="!listening">Stop recognition</button>
+              </div>
             </div>
           </div>
         </div>
-        <div class="item item-text-wrap">
-          <div class="row center">
-            <div class="col center">
-          <button ng-click="stopRecognition();" class="button button-block">Stop recognition</button>
-            </div>
-          </div>
-        </div>
-        <div class="item item-text-wrap">
-          <div class="row center">
-            <div class="col center">
-          <button ng-click="getSupportedLanguages();" class="button button-block">Get Supported Languages</button>
+        <div ng-hide="speechRecognitionSupported">
+          <div class="item item-text-wrap">
+            <div class="row center">
+              <div class="col center">
+                Your device doesn't support speech recognition
+              </div>
             </div>
           </div>
         </div>

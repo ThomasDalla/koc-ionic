@@ -16,3 +16,26 @@
 .center {
     text-align: center;
 }
+
+.btn-round{
+  border-radius:50% !important;
+  height: 45px !important;
+  width: 45px !important;
+  min-height: 45px !important;
+  min-width: 45px !important;
+}
+
+.btn-rectangle{
+  border-radius:25% !important;
+  height: 45px !important;
+/*  width: 45px !important;*/
+  min-height: 45px !important;
+  min-width: 45px !important;
+}
+
+.btn-float{
+  position: absolute !important;
+  bottom: 55px;
+  z-index: 2;
+  right: 10px;
+}

@@ -9,9 +9,10 @@ angular.module('starter.controllers')
     console.log("RecruitCtrl");
     $scope.disableActions = false;
     $scope.recruitError = "";
-    var listening = false;
+    $scope.listening = false;
     var found = false;
-    var speechRecognitionEnabled = ionic.Platform.platform() == "android";
+    $scope.speechRecognitionSupported = ionic.Platform.platform() == "android";
+    var speechRecognitionEnabled = User.useSpeechRecognition() && $scope.speechRecognitionSupported;
 
     var updateRecruit = function(promise) {
       $scope.stopRecognition();
@@ -61,6 +62,10 @@ angular.module('starter.controllers')
     };
 
     // speech
+    $scope.startRecognition = function() {
+      speechRecognitionEnabled = true;
+      $scope.recognizeSpeech();
+    };
 
     $scope.recognizeSpeech = function() {
       // Not supported device => Nothing
@@ -70,14 +75,14 @@ angular.module('starter.controllers')
 
       var maxMatches = 1;
       var language = "en-US";
-      $scope.speechMsg = "listening";
+      $scope.speechMsg = "$scope.listening";
       found = false;
       window.plugins.speechrecognizer.start(resultCallback, errorCallback, maxMatches, language);
-      listening = true;
+      $scope.listening = true;
     };
 
     $scope.stopRecognition = function() {
-      if(speechRecognitionEnabled && listening)
+      if($scope.listening)
         window.plugins.speechrecognizer.stop(resultCallback, errorCallback);
     };
 
