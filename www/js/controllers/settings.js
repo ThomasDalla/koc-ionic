@@ -8,7 +8,7 @@ angular.module('starter.controllers')
   $scope.cacheSize = User.getCacheSize();
 
   console.log("SettingsCtrl");
-  $scope.test        = ionic.Platform.platform();
+  $scope.platform    = ionic.Platform.platform();
   $scope.showAdvisor = User.showAdvisor();
   $scope.speechRecognition = User.useSpeechRecognition();
   $rootScope.$broadcast('kocAdvisor', "");

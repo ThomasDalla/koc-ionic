@@ -10,7 +10,7 @@
     <ion-header-bar class="bar bar-subheader bar-dark" style="text-align:center;vertical-align:middle;">
       <!--button class="button button-clear button-light"><img src="./img/gold.png"> {{stats.gold}}</button>
       <button class="button button-clear button-light">Rank {{stats.rank}}</button-->
-      <img src="./img/gold.png" style="vertical-align:middle;"> {{stats.goldText}} | #{{stats.rank}} | XP {{stats.experience}} | {{stats.turns}} Turns
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACsklEQVR4XqWTT0xjRRzHP/NaHvQPIAVrrSksRbHpdtkgKiCUrMkmu4Ztsh50Txz05sWkiZo1eioc9erJmL3vRWPWBI0JiQJBXI3J0k2WkPCniCmlVNptLe17P19f0gb2upPMaT7fz0y+M6NEhKcZTgClFACrC/FXxTQ/QiQhgtvhaMPpcXNaPAEoo/headoXk5//8juAiKA1TSupqa+6/IH18MT4rei1q+7o2wmi79zg+dEAA1NRRhLX3eHJ8VsNpsE2c5odnp9e8L80/EH4jTF0r5NK8Qi92085uwM1Aalzksuie9oIT43RYBuZlkAM47Oh6RmKuQz1ahkxDRANTFBaO6XD/4A69VqF4mEGi7UzrQ5EBNraqJ1WQNPwRa9Q3k/jwIFT1+kJujAMS2CtCzZrZ1oCAMSko8tHIZtHTCsoIO0eUMouuVIscpQ5JBgdBrMOqFYHaJpGYWsTXyhGt6+XvbWfOMjk2Hu0w256k631P8jt/s1z4Qg9oUv8k76P5tDOXKPDwcOlJSIYPBMYoDf0MhYBCqjVQdfBNDgtH3Pw4Fd21jbsDC2BpuHq9JL+8We6XwjQeyGI7u1AjBqmGJhWuHpSopDJUcqWcPe4LVntXAeWvUL/K5d5fFxg789HVEslFM2h6PC6cfV18mykk3938qizHSig3QIyf20gYjI4HmPk5pvEEnEu3pgk8tZrBC7329d7tJnF6XKef8rb2fI3g07n+6HRGI/zBbbXN6gWSwCgFPYGHg+uPi99w37rBMek94tfvt56AxD89pPxu9ZfkId33pXsUlIK92/L8W8fS34tKbnVD2V/8T158HVCVhdm5DuLBfwi0hIA9Cdnh+bu3Z5YXE7FKyupaWnO1VRcludnKj98OrGYnH1xrsECPCkAcANhYBQYe2KO2ms2A03B/86LMngd4ZWqAAAAAElFTkSuQmCC" style="vertical-align:middle;"> {{stats.goldText}} | #{{stats.rank}} | XP {{stats.experience}} | {{stats.turns}} Turns
       <br />Attacked {{stats.lastAttacked}} | <span ng-class="{ newMails: stats.newMails }">{{stats.mails}} Mails</span>
     </ion-header-bar>
 
@@ -24,6 +24,7 @@
     <ion-content class="has-header">
       <ion-list>
         <ion-item nav-clear menu-close href="#/app/base">Command Center</ion-item>
+        <ion-item nav-clear menu-close href="#/app/battlefield">Attack</ion-item>
         <ion-item nav-clear menu-close href="#/app/armory">Armory</ion-item>
         <ion-item nav-clear menu-close href="#/app/training">Training</ion-item>
         <ion-item nav-clear menu-close href="#/app/mercenaries">Mercenaries</ion-item>

@@ -8,7 +8,7 @@
   <ion-tab title="Buy Weapons">
 
     <button class="button btn-rectangle btn-float" ng-hide="buyTotal<=0" ng-click="buyWeapons()" ng-disabled="disableActions">
-      Buy
+      Buy ({{buyTotal|number:0}})
     </button>
 
   <ion-content style="background-color:black;">

@@ -24,7 +24,7 @@ angular.module('starter.controllers')
 
   $scope.user = User.get();
 
-  $scope.age = 17;
+  $scope.age = 18;
 
   $ionicModal.fromTemplateUrl('templates/forgot-login.html', {
     scope: $scope,

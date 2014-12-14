@@ -146,6 +146,16 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         controller: 'StatsCtrl'
       }
     }
+  })
+
+  .state('app.battefield', {
+    url: "/battlefield",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/battlefield.html",
+        controller: 'BattlefieldCtrl'
+      }
+    }
   });
 
   // if none of the above states are matched, use this as the fallback

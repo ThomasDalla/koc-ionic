@@ -15,6 +15,7 @@
             <div class="col col-33">{{recentAttack.date}}</div>
             <div class="col col-33">{{recentAttack.enemy.username}}</div>
             <div class="col col-33">{{recentAttack.result}}</div>
+            <div class="ion-chevron-right"></div>
           </div>
         </div>
       </div>
@@ -47,7 +48,8 @@
         <div class="item item-text-wrap">
           <div class="row" ng-click="showUserStats(base.userInfo.commander.userid)">
             <div class="col col-50">Commander</div>
-            <div class="col col-50">{{base.userInfo.commander.username}}</div>
+            <div class="col col-50">{{base.userInfo.commander.username||"None"}}</div>
+            <div class="ion-chevron-right" ng-hide="!base.userInfo.commander.username.length"></div>
           </div>
           <div class="row" ng-hide="!canChangeCommander || !base.userInfo.commander.username.length">
             <button class="button button-block button-dark" ng-click="ditchCommander()">Ditch my commander!</button>
