@@ -1,32 +1,33 @@
-<ion-view title="Training" hide-back-button="true">
-  <ion-nav-buttons side="left">
-    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
-  </ion-nav-buttons>
+<ion-view view-title="Training" hide-back-button="true">
 
-  <ion-content class="has-header" style="background-color:black;">
+  <button class="button btn-rectangle btn-float" ng-hide="buyTotal<=0" ng-click="trainTroops()" ng-disabled="disableActions">
+    Train {{soldiersTrained|number:0}} ({{buyTotal|number:0}})
+  </button>
+
+  <ion-content style="background-color:black;">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadTraining()"></ion-refresher>
     <div ng-hide="!trainError.length" class="error center">{{trainError}}</div>
     <div class="list">
       <div>
         <div class="item item-divider item-dark">Train Your Troops</div>
-        <div class="item item-text-wrap" ng-repeat="program in training.train">
+        <div class="item item-text-wrap" ng-repeat="program in training.train" style="padding-left: 0; padding-right: 0;">
           <div class="row">
             <div class="col col-50" style="text-align:right;">{{program.trainingProgram}}</div>
             <div class="col col-50">{{program.costPerUnitText}}</div>
           </div>
-          <div class="row">
-            <div class="col col-33" style="text-align:right;">
-              <button class="button button-small button-stable" ng-disabled="disableActions" ng-click="trainQuantity($index,-100)">-100</button>
-              <button class="button button-small button-stable" ng-disabled="disableActions" ng-click="trainQuantity($index,-10)">-10</button>
-              <button class="button button-small button-stable" ng-disabled="disableActions" ng-click="trainQuantity($index,-1)">-1</button>
-            </div>
-            <div class="col col-33" style="text-align:center;">
-              {{program.inputValue|number:0}} ({{program.inputValue*program.costPerUnit|number:0}} Gold)
-            </div>
-            <div class="col col-33" style="text-align:left;">
-              <button class="button button-small button-stable" ng-disabled="disableActions" ng-click="trainQuantity($index,+1)">+1</button>
-              <button class="button button-small button-stable" ng-disabled="disableActions" ng-click="trainQuantity($index,+10)">+10</button>
-              <button class="button button-small button-stable" ng-disabled="disableActions" ng-click="trainQuantity($index,+100)">+100</button>
+					<div class="row">
+						<div class="col" style="text-align:center;" ng-class="{bold:program.inputValue>0}">
+							{{program.inputValue|number:0}} ({{program.inputValue*program.costPerUnit|number:0}} Gold)
+						</div>
+					</div>
+          <div class="row" style="padding-left: 0; padding-right: 0;">
+            <div class="col" style="text-align:center; padding-left: 0; padding-right: 0;">
+              <button class="button button-stable" ng-disabled="disableActions||program.inputValue<11" ng-click="trainQuantity($index,-100)">-100</button>
+              <button class="button button-stable" ng-disabled="disableActions||program.inputValue<2" ng-click="trainQuantity($index,-10)">-10</button>
+              <button class="button button-stable" ng-disabled="disableActions||program.inputValue<1" ng-click="trainQuantity($index,-1)">-1</button>
+							<button class="button button-stable" ng-disabled="disableActions||(personnel['Untrained Soldiers']-(soldiersTrained|number:0))<1" ng-click="trainQuantity($index,+1)">+1</button>
+              <button class="button button-stable" ng-disabled="disableActions||(personnel['Untrained Soldiers']-(soldiersTrained|number:0))<10" ng-click="trainQuantity($index,+10)">+10</button>
+              <button class="button button-stable" ng-disabled="disableActions||(personnel['Untrained Soldiers']-(soldiersTrained|number:0))<100" ng-click="trainQuantity($index,+100)">+100</button>
             </div>
           </div>
         </div>

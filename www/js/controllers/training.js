@@ -1,12 +1,11 @@
 /*global angular*/
 
-angular.module('starter.controllers')
+angular.module('koc.controllers')
 
-.controller('TrainingCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', '$rootScope', '$ionicPlatform', '$ionicPopup', '$ionicScrollDelegate', '$timeout', 'User', 'KoC',
+.controller('TrainingCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', '$rootScope', '$ionicPlatform', '$ionicPopup', '$ionicScrollDelegate', '$timeout', '$log', 'User', 'KoC',
+function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform, $ionicPopup, $ionicScrollDelegate, $timeout, $log, User, KoC) {
 
-function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform, $ionicPopup, $ionicScrollDelegate, $timeout, User, KoC) {
-
-  console.log("TrainingCtrl");
+  $log.debug("TrainingCtrl");
   $scope.disableActions = false;
 
   $scope.buyTotal = 0;
@@ -51,18 +50,18 @@ function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform
         $scope.personnel = response.personnel;
         $scope.turing = response.turing;
         if(response.message.length)
-          $ionicLoading.show({ template: response.message, noBackdrop: true, duration: 1000 });
+          $ionicLoading.show({ template: response.message, noBackdrop: true, duration: 2000 });
         else
-          $ionicLoading.show({ template: successMessage, noBackdrop: true, duration: 1000 });
+          $ionicLoading.show({ template: successMessage, noBackdrop: true, duration: 2000 });
         $scope.stats = response.stats;
         recalcBuyTotal();
-        console.log("retrieved the training");
+        $log.debug("retrieved the training");
       }
       else {
-        $ionicLoading.show({ template: response.error, noBackdrop: true, duration: 1000 });
+        $ionicLoading.show({ template: response.error, noBackdrop: true, duration: 2000 });
       }
     }).error(function(error) {
-      $ionicLoading.show({ template: "An error occurred " + actionMessage, noBackdrop: true, duration: 1000 });
+      $ionicLoading.show({ template: "An error occurred " + actionMessage, noBackdrop: true, duration: 2000 });
     }).
     finally(function() {
       $scope.disableActions = false;
@@ -76,7 +75,7 @@ function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform
     $scope.training.train.forEach(function(program){
       inputNameValue[program.inputName] = program.inputValue;
     });
-    console.log("training troops!", $scope.training.turing, inputNameValue);
+    $log.debug("training troops!", $scope.training.turing, inputNameValue);
     train($scope.training.turing, inputNameValue, "Soldiers trained!", "training troops");
   };
 
@@ -85,20 +84,20 @@ function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform
     var inputNameValue = {};
     var upgrade = $scope.training.upgrades[index];
     inputNameValue[upgrade.inputName] = upgrade.inputValue;
-    console.log("upgrading technology!", $scope.training.turing, inputNameValue);
+    $log.debug("upgrading technology!", $scope.training.turing, inputNameValue);
     train($scope.training.turing, inputNameValue, "Upgrade completed!", "upgrading");
   };
 
   $scope.reloadTraining = function(cacheTimeInSeconds) {
-    console.log("load the training, cacheTimeInSeconds=" + cacheTimeInSeconds);
+    $log.debug("load the training, cacheTimeInSeconds=" + cacheTimeInSeconds);
     $scope.trainError = "";
     $scope.disableActions = true;
     KoC.getTraining(cacheTimeInSeconds).success(function(response) {
-      console.log("got the training:", response);
+      $log.debug("got the training:", response);
       if (response.success === true) {
         $scope.training = response;
         $scope.personnel = response.personnel;
-        console.log("retrieved the training");
+        $log.debug("retrieved the training");
         //$rootScope.$broadcast('kocAdvisor', response.help);
       }
       else {
@@ -108,7 +107,7 @@ function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform
       $scope.trainError = "An error occurred retrieving the training";
     }).
     finally(function() {
-      console.log("finally");
+      $log.debug("finally");
       $scope.disableActions = false;
       $scope.$broadcast('scroll.refreshComplete');
       recalcBuyTotal();

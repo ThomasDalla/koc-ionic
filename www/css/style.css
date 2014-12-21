@@ -1,41 +1,55 @@
 /* Empty. Add your own CSS if you like */
 .koc_logo {
-    padding-top: 15px;
-    text-align: center;
-    width: 100%;
+	padding-top: 15px;
+	text-align: center;
+	width: 100%;
 }
 
 .error {
-    color: red;
+	color: red;
+}
+
+.bold {
+	font-weight: bold;
 }
 
 .newMails {
-    color: rgb(247, 71, 97);
+	color: rgb(247, 181, 71);
 }
 
 .center {
-    text-align: center;
+	text-align: center;
 }
 
-.btn-round{
-  border-radius:50% !important;
-  height: 45px !important;
-  width: 45px !important;
-  min-height: 45px !important;
-  min-width: 45px !important;
+.btn-round {
+	border-radius: 50% !important;
+	height: 45px !important;
+	width: 45px !important;
+	min-height: 45px !important;
+	min-width: 45px !important;
 }
 
-.btn-rectangle{
-  border-radius:25% !important;
-  height: 45px !important;
-/*  width: 45px !important;*/
-  min-height: 45px !important;
-  min-width: 45px !important;
+.btn-rectangle {
+	border-radius: 25% !important;
+	height: 45px !important;
+	/*  width: 45px !important;*/
+	min-height: 45px !important;
+	min-width: 45px !important;
+	background: #444444 !important;
+	color: #CCCCCC !important;
 }
 
-.btn-float{
-  position: absolute !important;
-  bottom: 55px;
-  z-index: 2;
-  right: 10px;
+.btn-float {
+	position: absolute !important;
+	bottom: 55px;
+	z-index: 2;
+	right: 10px;
+}
+
+.popup-head {
+	background: #444444 !important;
+}
+
+.popup-title {
+	color: #CCCCCC !important;
 }

@@ -1,0 +1,111 @@
+<ion-view view-title="Armory">
+
+	<ion-content>
+		<ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadArmory()"></ion-refresher>
+		<div ng-hide="!armoryError.length" class="error center">{{armoryError}}</div>
+		<div class="list">
+			<!-- Current Inventory -->
+			<div ng-repeat="weaponType in weaponTypes">
+				<div ng-hide="!armory.currentWeapons[weaponType].length">
+					<div class="item item-divider item-dark">{{weaponType}}</div>
+					<div class="item item-stable" style="height:30px;padding:5px;">
+						<div class="row" style="height:30px;padding:0px;">
+							<div class="col col-33" style="height:30px;padding:0px;">Weapon Name</div>
+							<div class="col col-33" style="height:30px;padding:0px;">Quantity</div>
+							<div class="col col-33" style="height:30px;padding:0px;">Strength</div>
+						</div>
+					</div>
+					<div class="item item-text-wrap"
+							 ng-repeat="weapon in armory.currentWeapons[weaponType]"
+							 style="padding-left: 0; padding-right: 0;">
+						<div class="row">
+							<div class="col col-33">{{weapon.name}}</div>
+							<div class="col col-33">{{weapon.quantity}}</div>
+							<div class="col col-33">{{weapon.strength}}</div>
+						</div>
+						<div class="row" ng-hide="weapon.repair===undefined">
+							<div class="col col-33" style="text-align:right;">
+								<input type="number" ng-model="weapon.repair.defaultValue" style="text-align: right;"/>
+							</div>
+							<div class="col col-67">
+								<button class="button button-small button-dark" ng-disabled="disableActions"
+												ng-click="repairWeapon(weapon)">Repair {{weapon.repair.defaultValue|number:2}} For
+									{{weapon.repair.pricePerPoint*(weapon.repair.defaultValue)|number:0}} Gold
+								</button>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col" style="text-align:center;">
+								<button class="button button-small button-block button-dark"
+												ng-disabled="disableActions||(sellWeapons[weapon.name]||0)==0"
+												ng-click="sellWeapon(weapon)">
+									Sell {{sellWeapons[weapon.name]||0 | number:0}} For
+									{{weapon.sell.price*(sellWeapons[weapon.name]||0)|number:0}} Gold
+								</button>
+							</div>
+						</div>
+						<div class="row" style="padding-left: 0; padding-right: 0;">
+							<div class="col col-center" style="text-align:right; padding-left: 0; padding-right: 0;">
+								<button class="button button-stable" ng-disabled="disableActions||!((sellWeapons[weapon.name]||0)>10)"
+												ng-click="sellWeaponQuantity(weapon,-100)">-100
+								</button>
+								<button class="button button-stable" ng-disabled="disableActions||!((sellWeapons[weapon.name]||0)>1)"
+												ng-click="sellWeaponQuantity(weapon,-10)">-10
+								</button>
+								<button class="button button-stable" ng-disabled="disableActions||!((sellWeapons[weapon.name]||0)>0)"
+												ng-click="sellWeaponQuantity(weapon,-1)">-1
+								</button>
+								<button class="button button-stable" ng-disabled="disableActions||(weapon.quantity-(sellWeapons[weapon.name]||0)<1)"
+												ng-click="sellWeaponQuantity(weapon,+1)">+1
+								</button>
+								<button class="button button-stable" ng-disabled="disableActions||(weapon.quantity-(sellWeapons[weapon.name]||0)<2)"
+												ng-click="sellWeaponQuantity(weapon,+10)">+10
+								</button>
+								<button class="button button-stable" ng-disabled="disableActions||(weapon.quantity-(sellWeapons[weapon.name]||0)<11)"
+												ng-click="sellWeaponQuantity(weapon,+100)">+100
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div ng-hide="armory.repairAll===undefined">
+				<div class="item item-divider item-stable">
+					<button class="button button-block button-dark" ng-disabled="disableActions" ng-click="repairAll()">Repair all
+						weapons for {{armory.repairAll.price|number:0}} Gold
+					</button>
+				</div>
+			</div>
+
+			<div class="item item-divider item-dark">Fortification</div>
+			<div class="item item-stable">
+				<div class="row">
+					<div class="col center">{{armory.upgrades.fortification.current}}</div>
+				</div>
+				<div class="row">
+					<div class="col center">
+						<button class="button button-small button-dark" ng-disabled="disableActions"
+										ng-click="upgradeFortification()">{{armory.upgrades.fortification.next}}
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="item item-divider item-dark">Siege Technology</div>
+			<div class="item item-stable">
+				<div class="row">
+					<div class="col center">{{armory.upgrades.siegeTechnology.current}}</div>
+				</div>
+				<div class="row">
+					<div class="col center">
+						<button class="button button-small button-dark" ng-disabled="disableActions"
+										ng-click="upgradeSiegeTechnology()">{{armory.upgrades.siegeTechnology.next}}
+						</button>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</ion-content>
+
+</ion-view>

@@ -27,6 +27,6 @@
 </ion-view>
 <div class="bar bar-dark bar-footer hide-on-keyboard-open">
   <button class="button button-small button-assertive" ui-sref="register">Register</button>
-  <div class="title">Age {{age}}</div>
+  <div class="title" ng-hide="age<=0">Age {{age}}</div>
   <button class="button button-small button-assertive" ng-click="openForgotLogin()">Forgot Login?</button>
 </div>

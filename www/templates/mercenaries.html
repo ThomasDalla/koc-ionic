@@ -1,94 +1,109 @@
-<ion-view title="Mercenaries" hide-back-button="true">
-  <ion-nav-buttons side="left">
-    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
-  </ion-nav-buttons>
+<ion-view view-title="Mercenaries" hide-back-button="true">
 
-  <ion-content class="has-header" style="background-color:black;">
-    <ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadMercenaries()"></ion-refresher>
-    <div ng-hide="!mercsError.length" class="error center">{{mercsError}}</div>
-    <div class="list">
-      <div>
-        <div class="item item-divider item-dark">Hire Mercenaries</div>
-        <div class="item item-text-wrap" ng-repeat="program in mercenaries.hire">
-          <div class="row">
-            <div class="col col-33" style="text-align:right;">{{program.mercenaryType}}</div>
-            <div class="col col-33">Available: {{program.quantityAvailableText}}</div>
-            <div class="col col-33">{{program.costPerUnitText}}</div>
-          </div>
-          <div class="row">
-            <div class="col col-33" style="text-align:right;">
-              <button class="button button-small button-stable" ng-disabled="disableActions" ng-click="hireQuantity($index,-100)">-100</button>
-              <button class="button button-small button-stable" ng-disabled="disableActions" ng-click="hireQuantity($index,-10)">-10</button>
-              <button class="button button-small button-stable" ng-disabled="disableActions" ng-click="hireQuantity($index,-1)">-1</button>
-            </div>
-            <div class="col col-33" style="text-align:center;">
-              {{program.inputValue|number:0}} ({{program.inputValue*program.costPerUnit|number:0}} Gold)
-            </div>
-            <div class="col col-33" style="text-align:left;">
-              <button class="button button-small button-stable" ng-disabled="disableActions" ng-click="hireQuantity($index,+1)">+1</button>
-              <button class="button button-small button-stable" ng-disabled="disableActions" ng-click="hireQuantity($index,+10)">+10</button>
-              <button class="button button-small button-stable" ng-disabled="disableActions" ng-click="hireQuantity($index,+100)">+100</button>
-            </div>
-          </div>
-        </div>
-        <div class="item item-divider item-stable">
-          <div class="error center" ng-hide="buyTotal<stats.gold">More than you seem to be able to afford!</div>
-          <button class="button button-block button-dark" ng-disabled="disableActions" ng-click="hireMercs()">Hire {{mercsHired|number:0}} Mercenaries for {{buyTotal|number:0}} Gold</button>
-        </div>
-      </div>
-      <div>
-        <div class="item item-divider item-dark">Current Personnel</div>
-        <div class="item item-text-wrap">
-          <div class="row">
-            <div class="col col-75">Trained Attack Soldiers</div>
-            <div class="col" style="text-align: right;">{{personnel['Trained Attack Soldiers']}}</div>
-          </div>
-          <div class="row">
-            <div class="col col-75">Trained Attack Mercenaries</div>
-            <div class="col" style="text-align: right;">{{personnel['Trained Attack Mercenaries']}}</div>
-          </div>
-        </div>
-        <div class="item item-text-wrap">
-          <div class="row">
-            <div class="col col-75">Trained Defense Soldiers</div>
-            <div class="col" style="text-align: right;">{{personnel['Trained Defense Soldiers']}}</div>
-          </div>
-          <div class="row">
-            <div class="col col-75">Trained Defense Mercenaries</div>
-            <div class="col" style="text-align: right;">{{personnel['Trained Defense Mercenaries']}}</div>
-          </div>
-        </div>
-        <div class="item item-text-wrap">
-          <div class="row">
-            <div class="col col-75">Untrained Soldiers</div>
-            <div class="col" style="text-align: right;">{{personnel['Untrained Soldiers']}}</div>
-          </div>
-          <div class="row">
-            <div class="col col-75">Untrained Mercenaries</div>
-            <div class="col" style="text-align: right;">{{personnel['Untrained Mercenaries']}}</div>
-          </div>
-        </div>
-        <div class="item item-text-wrap">
-          <div class="row">
-            <div class="col col-75">Spies</div>
-            <div class="col" style="text-align: right;">{{personnel['Spies']}}</div>
-          </div>
-          <div class="row">
-            <div class="col col-75">Sentries</div>
-            <div class="col" style="text-align: right;">{{personnel['Sentries']}}</div>
-          </div>
-        </div>
-        <div class="item item-text-wrap">
-          <div class="row">
-            <div class="col col-75">Army Morale</div>
-            <div class="col" style="text-align: right;">{{personnel['Army Morale']}}</div>
-          </div>
-          <div class="row">
-            <div class="col col-75">Total Fighting Force</div>
-            <div class="col" style="text-align: right;">{{personnel['Total Fighting Force']}}</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </ion-content>
+	<button class="button btn-rectangle btn-float" ng-hide="buyTotal<=0" ng-click="hireMercs()"
+					ng-disabled="disableActions">
+		Hire {{mercsHired|number:0}} ({{buyTotal|number:0}})
+	</button>
+
+	<ion-content style="background-color:black;">
+		<ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadMercenaries()"></ion-refresher>
+		<div ng-hide="!mercsError.length" class="error center">{{mercsError}}</div>
+		<div class="list">
+			<div>
+				<div class="item item-divider item-dark">Hire Mercenaries</div>
+				<div class="item item-text-wrap" ng-repeat="program in mercenaries.hire"
+						 style="padding-left: 0; padding-right: 0;">
+					<div class="row" style="text-align: center;">
+						<div class="col">
+							{{program.mercenaryType}} ({{program.costPerUnitText}}) | Available: {{program.quantityAvailableText}}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col" style="text-align:center;" ng-class="{bold:program.inputValue>0}">
+							{{program.inputValue|number:0}} ({{program.inputValue*program.costPerUnit|number:0}} Gold)
+						</div>
+					</div>
+					<div class="row" style="padding-left: 0; padding-right: 0;">
+						<div class="col" style="text-align:center; padding-left: 0; padding-right: 0">
+							<button class="button button-stable" ng-disabled="disableActions||program.inputValue<11" ng-click="hireQuantity($index,-100)">
+								-100
+							</button>
+							<button class="button button-stable" ng-disabled="disableActions||program.inputValue<2" ng-click="hireQuantity($index,-10)">
+								-10
+							</button>
+							<button class="button button-stable" ng-disabled="disableActions||program.inputValue<1" ng-click="hireQuantity($index,-1)">-1
+							</button>
+							<button class="button button-stable" ng-disabled="disableActions||(program.quantityAvailable-program.inputValue)<1" ng-click="hireQuantity($index,+1)">+1
+							</button>
+							<button class="button button-stable" ng-disabled="disableActions||(program.quantityAvailable-program.inputValue)<10" ng-click="hireQuantity($index,+10)">
+								+10
+							</button>
+							<button class="button button-stable" ng-disabled="disableActions||(program.quantityAvailable-program.inputValue)<100" ng-click="hireQuantity($index,+100)">
+								+100
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="item item-divider item-stable">
+					<div class="error center" ng-hide="buyTotal<stats.gold">More than you seem to be able to afford!</div>
+					<button class="button button-block button-dark" ng-disabled="disableActions" ng-click="hireMercs()">Hire
+						{{mercsHired|number:0}} Mercenaries for {{buyTotal|number:0}} Gold
+					</button>
+				</div>
+			</div>
+			<div>
+				<div class="item item-divider item-dark">Current Personnel</div>
+				<div class="item item-text-wrap">
+					<div class="row">
+						<div class="col col-75">Trained Attack Soldiers</div>
+						<div class="col" style="text-align: right;">{{personnel['Trained Attack Soldiers']}}</div>
+					</div>
+					<div class="row">
+						<div class="col col-75">Trained Attack Mercenaries</div>
+						<div class="col" style="text-align: right;">{{personnel['Trained Attack Mercenaries']}}</div>
+					</div>
+				</div>
+				<div class="item item-text-wrap">
+					<div class="row">
+						<div class="col col-75">Trained Defense Soldiers</div>
+						<div class="col" style="text-align: right;">{{personnel['Trained Defense Soldiers']}}</div>
+					</div>
+					<div class="row">
+						<div class="col col-75">Trained Defense Mercenaries</div>
+						<div class="col" style="text-align: right;">{{personnel['Trained Defense Mercenaries']}}</div>
+					</div>
+				</div>
+				<div class="item item-text-wrap">
+					<div class="row">
+						<div class="col col-75">Untrained Soldiers</div>
+						<div class="col" style="text-align: right;">{{personnel['Untrained Soldiers']}}</div>
+					</div>
+					<div class="row">
+						<div class="col col-75">Untrained Mercenaries</div>
+						<div class="col" style="text-align: right;">{{personnel['Untrained Mercenaries']}}</div>
+					</div>
+				</div>
+				<div class="item item-text-wrap">
+					<div class="row">
+						<div class="col col-75">Spies</div>
+						<div class="col" style="text-align: right;">{{personnel['Spies']}}</div>
+					</div>
+					<div class="row">
+						<div class="col col-75">Sentries</div>
+						<div class="col" style="text-align: right;">{{personnel['Sentries']}}</div>
+					</div>
+				</div>
+				<div class="item item-text-wrap">
+					<div class="row">
+						<div class="col col-75">Army Morale</div>
+						<div class="col" style="text-align: right;">{{personnel['Army Morale']}}</div>
+					</div>
+					<div class="row">
+						<div class="col col-75">Total Fighting Force</div>
+						<div class="col" style="text-align: right;">{{personnel['Total Fighting Force']}}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ion-content>
 </ion-view>

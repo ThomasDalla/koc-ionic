@@ -5,84 +5,82 @@ var apiPage = function (page) {
   return KOC_API + page;
 };
 
-angular.module('starter.controllers')
-
-  .config(['$httpProvider', function ($httpProvider, User) {
+angular.module('koc.services')
+  .config(['$httpProvider', function ($httpProvider) {
 
     // HTTP interceptor
-    $httpProvider.interceptors.push(function ($q, $injector, $rootScope, User) {
-      return {
-        'response': function (response) {
-          // Middleware that catches responses from the API
-          if (response !== undefined && typeof(response.data) == "object") {
-            // Set the session (if present)
-            User.setSession(response.data.session);
-            if( // Special case of the battlefield where success can be true while logged off
+    $httpProvider.interceptors.push(['$q', '$injector', '$rootScope', '$log', 'User',
+      function ($q, $injector, $rootScope, $log, User) {
+        return {
+          'response': function (response) {
+            // Middleware that catches responses from the API
+            if (response !== undefined && typeof(response.data) == "object") {
+              // Set the session (if present)
+              User.setSession(response.data.session);
+              if ( // Special case of the battlefield where success can be true while logged off
               response.data.loggedIn !== undefined && response.data.loggedIn === false
               || (
-                response.data.success === false &&
-                response.config.loginAndRetry === true && User.hasLoggedIn()
-                && response.data.location !== undefined && response.data.location.indexOf("error.php") >= 0
-                && response.data.error.indexOf("Please login to view that page") >= 0
+              response.data.success === false &&
+              response.config.loginAndRetry === true && User.hasLoggedIn()
+              && response.data.location !== undefined && response.data.location.indexOf("error.php") >= 0
+              && response.data.error.indexOf("Please login to view that page") >= 0
               )
-            ) {
-              // try to reconnect, and reload the request
-              console.log("try to re-login and then retry the request before propagating");
-              var user = User.get();
-              var originalRequestConfig = response.config;
-              var KoC = $injector.get('KoC');
-              var $http = $injector.get('$http');
-              var defer = $q.defer();
-              var p = defer.promise;
-              KoC.login(user.username, user.password).success(function (r) {
-                console.log("we re-logged in", r);
-                if (r.success) {
-                  console.log("successfully, retrying initial request", originalRequestConfig);
-                  return defer.resolve($http(originalRequestConfig));
-                }
-                console.log("failed to login");
-                defer.resolve(r);
-              });
-              return p;
-            }
-            else if (response.data.success === true) {
-              console.log("success!");
-              // Record that we retrieved that page
-              var split = response.config.url.split(KOC_API);
-              var location = split[split.length - 1];
-              if (response.data.stats !== undefined
-                && response.data.stats.username !== undefined
-                && response.data.stats.goldText != "???"
-                && response.data.stats.username != "???"
               ) {
-                console.log("broadcasting kocStats");
-                $rootScope.$broadcast('kocStats', response.data.stats);
-                User.setPageRetrieved("stats", response.data.stats);
+                // try to reconnect, and reload the request
+                $log.debug("try to re-login and then retry the request before propagating");
+                var user = User.get();
+                var originalRequestConfig = response.config;
+                var KoC = $injector.get('KoC');
+                var $http = $injector.get('$http');
+                var defer = $q.defer();
+                var p = defer.promise;
+                KoC.login(user.username, user.password).success(function (r) {
+                  $log.debug("we re-logged in", r);
+                  if (r.success) {
+                    $log.debug("successfully, retrying initial request", originalRequestConfig);
+                    return defer.resolve($http(originalRequestConfig));
+                  }
+                  $log.debug("failed to login");
+                  defer.resolve(r);
+                });
+                return p;
               }
-              if (response.data.help !== undefined) {
-                console.log("broadcasting kocAdvisor");
-                $rootScope.$broadcast('kocAdvisor', response.data.help);
+              else if (response.data.success === true) {
+                $log.debug("success!");
+                // Record that we retrieved that page
+                var split = response.config.url.split(KOC_API);
+                var location = split[split.length - 1];
+                if (response.data.stats !== undefined
+                  && response.data.stats.username !== undefined
+                  && response.data.stats.goldText != "???"
+                ) {
+                  $log.debug("broadcasting kocStats");
+                  $rootScope.$broadcast('kocStats', response.data.stats);
+                  User.setPageRetrieved("stats", response.data.stats);
+                }
+                if (response.data.help !== undefined) {
+                  $log.debug("broadcasting kocAdvisor");
+                  $rootScope.$broadcast('kocAdvisor', response.data.help);
+                }
+                if (response.data.commanderChange !== undefined && response.data.commanderChange.success) {
+                  $rootScope.$broadcast('kocChangeCommanderInfo', response.data.commanderChange);
+                }
+                $log.debug("setting page retrieved: " + location);
+                User.setPageRetrieved(location, response.data);
+                return response;
               }
-              if (response.data.commanderChange !== undefined && response.data.commanderChange.success) {
-                $rootScope.$broadcast('kocChangeCommanderInfo', response.data.commanderChange);
+              else {
+                $log.debug("I don't know how to handle that request, that sucks!");
               }
-              console.log("setting page retrieved: " + location);
-              User.setPageRetrieved(location, response.data);
-              return response;
             }
-            else {
-              console.log( "I don't know how to handle that request, that sucks!" );
-            }
+            // propagate the response
+            return response;
           }
-          // propagate the response
-          return response;
-        }
-      };
-    });
-
+        };
+      }]);
   }])
 
-  .factory('KoC', ['$http', 'User', function ($http, User) {
+  .factory('KoC', ['$http', '$log', 'User', function ($http, $log, User) {
     return {
       getRaces: function (cacheTimeInSeconds) {
         return this.getPage("GET", "/races", {}, cacheTimeInSeconds);
@@ -149,9 +147,9 @@ angular.module('starter.controllers')
 
         // Get from cache if requested and available
         if (cacheTimeInSeconds !== undefined && cacheTimeInSeconds !== null && cacheTimeInSeconds !== 0) {
-          console.log("checking " + page + " from the cache...");
+          $log.debug("checking " + page + " from the cache...");
           if (User.isCacheAvailable(page, cacheTimeInSeconds)) {
-            console.log("Cache available, loading it");
+            $log.debug("Cache available, loading it");
             return User.getCache(page, cacheTimeInSeconds);
           }
         }

@@ -1,0 +1,70 @@
+<ion-view view-title="Armory">
+
+	<button class="button btn-rectangle btn-float" ng-hide="buyTotal<=0" ng-click="buyWeapons()"
+					ng-disabled="disableActions">
+		Buy ({{buyTotal|number:0}})
+	</button>
+
+	<ion-content>
+		<ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadArmory()"></ion-refresher>
+		<div ng-hide="!armoryError.length" class="error center">{{armoryError}}</div>
+		<div class="list">
+			<!-- Buy Weapons -->
+			<div ng-repeat="weaponType in weaponTypes">
+				<div ng-hide="!armory.buyWeapons[weaponType].length">
+					<div class="item item-divider item-dark">{{weaponType}}</div>
+					<div class="item item-stable" style="height:30px;padding:5px;">
+						<div class="row" style="height:30px;padding:0px;">
+							<div class="col col-33" style="height:30px;padding:0px;">Weapon Name</div>
+							<div class="col col-33" style="height:30px;padding:0px;">Strength</div>
+							<div class="col col-33" style="height:30px;padding:0px;">Unit Price</div>
+						</div>
+					</div>
+					<div class="item item-text-wrap"
+							 ng-repeat="weapon in armory.buyWeapons[weaponType]"
+							style="padding-left: 0; padding-right: 0;" >
+						<div class="row">
+							<div class="col col-33">{{weapon.name}}</div>
+							<div class="col col-center col-33">{{weapon.strength|number:0}}</div>
+							<div class="col col-33">{{weapon.price|number:0}}</div>
+						</div>
+						<div class="row">
+							<div class="col" style="text-align:center;" ng-class="{bold:weapon.inputValue>0}">
+								{{weapon.inputValue|number:0}} ({{weapon.inputValue*weapon.price|number:0}} Gold)
+							</div>
+						</div>
+						<div class="row" style="padding-left: 0; padding-right: 0;">
+							<div class="col" style="text-align:center; padding-left: 0; padding-right: 0;">
+								<button class="button button-stable" ng-disabled="disableActions||weapon.inputValue<11"
+												ng-click="buyWeaponQuantity(weapon,-100)">-100
+								</button>
+								<button class="button button-stable" ng-disabled="disableActions||weapon.inputValue<2"
+												ng-click="buyWeaponQuantity(weapon,-10)">-10
+								</button>
+								<button class="button button-stable" ng-disabled="disableActions||weapon.inputValue<1"
+												ng-click="buyWeaponQuantity(weapon,-1)">-1
+								</button>
+								<button class="button button-stable" ng-disabled="disableActions"
+												ng-click="buyWeaponQuantity(weapon,+1)">+1
+								</button>
+								<button class="button button-stable" ng-disabled="disableActions"
+												ng-click="buyWeaponQuantity(weapon,+10)">+10
+								</button>
+								<button class="button button-stable" ng-disabled="disableActions"
+												ng-click="buyWeaponQuantity(weapon,+100)">+100
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="item item-divider item-stable">
+				<div class="error center" ng-hide="buyTotal<stats.gold">More than you seem to be able to afford!</div>
+				<button class="button button-block button-dark" ng-disabled="disableActions" ng-click="buyWeapons()"
+								ng-disabled="buyTotal<1">Buy Weapons For {{buyTotal|number:0}} Gold
+				</button>
+			</div>
+		</div>
+	</ion-content>
+
+</ion-view>

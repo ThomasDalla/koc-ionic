@@ -1,55 +1,80 @@
 /*global angular*/
 
-angular.module('starter.controllers')
-.controller('BattlefieldCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', '$rootScope', '$ionicPlatform', '$ionicPopup', '$ionicScrollDelegate', '$timeout', 'User', 'KoC',
-function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform, $ionicPopup, $ionicScrollDelegate, $timeout, User, KoC) {
+angular.module('koc.controllers')
+  .controller('BattlefieldCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', '$rootScope', '$ionicPlatform', '$ionicPopup', '$ionicScrollDelegate', '$timeout', '$log', 'User', 'KoC',
+    function ($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform, $ionicPopup, $ionicScrollDelegate, $timeout, $log, User, KoC) {
 
-  console.log("BattlefieldCtrl");
-  $scope.disableActions = false;
-  $scope.battlefieldError = "";
+      $log.debug("BattlefieldCtrl");
+      $scope.disableActions = false;
+      $scope.battlefieldError = "";
 
-  $scope.reloadBattlefield = function() {
-    $scope.getBattlefield(0, $scope.battlefield.currentPage);
-  };
-
-  $scope.getBattlefield = function(cacheTimeInSeconds, page) {
-    console.log("loading the battlefield, cacheTimeInSeconds=" + cacheTimeInSeconds + ",page: " + page );
-    $scope.disableActions = true;
-    var action = "/battlefield/" + page;
-    var data = {};
-    var method = "GET";
-    if(page===undefined||!isFinite(page)) {
-      action = "/attack";
-      if(page<=0){
-        $ionicLoading.show({ template: "No Page " + page, noBackdrop: true, duration: 1000 });
-        return;
-      }
-    }
-    else
-      data = {
-        page: page,
+      $scope.battlefield = {
+        currentPage: $stateParams.page,
+        maxPage: User.getBattlefieldMaxPage(),
       };
-    KoC.getPage(method, action, data, cacheTimeInSeconds, true)
-      .success(function(response) {
-      if (response.success === true) {
-        $scope.battlefield = response;
-        console.log("retrieved the battlefield");
-      }
-      else {
-        $scope.battlefieldError = response.error;
-      }
-    }).error(function(error) {
-      $scope.battlefieldError = "An error occurred retrieving the battlefield";
-    }).
-      finally(function() {
-        console.log("finished processing battlefield");
-        $scope.disableActions = false;
-        $scope.$broadcast('scroll.refreshComplete');
-      });
-  };
 
-  // If valid battlefield retrieved less than 60 seconds ago, re-use it, else, reload
-  $scope.cacheTimeInSeconds = 60;
-  $scope.getBattlefield($scope.cacheTimeInSeconds);
+      $scope.reloadBattlefield = function () {
+        $scope.getBattlefield(0, $scope.battlefield.currentPage);
+      };
 
-}]);
+      $scope.showUserStats = function (userid) {
+        if (isFinite(userid) && userid > 0)
+          $state.go('app.stats', { userid: userid });
+      };
+
+      $scope.goToPage = function (page) {
+        if (isFinite(page) && page > 0)
+          $state.go( '.', { page: page } );
+      };
+
+      $scope.promptGoToPage = function () {
+        $ionicPopup.prompt({
+          title: 'Jump To Page',
+          template: 'Page:',
+          inputType: 'number',
+          inputPlaceholder: 'Page',
+          okType: 'button-dark',
+        }).then(function (page) {
+          $scope.goToPage(page);
+        });
+      };
+
+      $scope.getBattlefield = function (cacheTimeInSeconds, page) {
+        $log.debug("loading the battlefield, cacheTimeInSeconds=" + cacheTimeInSeconds + ",page: " + page);
+        $scope.disableActions = true;
+        var action = "/battlefield/" + page;
+        var data = {};
+        var method = "GET";
+        if (page === undefined || !isFinite(page) || page <= 0)
+          action = "/attack";
+        else
+          data = {
+            page: page,
+          };
+        KoC.getPage(method, action, data, cacheTimeInSeconds, true)
+          .success(function (response) {
+            if (response.success === true) {
+              $scope.battlefield = response;
+              User.setBattlefieldMaxPage(response.maxPage);
+              $log.debug("retrieved the battlefield");
+            }
+            else {
+              $scope.battlefieldError = response.error;
+            }
+          }).error(function (error) {
+            $scope.battlefieldError = "An error occurred retrieving the battlefield";
+          }).
+          finally(function () {
+            $log.debug("finished processing battlefield");
+            $scope.disableActions = false;
+            $scope.$broadcast('scroll.refreshComplete');
+          });
+      };
+
+      $timeout(function(){
+        // If valid battlefield retrieved less than 10 seconds ago, re-use it, else, reload
+        $scope.cacheTimeInSeconds = 10;
+        $scope.getBattlefield($scope.cacheTimeInSeconds, $stateParams.page);
+      }, 500 );
+
+    }]);

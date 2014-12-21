@@ -1,13 +1,13 @@
 /*global angular, ionic*/
 
-angular.module('starter.controllers')
+angular.module('koc.controllers')
 
-.controller('SettingsCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', '$rootScope', 'User', 'KoC',
-  function($scope, $stateParams, $state, $ionicLoading, $rootScope, User, KoC) {
+.controller('SettingsCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', '$rootScope', '$log', 'User',
+  function($scope, $stateParams, $state, $ionicLoading, $rootScope, $log, User) {
 
   $scope.cacheSize = User.getCacheSize();
 
-  console.log("SettingsCtrl");
+  $log.debug("SettingsCtrl");
   $scope.platform    = ionic.Platform.platform();
   $scope.showAdvisor = User.showAdvisor();
   $scope.speechRecognition = User.useSpeechRecognition();

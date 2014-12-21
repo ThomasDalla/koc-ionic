@@ -1,51 +1,41 @@
-<ion-view title="Command Center" hide-back-button="true">
+<ion-view view-title="Command Center" hide-back-button="true">
 
-  <ion-nav-buttons side="left">
-    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
-  </ion-nav-buttons>
-
-  <ion-content class="has-header" style="background-color:black;">
+  <ion-content style="background-color:black;">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadBase()"></ion-refresher>
     <div ng-hide="!baseError.length" class="error center">{{baseError}}</div>
     <div class="list">
       <div ng-hide="!base.recentAttacksOnYou.length">
         <div class="item item-divider item-dark">Recent Attacks On You</div>
-        <div class="item item-text-wrap" ng-repeat="recentAttack in base.recentAttacksOnYou" ng-click="showUserStats(recentAttack.enemy.userid)">
-          <div class="row">
-            <div class="col col-33">{{recentAttack.date}}</div>
-            <div class="col col-33">{{recentAttack.enemy.username}}</div>
-            <div class="col col-33">{{recentAttack.result}}</div>
-            <div class="ion-chevron-right"></div>
+        <div class="item item-text-wrap" ng-repeat="recentAttack in base.recentAttacksOnYou" ng-click="showUserStats(recentAttack.enemy.userid)" style="padding:0">
+          <div class="row" style="padding:0">
+            <div class="col col-25">{{recentAttack.date}}</div>
+            <div class="col col-50">{{recentAttack.enemy.username}}</div>
+            <div class="col col-25" style="text-align: right;">
+							{{getGoldStolen(recentAttack.result)|number:0}}
+            	<span class="ion-chevron-right"></span>
+						</div>
           </div>
         </div>
       </div>
       <div>
         <div class="item item-divider item-dark">User Info</div>
-        <div class="item item-text-wrap">
+        <div class="item item-text-wrap" style="padding: 0;">
           <div class="row">
             <div class="col col-50">Name</div>
             <div class="col col-50">{{base.userInfo.username}}</div>
           </div>
-        </div>
-        <div class="item item-text-wrap">
           <div class="row">
             <div class="col col-50">Race</div>
             <div class="col col-50">{{base.userInfo.race}}</div>
           </div>
-        </div>
-        <div class="item item-text-wrap">
           <div class="row">
             <div class="col col-50">Rank</div>
             <div class="col col-50">{{base.userInfo.rank}}</div>
           </div>
-        </div>
-        <div class="item item-text-wrap">
           <div class="row">
             <div class="col col-50">Highest Rank</div>
             <div class="col col-50">{{base.userInfo.highestRank}}</div>
           </div>
-        </div>
-        <div class="item item-text-wrap">
           <div class="row" ng-click="showUserStats(base.userInfo.commander.userid)">
             <div class="col col-50">Commander</div>
             <div class="col col-50">{{base.userInfo.commander.username||"None"}}</div>
@@ -58,7 +48,7 @@
       </div>
       <div>
         <div class="item item-divider item-dark">Personnel</div>
-        <div class="item item-text-wrap">
+        <div class="item item-text-wrap" style="padding: 0;">
           <div class="row">
             <div class="col col-75">Trained Attack Soldiers</div>
             <div class="col" style="text-align: right;">{{base.personnel.trainedAttackSoldiers}}</div>
@@ -68,7 +58,7 @@
             <div class="col" style="text-align: right;">{{base.personnel.trainedAttackMercenaries}}</div>
           </div>
         </div>
-        <div class="item item-text-wrap">
+        <div class="item item-text-wrap" style="padding: 0;">
           <div class="row">
             <div class="col col-75">Trained Defense Soldiers</div>
             <div class="col" style="text-align: right;">{{base.personnel.trainedDefenseSoldiers}}</div>
@@ -78,7 +68,7 @@
             <div class="col" style="text-align: right;">{{base.personnel.trainedDefenseMercenaries}}</div>
           </div>
         </div>
-        <div class="item item-text-wrap">
+        <div class="item item-text-wrap" style="padding: 0;">
           <div class="row">
             <div class="col col-75">Untrained Soldiers</div>
             <div class="col" style="text-align: right;">{{base.personnel.untrainedSoldiers}}</div>
@@ -88,7 +78,7 @@
             <div class="col" style="text-align: right;">{{base.personnel.untrainedMercenaries}}</div>
           </div>
         </div>
-        <div class="item item-text-wrap">
+        <div class="item item-text-wrap" style="padding: 0;">
           <div class="row">
             <div class="col col-75">Spies</div>
             <div class="col" style="text-align: right;">{{base.personnel.spies}}</div>
@@ -98,7 +88,7 @@
             <div class="col" style="text-align: right;">{{base.personnel.sentries}}</div>
           </div>
         </div>
-        <div class="item item-text-wrap">
+        <div class="item item-text-wrap" style="padding: 0;">
           <div class="row">
             <div class="col col-75">Army Morale</div>
             <div class="col" style="text-align: right;">{{base.personnel.armyMorale}}</div>
@@ -111,7 +101,7 @@
       </div>
       <div>
         <div class="item item-divider item-dark">Military Overview</div>
-        <div class="item item-text-wrap">
+        <div class="item item-text-wrap" style="padding: 0;">
           <div class="row">
             <div class="col col-50">Fortification</div>
             <div class="col">{{base.militaryOverview.fortification}}</div>
@@ -121,7 +111,7 @@
             <div class="col">{{base.militaryOverview.siegeTechnology}}</div>
           </div>
         </div>
-        <div class="item item-text-wrap">
+        <div class="item item-text-wrap" style="padding: 0;">
           <div class="row">
             <div class="col col-50">Economy</div>
             <div class="col">{{base.militaryOverview.economy}}</div>
@@ -131,13 +121,13 @@
             <div class="col">{{base.militaryOverview.technology}}</div>
           </div>
         </div>
-        <div class="item item-text-wrap">
+        <div class="item item-text-wrap" style="padding: 0;">
           <div class="row">
             <div class="col">Conscription</div>
             <div class="col">{{base.militaryOverview.conscription}}</div>
           </div>
         </div>
-        <div class="item item-text-wrap">
+        <div class="item item-text-wrap" style="padding: 0;">
           <div class="row">
             <div class="col">Available Funds</div>
             <div class="col">{{base.militaryOverview.availableFunds}}</div>
@@ -147,13 +137,13 @@
             <div class="col">{{base.militaryOverview.projectedIncome}}</div>
           </div>
         </div>
-        <div class="item item-text-wrap">
+        <div class="item item-text-wrap" style="padding: 0;">
           <div class="row">
             <div class="col">Game Turns</div>
             <div class="col">{{base.militaryOverview.gameTurns}}</div>
           </div>
         </div>
-        <div class="item item-text-wrap">
+        <div class="item item-text-wrap" style="padding: 0;">
           <div class="row">
             <div class="col">Covert Level</div>
             <div class="col">{{base.militaryOverview.covertLevel}}</div>
@@ -162,7 +152,7 @@
       </div>
       <div>
         <div class="item item-divider item-dark">Military Effectiveness</div>
-        <div class="item item-text-wrap">
+				<div class="item item-text-wrap" style="padding: 0;">
           <div class="row">
             <div class="col col-50">Strike Action</div>
             <div class="col" style="text-align: right;">{{base.militaryEffectiveness.strikeAction}}</div>
@@ -172,7 +162,7 @@
             <div class="col" style="text-align: right;">{{base.militaryEffectiveness.strikeActionRank}}</div>
           </div>
         </div>
-        <div class="item item-text-wrap">
+        <div class="item item-text-wrap" style="padding: 0;">
           <div class="row">
             <div class="col col-50">Defensive Action</div>
             <div class="col" style="text-align: right;">{{base.militaryEffectiveness.defensiveAction}}</div>
@@ -182,7 +172,7 @@
             <div class="col" style="text-align: right;">{{base.militaryEffectiveness.defensiveActionRank}}</div>
           </div>
         </div>
-        <div class="item item-text-wrap">
+        <div class="item item-text-wrap" style="padding: 0;">
           <div class="row">
             <div class="col col-50">Spy Rating</div>
             <div class="col" style="text-align: right;">{{base.militaryEffectiveness.spyRating}}</div>
@@ -192,7 +182,7 @@
             <div class="col" style="text-align: right;">{{base.militaryEffectiveness.spyRatingRank}}</div>
           </div>
         </div>
-        <div class="item item-text-wrap">
+        <div class="item item-text-wrap" style="padding: 0;">
           <div class="row">
             <div class="col col-50">Sentry Rating</div>
             <div class="col" style="text-align: right;">{{base.militaryEffectiveness.sentryRating}}</div>
@@ -205,11 +195,11 @@
       </div>
       <div ng-hide="!base.previousLogins.length">
         <div class="item item-divider item-dark">Previous Logins</div>
-        <div class="item item-text-wrap">
-          <div class="row" ng-repeat="previousLogin in base.previousLogins">
-            <div class="col col-33" class="center">{{previousLogin.ip}}</div>
-            <div class="col col-33" class="center">{{previousLogin.date}}</div>
-            <div class="col col-33" class="center">{{previousLogin.success}}</div>
+        <div class="item item-text-wrap" style="padding: 0;">
+          <div class="row" ng-repeat="previousLogin in base.previousLogins" style="padding: 0;">
+            <div class="col col-33 center" style="padding: 0;">{{previousLogin.ip}}</div>
+            <div class="col col-33 center" style="padding: 0;">{{previousLogin.date}}</div>
+            <div class="col col-33 center" style="padding: 0;">{{previousLogin.success}}</div>
           </div>
         </div>
       </div>
