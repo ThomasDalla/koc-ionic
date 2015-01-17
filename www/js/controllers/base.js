@@ -2,8 +2,8 @@
 
 angular.module('koc.controllers')
 
-  .controller('BaseCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', '$rootScope', '$ionicPlatform', '$ionicPopup', '$ionicScrollDelegate', '$timeout', '$log', 'User', 'KoC',
-    function ($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform, $ionicPopup, $ionicScrollDelegate, $timeout, $log, User, KoC) {
+  .controller('BaseCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', '$rootScope', '$ionicPlatform', '$ionicPopup', '$ionicScrollDelegate', '$timeout', '$log', '$filter', 'User', 'KoC',
+    function ($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform, $ionicPopup, $ionicScrollDelegate, $timeout, $log, $filter, User, KoC) {
 
       $log.debug("BaseCtrl");
 
@@ -168,7 +168,7 @@ angular.module('koc.controllers')
       $scope.getGoldStolen = function( attackResult ) {
         var reQty = /([\+\-]*)([0-9,.]+)/;
         var mQty  = reQty.exec(attackResult);
-        return mQty !== null ? Number(mQty[0].replace(/,/g, ''))*-1 : attackResult;
+        return mQty !== null ? $filter('number')(Number(mQty[0].replace(/,/g, ''))*-1, 0) : attackResult;
       };
 
       $timeout(function () {
