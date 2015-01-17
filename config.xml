@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.ionicframework.kocionic886432" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>koc-ionic</name>
+<widget id="com.thomasdalla.koc-ionic" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <name>KoC</name>
   <description>
-        An Ionic Framework and Cordova project.
+        Mobile version of Kings Of Chaos
     </description>
-  <author email="hi@ionicframework" href="http://ionicframework.com/">
-      Ionic Framework Team
+  <author email="thomas.dallagnese@gmail.com" href="http://www.kingsofchaos.com/">
+      Thomas Dall'Agnese
     </author>
   <content src="index.html"/>
   <access origin="*"/>
@@ -16,4 +16,12 @@
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
   </feature>
+  <platform name="android">
+    <icon src="resources\android\icon\mipmap-mdpi\ic_launcher.png" density="mdpi"/>
+    <icon src="resources\android\icon\mipmap-hdpi\ic_launcher.png" density="hdpi"/>
+    <icon src="resources\android\icon\mipmap-xhdpi\ic_launcher.png" density="xhdpi"/>
+    <icon src="resources\android\icon\mipmap-xxhdpi\ic_launcher.png" density="xxhdpi"/>
+    <icon src="resources\android\icon\mipmap-xxxhdpi\ic_launcher.png" density="xxxhdpi"/>
+  </platform>
+  <icon src="resources\android\icon\mipmap-xhdpi\ic_launcher.png"/>
 </widget>

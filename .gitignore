@@ -29,3 +29,5 @@ node_modules
 .c9
 .sass-cache
 platforms
+
+www/lib
