@@ -5,6 +5,13 @@
 		<div ng-hide="!armoryError.length" class="error center">{{armoryError}}</div>
 		<div class="list">
 			<!-- Current Inventory -->
+			<div ng-hide="armory.repairAll===undefined">
+				<div class="item item-divider item-stable">
+					<button class="button button-block button-dark" ng-disabled="disableActions" ng-click="repairAll()">Repair all
+						weapons for {{armory.repairAll.price|number:0}} Gold
+					</button>
+				</div>
+			</div>
 			<div ng-repeat="weaponType in weaponTypes">
 				<div ng-hide="!armory.currentWeapons[weaponType].length">
 					<div class="item item-divider item-dark">{{weaponType}}</div>
@@ -67,13 +74,6 @@
 							</div>
 						</div>
 					</div>
-				</div>
-			</div>
-			<div ng-hide="armory.repairAll===undefined">
-				<div class="item item-divider item-stable">
-					<button class="button button-block button-dark" ng-disabled="disableActions" ng-click="repairAll()">Repair all
-						weapons for {{armory.repairAll.price|number:0}} Gold
-					</button>
 				</div>
 			</div>
 

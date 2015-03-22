@@ -1,0 +1,11 @@
+<ion-view title="Battle Report">
+  <ion-content style="background-color:black;">
+
+    <div ng-hide="!battleReportError.length" class="error center">{{battleReportError}}</div>
+      <div
+				class="item item-dark item-text-wrap"
+				style="background-color: #000000; color: #ffffff"
+				ng-bind-html="battleReport.report">
+			</div>
+  </ion-content>
+</ion-view>

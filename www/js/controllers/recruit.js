@@ -19,10 +19,10 @@ angular.module('koc.controllers')
           $log.debug("got the recruit page:", response);
           if (response.success === true) {
             $log.debug("retrieved the recruit");
-            $scope.recruit = response;
+            $scope.recruit = response.result;
             $scope.recruit.response = "";
-            if (response.challenge_url !== undefined)
-              $scope.challengeImage = response.image;
+            if (response.result.challenge_url !== undefined)
+              $scope.challengeImage = response.result.image;
             //$rootScope.$broadcast('kocAdvisor', response.help);
           }
           else {

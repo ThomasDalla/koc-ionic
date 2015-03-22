@@ -54,8 +54,8 @@ angular.module('koc.controllers')
         KoC.getPage(method, action, data, cacheTimeInSeconds, true)
           .success(function (response) {
             if (response.success === true) {
-              $scope.battlefield = response;
-              User.setBattlefieldMaxPage(response.maxPage);
+              $scope.battlefield = response.result;
+              User.setBattlefieldMaxPage($scope.battlefield.maxPage);
               $log.debug("retrieved the battlefield");
             }
             else {

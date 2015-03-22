@@ -160,33 +160,34 @@ angular.module('koc.services', [] )
         window.localStorage.setItem('showAdvisor', showAdvisor);
         $rootScope.$broadcast('kocShowAdvisor', showAdvisor);
       },
-      isCacheAvailable: function (page, maxTimeInSeconds) {
-        var cache = window.localStorage[this.getLsKeyForPage(page)];
-        if (cache === undefined)
-          return false;
-        if (maxTimeInSeconds === undefined || maxTimeInSeconds === null || maxTimeInSeconds < 0)
-          return true;
-        return this.getSecondsSincePageRetrieved(page) <= maxTimeInSeconds;
-      },
-      // getCacheDirect returns an object/array
-      getCacheDirect: function (page, maxTimeInSeconds) {
-        if (this.isCacheAvailable(page, maxTimeInSeconds)) {
-          var cache = JSON.parse(window.localStorage[this.getLsKeyForPage(page)]);
-          $rootScope.$broadcast('kocAdvisor', cache.help);
-          return cache;
-        }
-        return null;
-      },
-      // getCache returns a Promise
+      // getCache
       getCache: function (page, maxTimeInSeconds) {
-        if (maxTimeInSeconds === undefined)
+
+        if (maxTimeInSeconds === undefined || maxTimeInSeconds === null)
           maxTimeInSeconds = 60; // 60 seconds default cache
         $log.debug("User.getCache(" + page + "," + maxTimeInSeconds + ")");
-        var defer = $q.defer();
-        var p = defer.promise;
-        var cache = this.getCacheDirect(page, maxTimeInSeconds);
-        defer.resolve(cache);
-        return p;
+
+        var cache = window.localStorage[this.getLsKeyForPage(page)];
+        if (cache === undefined) {
+          cache = null;
+        }
+        else if (
+          maxTimeInSeconds < 0 ||
+          this.getSecondsSincePageRetrieved(page) <= maxTimeInSeconds
+        ) {
+          // valid cache
+          cache = JSON.parse(cache);
+          if( page != "/races" ) {
+            $rootScope.$broadcast('kocAdvisor', cache.help);
+            $log.debug( "broadcasted help from cache page " + page );
+          }
+        }
+        else {
+          // old cache
+          cache = null;
+        }
+
+        return cache;
       }
     };
   }]);

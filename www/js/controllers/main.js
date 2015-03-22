@@ -7,9 +7,10 @@ angular.module('koc.controllers')
 
       $log.debug("MainCtrl");
 
-      User.getCache("stats", -1).then(function (stats) {
-        $scope.stats = stats;
-      });
+      var cache = User.getCache("stats", -1);
+      if( cache !== null && cache !== undefined)
+        $scope.stats = cache;
+
       $scope.showAdvisor = User.showAdvisor();
 
       $scope.username = User.get().username;

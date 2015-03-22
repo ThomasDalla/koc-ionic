@@ -11,8 +11,8 @@ angular.module('koc.controllers')
       $scope.racesError = "Loading races...";
       KoC.getRaces(racesCacheTimeInSeconds).success(function (response) {
         $scope.racesError = "";
-        $scope.races = response.races;
-        $scope.kocHost = response.kocHost;
+        $scope.races = response.result.races;
+        $scope.kocHost = response.result.kocHost;
         $scope.selectedRace = $scope.races[0];
       }).error(function (error) {
         $scope.racesError = "Error retrieving the races";
@@ -27,8 +27,8 @@ angular.module('koc.controllers')
         KoC.getPage("GET", "/captcha").success(function (response) {
           $scope.captchaError = "";
           if (response.success) {
-            $scope.challenge = response.challenge;
-            $scope.challenge_image = response.image;
+            $scope.challenge = response.result.challenge;
+            $scope.challenge_image = response.result.image;
           }
           else {
             $scope.captchaError = response.error;
@@ -72,7 +72,7 @@ angular.module('koc.controllers')
               User.set($scope.loginData.username, $scope.loginData.password, response.session, $scope.loginData.email);
               var alertPopup = $ionicPopup.alert({
                 title: 'Registered!',
-                template: response.message,
+                template: response.result.message,
                 okType: "button-dark"
               });
               alertPopup.then(function (res) {

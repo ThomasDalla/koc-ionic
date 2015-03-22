@@ -1,0 +1,75 @@
+<ion-view view-title="Covert Report on {{intelDetail.username}}">
+
+	<ion-content style="background-color: #000000;">
+		<ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadIntelDetail()"></ion-refresher>
+		<div ng-hide="!intelDetailError.length" class="error center">{{intelDetailError}}</div>
+		<div class="list">
+
+			<div>
+				<div class="item item-divider item-dark">Stats</div>
+				<div class="item item-text-wrap">
+					<div class="row">
+						<div class="col col-50">Treasury</div>
+						<div class="col col-50">{{intelDetail.treasuryText}}</div>
+					</div>
+					<div class="row" ng-repeat="stat in intelDetail.stats">
+						<div class="col col-50">{{stat.name}}</div>
+						<div class="col col-50">{{stat.valueAsText}}</div>
+					</div>
+				</div>
+			</div>
+
+			<div>
+				<div class="item item-divider item-dark">Weapons</div>
+				<div class="item item-text-wrap" style="padding: 0px;">
+					<div class="row" style="background-color: #666666; color: #ffffff; padding: 2px;">
+						<div class="col col-30">Name</div>
+						<div class="col col-25">Type</div>
+						<div class="col col-20">Qty</div>
+						<div class="col col-25" style="text-align: right;">Strength</div>
+					</div>
+					<div class="row" ng-repeat="weapon in intelDetail.weapons" style="font-size: 10pt;">
+						<div class="col col-30">{{weapon.name}}</div>
+						<div class="col col-25">{{weapon.type}}</div>
+						<div class="col col-20">{{weapon.quantityText}}</div>
+						<div class="col col-25" style="text-align: right;">{{weapon.strength}}</div>
+					</div>
+				</div>
+			</div>
+
+			<div>
+				<div class="item item-divider item-dark">Army Size</div>
+				<div class="item item-text-wrap" style="padding: 0;">
+					<div class="row" style="background-color: #666666; color: #ffffff; padding: 0px;">
+						<div class="col col-33">Type</div>
+						<div class="col col-33">Mercenaries</div>
+						<div class="col col-33">Soldiers</div>
+					</div>
+					<div class="row">
+						<div class="col col-33">Attack</div>
+						<div class="col col-33">{{intelDetail.army.mercenaries.attack}}</div>
+						<div class="col col-33">{{intelDetail.army.soldiers.attack}}</div>
+					</div>
+					<div class="row">
+						<div class="col col-33">Defense</div>
+						<div class="col col-33">{{intelDetail.army.mercenaries.defense}}</div>
+						<div class="col col-33">{{intelDetail.army.soldiers.defense}}</div>
+					</div>
+					<div class="row">
+						<div class="col col-33">Untrained</div>
+						<div class="col col-33">{{intelDetail.army.mercenaries.untrained}}</div>
+						<div class="col col-33">{{intelDetail.army.soldiers.untrained}}</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="item item-dark item-text-wrap item-small"
+					 style="background-color: #000000; color: #ffffff; font-size: 10pt;">
+				{{intelDetail.story}}
+			</div>
+
+		</div>
+
+	</ion-content>
+
+</ion-view>

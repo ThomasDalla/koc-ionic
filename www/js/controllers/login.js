@@ -2,8 +2,8 @@
 
 angular.module('koc.controllers')
 
-  .controller('LoginCtrl', ["$scope", "$timeout", "$state", "$ionicViewService", "$ionicLoading", "$ionicModal", "$ionicPopup", '$log', "User", "KoC",
-    function ($scope, $timeout, $state, $ionicViewService, $ionicLoading, $ionicModal, $ionicPopup, $log, User, KoC) {
+  .controller('LoginCtrl', ["$scope", "$timeout", "$state", "$ionicLoading", "$ionicModal", "$ionicPopup", '$log', "User", "KoC",
+    function ($scope, $timeout, $state, $ionicLoading, $ionicModal, $ionicPopup, $log, User, KoC) {
 
       // Otherwise Ionic Lab login at the same time on both screens
       //if(ionic.Platform.platform()=="ios")
@@ -122,7 +122,7 @@ angular.module('koc.controllers')
             if (response.success) {
               $ionicPopup.alert({
                 title: 'E-Mail sent',
-                template: response.message,
+                template: response.result.message,
                 okType: "button-dark"
               }).then(function (res) {
                 $scope.closeVerifyAccount();
@@ -155,11 +155,11 @@ angular.module('koc.controllers')
           // Communicate with KoC
           KoC.forgotLogin($scope.user.username, $scope.user.email).success(function (response) {
             if (response.success) {
-              $scope.forgotLoginError = response.message;
+              $scope.forgotLoginError = response.result.message;
               User.setEmail($scope.user.email);
               $ionicPopup.alert({
                 title: 'Credentials sent',
-                template: response.message,
+                template: response.result.message,
                 okType: "button-dark"
               }).then(function (res) {
                 $scope.forgotLoginModal.hide();

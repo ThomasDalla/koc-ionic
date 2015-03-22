@@ -70,7 +70,8 @@ angular.module('koc.services')
                 return response;
               }
               else {
-                $log.debug("I don't know how to handle that request, that sucks!");
+                $log.error("We seem to have failed loading the page correctly.");
+                $log.debug(response);
               }
             }
             // propagate the response
@@ -80,7 +81,7 @@ angular.module('koc.services')
       }]);
   }])
 
-  .factory('KoC', ['$http', '$log', 'User', function ($http, $log, User) {
+  .factory('KoC', ['$http', '$log', '$q', 'User', function ($http, $log, $q, User) {
     return {
       getRaces: function (cacheTimeInSeconds) {
         return this.getPage("GET", "/races", {}, cacheTimeInSeconds);
@@ -148,9 +149,14 @@ angular.module('koc.services')
         // Get from cache if requested and available
         if (cacheTimeInSeconds !== undefined && cacheTimeInSeconds !== null && cacheTimeInSeconds !== 0) {
           $log.debug("checking " + page + " from the cache...");
-          if (User.isCacheAvailable(page, cacheTimeInSeconds)) {
+          var cache = User.getCache(page, cacheTimeInSeconds);
+          if( cache !== null && cache !== undefined ) {
             $log.debug("Cache available, loading it");
-            return User.getCache(page, cacheTimeInSeconds);
+            // must be a promise
+            var defer = $q.defer();
+            var p = defer.promise;
+            defer.resolve(cache);
+            return p;
           }
         }
 
@@ -182,6 +188,27 @@ angular.module('koc.services')
       },
       verifyEmail: function (email) {
         return this.getPage("POST", "/verify-email", {email: email});
-      }
+      },
+      getAttackLog: function(b_start, o_start, cacheTimeInSeconds) {
+        return this.getPage("POST", "/attacklog", {
+          b_start: b_start,
+          o_start: o_start,
+        }, cacheTimeInSeconds, true);
+      },
+      getIntel: function(b_start, o_start, cacheTimeInSeconds) {
+        return this.getPage("POST", "/intel", {
+          b_start: b_start,
+          o_start: o_start,
+        }, cacheTimeInSeconds, true);
+      },
+      getBattleReport: function(attack_id, cacheTimeInSeconds) {
+        return this.getPage("GET", "/battlereport/" + attack_id, {}, cacheTimeInSeconds, true);
+      },
+      getIntelFile: function(asset_id, cacheTimeInSeconds) {
+        return this.getPage("GET", "/intelfile/" + asset_id, {}, cacheTimeInSeconds, true);
+      },
+      getIntelDetail: function(report_id, cacheTimeInSeconds) {
+        return this.getPage("GET", "/inteldetail/" + report_id, {}, cacheTimeInSeconds, true);
+      },
     };
   }]);

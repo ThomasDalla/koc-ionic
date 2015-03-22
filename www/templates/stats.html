@@ -1,4 +1,4 @@
-<ion-view title="{{userStats.username==''?'Stats':userStats.username}}"">
+<ion-view view-title="{{userStats.username}}">
   <ion-content style="background-color:black;">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadStats()"></ion-refresher>
     <div ng-hide="!statsError.length" class="error center">{{statsError}}</div>

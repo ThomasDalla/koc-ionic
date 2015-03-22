@@ -2,13 +2,20 @@
 
 angular.module('koc.controllers')
 
-  .controller('StatsCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', '$ionicViewService', '$rootScope', '$ionicPopup', '$log', 'User', 'KoC',
-    function ($scope, $stateParams, $state, $ionicLoading, $ionicViewService, $rootScope, $ionicPopup, $log, User, KoC) {
+  .controller('StatsCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', '$ionicHistory', '$rootScope', '$ionicPopup', '$log', 'User', 'KoC',
+    function ($scope, $stateParams, $state, $ionicLoading, $ionicHistory, $rootScope, $ionicPopup, $log, User, KoC) {
 
       $log.debug("StatsCtrl");
       $scope.statsError = "Loading...";
+      $scope.userStats = { username: "User Stats" };
       //$cordovaToast.show('Here is a message', 'long', 'center');
       //$ionicLoading.show({ template: 'MEssage', noBackdrop: true, duration: 2000 });
+
+      var vh = $ionicHistory.viewHistory();
+      if(vh !== null) {
+        $log.info("Views:", vh.views );
+        $log.info("Back:" , vh.backView );
+      }
 
       var userid = $stateParams.userid;
       $scope.nbTimesCanChangeCommander = $rootScope.nbTimesCanChangeCommander || 0;
@@ -18,12 +25,6 @@ angular.module('koc.controllers')
         if (isFinite(userid) && userid > 0) $state.go('app.stats', {
           userid: userid
         });
-      };
-
-      $scope.backView = $ionicViewService.getBackView();
-      $scope.goBack = function () {
-        //$log.debug("backview: ", $scope.backView);
-        $scope.backView && $scope.backView.go();
       };
 
       $scope.alliancesList = function (alliances) {
@@ -40,7 +41,7 @@ angular.module('koc.controllers')
           if (response.success === true) {
             //User.setBase(response.user);
             //$log.debug("$scope.userStats", response.user);
-            $scope.userStats = response.user;
+            $scope.userStats = response.result.user;
             $scope.stats = response.stats;
             $rootScope.$broadcast('kocAdvisor', response.help);
             $log.debug("retrieved the stats");
@@ -51,7 +52,7 @@ angular.module('koc.controllers')
             // });
           }
           else {
-            $scope.statsError = response.error;
+            $scope.statsError = response.error + " (inactive user?)";
           }
         }).error(function (error) {
           //$ionicLoading.hide();
@@ -67,7 +68,9 @@ angular.module('koc.controllers')
 
       // If valid stats retrieved less than 5 minutes ago, re-use it
       var cacheTimeInSeconds = 60 * 5;
-      $scope.userStats = User.getCache("/stats/" + userid, -1); // by default when opening, get it from the cache
+      var cache = User.getCache("/stats/" + userid, -1); // by default when opening, get it from the cache
+      if(cache!==null)
+        $scope.userStats = cache;
       $scope.reloadStats(cacheTimeInSeconds); // but also reload if older than 5 minutes
 
       $scope.changeCommander = function () {

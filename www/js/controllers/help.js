@@ -22,12 +22,9 @@ angular.module('koc.controllers')
         $ionicScrollDelegate.scrollTop();
       };
 
-      User.getCache("/help", -1).then(function (help) {
-        if (help !== null && help !== undefined)
-          $scope.items = help.data;
-        else
-          $scope.items = [];
-      });
+      var cache = User.getCache("/help", -1);
+      if(cache !== null)
+        $scope.items = cache.data;
 
       // $log.debug($state);
       // $log.debug($stateParams);

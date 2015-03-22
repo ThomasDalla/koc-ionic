@@ -1,0 +1,21 @@
+<ion-view view-title="Intercepted">
+
+	<ion-content style="background-color: #000000;">
+		<ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadIntel(b_start,o_start,0)"></ion-refresher>
+		<div ng-hide="!intelError.length" class="error center">{{intelError}}</div>
+		<div class="list">
+			<div ng-repeat="op in intel.intercepted.operations">
+				<div class="item item-dark"
+						 style="background-color: #000000; color: #ffffff"
+						 ng-click="showUserStats(op.enemy.userid)">
+					<h2 style="color: #ffffff">{{op.enemy.username}}<span style="float: right;">{{op.time}}</span> </h2>
+					<p style="color: #cccccc;">
+						Spies caught: {{op.numberOfSpiesCaught}} (out of {{op.numberOfSpies}})
+						<span class="ion-chevron-right" style="float:right;"></span>
+					</p>
+				</div>
+			</div>
+		</div>
+	</ion-content>
+
+</ion-view>

@@ -22,17 +22,14 @@ function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform
   };
 
   $scope.trainError = "Loading...";
-  User.getCache("/train", - 1).success(function(response) {
-    if (response !== null) {
-      $scope.trainError = "";
-      $scope.training = response;
-      $scope.personnel = response.personnel;
-      $scope.turing = response.turing;
-      recalcBuyTotal();
-    }
-  }).error(function(error) {
-    $scope.trainError = error.toString();
-  });
+  var cache = User.getCache("/train", - 1);
+  if (cache !== null) {
+    $scope.trainError = "";
+    $scope.training = cache;
+    $scope.personnel = cache.personnel;
+    $scope.turing = cache.turing;
+    //recalcBuyTotal();
+  }
 
   $scope.trainQuantity = function(index, delta) {
     var currentValue = Number( $scope.training.train[index].inputValue );
@@ -46,11 +43,11 @@ function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform
     $scope.disableActions = true;
     KoC.trainTroops($scope.training.turing,inputNameValue).success(function(response) {
       if (response.success === true) {
-        $scope.training = response;
-        $scope.personnel = response.personnel;
-        $scope.turing = response.turing;
-        if(response.message.length)
-          $ionicLoading.show({ template: response.message, noBackdrop: true, duration: 2000 });
+        $scope.training = response.result;
+        $scope.personnel = response.result.personnel;
+        $scope.turing = response.result.turing;
+        if(response.result.message.length)
+          $ionicLoading.show({ template: response.result.message, noBackdrop: true, duration: 2000 });
         else
           $ionicLoading.show({ template: successMessage, noBackdrop: true, duration: 2000 });
         $scope.stats = response.stats;
@@ -95,8 +92,8 @@ function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform
     KoC.getTraining(cacheTimeInSeconds).success(function(response) {
       $log.debug("got the training:", response);
       if (response.success === true) {
-        $scope.training = response;
-        $scope.personnel = response.personnel;
+        $scope.training = response.result;
+        $scope.personnel = response.result.personnel;
         $log.debug("retrieved the training");
         //$rootScope.$broadcast('kocAdvisor', response.help);
       }

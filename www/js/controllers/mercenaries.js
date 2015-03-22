@@ -22,17 +22,14 @@ angular.module('koc.controllers')
       };
 
       $scope.mercsError = "Loading...";
-      User.getCache("/mercenaries", -1).success(function (response) {
-        if (response !== null) {
-          $scope.mercsError = "";
-          $scope.mercenaries = response;
-          $scope.personnel = response.personnel;
-          $scope.turing = response.turing;
-          recalcBuyTotal();
-        }
-      }).error(function (error) {
-        $scope.mercsError = error.toString();
-      });
+      var cache = User.getCache("/mercenaries", -1);
+      if(cache !== null) {
+        $scope.mercsError = "";
+        $scope.mercenaries = cache;
+        $scope.personnel = cache.personnel;
+        $scope.turing = cache.turing;
+        //recalcBuyTotal();
+      }
 
       $scope.hireQuantity = function (index, delta) {
         var currentProgram = $scope.mercenaries.hire[index];
@@ -49,11 +46,11 @@ angular.module('koc.controllers')
         $scope.disableActions = true;
         KoC.hireMercenaries($scope.mercenaries.turing, inputNameValue).success(function (response) {
           if (response.success === true) {
-            $scope.mercenaries = response;
-            $scope.personnel = response.personnel;
-            $scope.turing = response.turing;
-            if (response.message.length)
-              $ionicLoading.show({template: response.message, noBackdrop: true, duration: 2000});
+            $scope.mercenaries = response.result;
+            $scope.personnel = response.result.personnel;
+            $scope.turing = response.result.turing;
+            if (response.result.message.length)
+              $ionicLoading.show({template: response.result.message, noBackdrop: true, duration: 2000});
             else
               $ionicLoading.show({template: successMessage, noBackdrop: true, duration: 2000});
             $scope.stats = response.stats;
@@ -89,8 +86,8 @@ angular.module('koc.controllers')
         KoC.getMercenaries(cacheTimeInSeconds).success(function (response) {
           $log.debug("got the mercs:", response);
           if (response.success === true) {
-            $scope.mercenaries = response;
-            $scope.personnel = response.personnel;
+            $scope.mercenaries = response.result;
+            $scope.personnel = response.result.personnel;
             $log.debug("retrieved the mecenaries");
             //$rootScope.$broadcast('kocAdvisor', response.help);
           }

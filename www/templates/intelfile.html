@@ -1,0 +1,31 @@
+<ion-view view-title="Intelligence on {{intelFile.username}}">
+
+	<ion-content style="background-color: #000000;">
+		<ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadIntelFile()"></ion-refresher>
+		<div ng-hide="!intelFileError.length" class="error center">{{intelFileError}}</div>
+		<div class="list">
+			<div class="item item-dark"
+					 style="background-color: #333333; color: #ffffff; padding: 2px;">
+				<div class="row">
+					<div class="col col-40">When</div>
+					<div class="col col-25">Type</div>
+					<div class="col col-10">Spies</div>
+					<div class="col col-25" style="text-align: right;">Result</div>
+				</div>
+			</div>
+			<div ng-repeat="report in intelFile.reports">
+				<div class="item item-dark"
+						 style="background-color: #000000; color: #ffffff; padding: 2px;"
+						 ng-click="showIntelDetail(report.reportId)">
+					<div class="row">
+						<div class="col col-40">{{report.time}}</div>
+						<div class="col col-25">{{report.missionType}}</div>
+						<div class="col col-10">{{report.numberOfSpies}}</div>
+						<div class="col col-25" style="text-align: right;">{{report.result}} <i class="ion-chevron-right"></i></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ion-content>
+
+</ion-view>

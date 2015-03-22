@@ -1,0 +1,28 @@
+<ion-view view-title="Attacks By You">
+
+	<ion-content style="background-color: #000000;">
+		<ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadAttackLog(b_start,o_start,0)"></ion-refresher>
+		<div ng-hide="!attackLogError.length" class="error center">{{attackLogError}}</div>
+		<div class="list">
+			<!-- Attacks By You -->
+			<div ng-repeat="attack in attacklog.attacksByYou.attacks">
+				<div class="item item-dark" style="background-color: #000000; color: #ffffff">
+					<h2 style="color: #ffffff;" ng-click="showUserStats(attack.enemy.userid)">
+						{{attack.result}}
+						<span style="float: right;">{{attack.time}}</span>
+					</h2>
+					<h3 style="color: #ffffff; float: right;" ng-click="showUserStats(attack.enemy.userid)">
+						{{attack.enemy.username}}
+						<i class="ion-chevron-right"></i>
+					</h3>
+					<p style="color: #cccccc;" ng-click="showBattleReport(attack.attack_id)">
+						Your Damages: {{attack.damageByYou}} vs {{attack.damageByEnemy}}
+						<br />
+						Your Losses: {{attack.yourLosses}} vs {{attack.enemyLosses}}
+					</p>
+				</div>
+			</div>
+		</div>
+	</ion-content>
+
+</ion-view>

@@ -105,9 +105,9 @@ angular.module('koc', ['ionic', 'koc.controllers'])
 
         .state('app.armory', {
           url: "/armory",
+          abstract: true,
           views: {
             'menuContent': {
-              abstract: true,
               templateUrl: "templates/armory.html",
               controller: 'ArmoryCtrl'
             }
@@ -180,7 +180,93 @@ angular.module('koc', ['ionic', 'koc.controllers'])
               controller: 'BattlefieldCtrl'
             }
           },
-        });
+        })
+
+        .state('app.attacklog', {
+          url: "/attacklog",
+          abstract: true,
+          views: {
+            'menuContent': {
+              templateUrl: "templates/attacklog.html",
+              controller: 'AttackLogCtrl',
+            }
+          }
+        })
+        .state('app.attacklog.byYou', {
+          url: '/byYou',
+          views: {
+            'attacklogByYou': {
+              templateUrl: 'templates/attacklog.byYou.html',
+            }
+          }
+        })
+        .state('app.attacklog.onYou', {
+          url: '/onYou',
+          views: {
+            'attacklogOnYou': {
+              templateUrl: 'templates/attacklog.onYou.html',
+            },
+          }
+        })
+
+        .state('app.intel', {
+          url: "/intel",
+          abstract: true,
+          views: {
+            'menuContent': {
+              templateUrl: "templates/intel.html",
+              controller: 'IntelCtrl',
+            }
+          }
+        })
+        .state('app.intel.intercepted', {
+          url: '/intercepted',
+          views: {
+            'intelIntercepted': {
+              templateUrl: 'templates/intel.intercepted.html',
+            }
+          }
+        })
+        .state('app.intel.files', {
+          url: '/files',
+          views: {
+            'intelFiles': {
+              templateUrl: 'templates/intel.files.html',
+            },
+          }
+        })
+
+        .state('app.battlereport', {
+          url: '/battlereport/:attack_id',
+          views: {
+            'menuContent': {
+              templateUrl: 'templates/battlereport.html',
+              controller: 'BattleReportCtrl',
+            }
+          }
+        })
+
+        .state('app.intelfile', {
+          url: "/intelfile/:asset_id",
+          views: {
+            'menuContent': {
+              templateUrl: "templates/intelfile.html",
+              controller: 'IntelFileCtrl',
+            }
+          }
+        })
+
+        .state('app.inteldetail', {
+          url: "/inteldetail/:report_id",
+          views: {
+            'menuContent': {
+              templateUrl: "templates/inteldetail.html",
+              controller: 'IntelDetailCtrl',
+            }
+          }
+        })
+
+      ;
 
       // if none of the above states are matched, use this as the fallback
       $urlRouterProvider.otherwise('/login');

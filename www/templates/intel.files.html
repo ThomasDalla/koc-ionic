@@ -1,0 +1,17 @@
+<ion-view view-title="Files">
+
+	<ion-content style="background-color: #000000;">
+		<ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadIntel(b_start,o_start,0)"></ion-refresher>
+		<div ng-hide="!intelError.length" class="error center">{{intelError}}</div>
+		<div class="list">
+			<div ng-repeat="report in intel.files.reports">
+				<div class="item item-dark"
+						 style="background-color: #000000; color: #ffffff"
+						 ng-click="showIntelFile(report.asset_id)">
+					<h2 style="color: #ffffff">{{report.enemy.username}}<span style="float: right;">{{report.numberOfReports}}</span> </h2>
+				</div>
+			</div>
+		</div>
+	</ion-content>
+
+</ion-view>

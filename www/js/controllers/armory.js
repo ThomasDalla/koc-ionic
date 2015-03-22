@@ -16,15 +16,12 @@ angular.module('koc.controllers')
       ];
 
       $scope.armoryError = "Loading...";
-      User.getCache("/armory", -1).success(function (response) {
-        if (response !== null) {
-          $scope.armoryError = "";
-          $scope.armory = response.armory;
-          $scope.recalcBuyTotal();
-        }
-      }).error(function (error) {
-        $scope.armoryError = error.toString();
-      });
+      var cache = User.getCache("/armory", -1);
+      if(cache !== null) {
+        $scope.armoryError = "";
+        $scope.armory = cache.armory;
+        //$scope.recalcBuyTotal();
+      }
 
       $scope.sellWeapon = function (weapon) {
         var weaponName = weapon.name;
@@ -70,9 +67,9 @@ angular.module('koc.controllers')
         $scope.disableActions = true;
         KoC.buyWeapons($scope.armory.turing, inputNameValue).success(function (response) {
           if (response.success === true) {
-            $scope.armory = response.armory;
-            if (response.armory.error.length)
-              $ionicLoading.show({template: response.armory.error, noBackdrop: true, duration: 2000});
+            $scope.armory = response.result.armory;
+            if ($scope.armory.error.length)
+              $ionicLoading.show({template: $scope.armory.error, noBackdrop: true, duration: 2000});
             else
               $ionicLoading.show({template: successMessage, noBackdrop: true, duration: 2000});
             $scope.stats = response.stats;
@@ -156,7 +153,7 @@ angular.module('koc.controllers')
         $scope.disableActions = true;
         KoC.getArmory(cacheTimeInSeconds).success(function (response) {
           if (response.success === true) {
-            $scope.armory = response.armory;
+            $scope.armory = response.result.armory;
             $scope.stats = response.stats;
             $scope.recalcBuyTotal();
             $log.debug("retrieved the armory");
