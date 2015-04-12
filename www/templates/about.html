@@ -1,0 +1,30 @@
+<ion-view title="About">
+	<ion-content>
+		<div class="item item-text-wrap" style="font-size: small">
+			This application was created for me to have a look at HTML5/JS web development
+			for mobile applications and is not an official KoC application.<br />
+			The application is free to use and the code is available open-source on
+			<button class="button button-small button-light" ng-click="openGitHub()">GitHub</button>,
+			so if you notice a bug you can report issues there
+			or contribute yourself directly to improve the app!<br /><br />
+			If you find this app useful, you can buy me a beer :)<br/>
+			<button class="button button-small button-block button-light" ng-click="copyToClipboard('BTC', '12VL9oTrrnYwwoFkFUa35bXNWuasmNMU28')">BTC: 12VL9oTrrnYwwoFkFUa35bXNWuasmNMU28</button>
+			<button class="button button-small button-block button-light" ng-click="copyToClipboard('LTC', 'LTN8L4GxppDQ16sUtCawVPFhc8CoGzQLev')">LTC: LTN8L4GxppDQ16sUtCawVPFhc8CoGzQLev</button>
+		</div>
+		<div class="item item-divider item-dark">Versions</div>
+		<div class="item">
+			<div class="row">
+				<div class="col">Mobile App</div>
+				<div class="col">{{appVersion}}</div>
+			</div>
+			<div class="row" ng-hide="apiVersion===null||apiVersion===undefined">
+				<div class="col">Web API</div>
+				<div class="col">{{apiVersion.api}}</div>
+			</div>
+			<div class="row" ng-hide="apiVersion===null||apiVersion===undefined">
+				<div class="col">KoC (NPM)</div>
+				<div class="col">{{apiVersion.koc}}</div>
+			</div>
+		</div>
+	</ion-content>
+</ion-view>

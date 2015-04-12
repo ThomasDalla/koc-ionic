@@ -41,4 +41,9 @@ angular.module('koc.controllers')
         }
       };
 
+      $scope.loading = false;
+      $scope.$on('showLoading', function(event, show) {
+        $scope.loading = show;
+      });
+
     }]);

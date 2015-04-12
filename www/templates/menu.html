@@ -12,6 +12,7 @@
 				</button>
 			</ion-nav-buttons>
 			<ion-nav-buttons side="right">
+				<ion-spinner ng-hide="loading===undefined||!loading"></ion-spinner>
 				<button class="button-clear pull-right" ng-hide="!showAdvisor||!advisor.length" ng-click="showAdvisorHelp()"><i
 					class="icon ion-ios7-help"></i> Help
 				</button>
@@ -37,15 +38,16 @@
 		<ion-content style="background-color:#444;">
 			<ion-list>
 				<ion-item class="item-dark" nav-clear menu-close ui-sref="app.base">Command Center</ion-item>
-				<ion-item class="item-dark" nav-clear menu-close href="#/app/battlefield/0">Attack</ion-item>
+				<ion-item class="item-dark" nav-clear menu-close ui-sref="app.battlefield">Attack</ion-item>
 				<ion-item class="item-dark" nav-clear menu-close ui-sref="app.attacklog.onYou">Attack Log</ion-item>
 				<ion-item class="item-dark" nav-clear menu-close ui-sref="app.armory.buy">Armory</ion-item>
 				<ion-item class="item-dark" nav-clear menu-close ui-sref="app.training">Training</ion-item>
 				<ion-item class="item-dark" nav-clear menu-close ui-sref="app.intel.intercepted">Intelligence</ion-item>
-				<ion-item class="item-dark" nav-clear menu-close href="#/app/recruit">Recruit</ion-item>
+				<ion-item class="item-dark" nav-clear menu-close ui-sref="app.recruit">Recruit</ion-item>
 				<ion-item class="item-dark" nav-clear menu-close ui-sref="app.mercenaries">Mercenaries</ion-item>
 				<ion-item class="item-dark" nav-clear menu-close href="#/app/help">Help</ion-item>
 				<ion-item class="item-dark" nav-clear menu-close href="#/app/settings">Settings</ion-item>
+				<ion-item class="item-dark" nav-clear menu-close href="#/app/about">About</ion-item>
 				<ion-item class="item-dark" nav-clear menu-close href="#/logout">Logout</ion-item>
 			</ion-list>
 		</ion-content>

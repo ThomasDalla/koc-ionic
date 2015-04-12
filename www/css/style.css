@@ -46,6 +46,13 @@
 	right: 10px;
 }
 
+.btn-float-left {
+	position: absolute !important;
+	bottom: 55px;
+	z-index: 2;
+	left: 10px;
+}
+
 .popup-head {
 	background: #444444 !important;
 }

@@ -98,6 +98,7 @@ angular.module('koc.controllers')
             return;
           }
           var letter = "";
+          text = text.toLowerCase();
           switch (text) {
             case "k":
             case "key":

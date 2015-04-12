@@ -7,21 +7,8 @@ angular.module('koc.controllers')
 
       $log.debug("BaseCtrl");
       $ionicHistory.clearHistory();
-      var vh = $ionicHistory.viewHistory();
-      if(vh !== null) {
-        $log.info("Views:", vh.views );
-        $log.info("Back:" , vh.backView );
-      }
 
       $scope.baseError = "Loading...";
-      var getBaseFromCache = function () {
-        var cache = User.getCache("/base", -1);
-        if (cache !== null) {
-          $scope.baseError = "";
-          $scope.base = cache.user;
-        }
-      };
-      $timeout(getBaseFromCache, 250);
 
       $scope.showUserStats = function (userid) {
         if (isFinite(userid) && userid > 0) $state.go('app.stats', {
@@ -171,10 +158,9 @@ angular.module('koc.controllers')
         return mQty !== null ? $filter('number')(Number(mQty[0].replace(/,/g, ''))*-1, 0) : attackResult;
       };
 
-      $timeout(function () {
-        // If valid base retrieved less than 5 minutes ago, re-use it, else, reload
-        var cacheTimeInSeconds = 60 * 5;
+      $scope.$on('$ionicView.enter', function(){
+        var cacheTimeInSeconds = 5;
         $scope.reloadBase(cacheTimeInSeconds);
-      }, 500);
+      });
 
     }]);

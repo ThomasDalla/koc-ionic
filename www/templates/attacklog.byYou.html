@@ -1,7 +1,7 @@
 <ion-view view-title="Attacks By You">
 
 	<ion-content style="background-color: #000000;">
-		<ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadAttackLog(b_start,o_start,0)"></ion-refresher>
+		<ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadAttackLog(b_start,o_start,0)" spinner="bubbles"></ion-refresher>
 		<div ng-hide="!attackLogError.length" class="error center">{{attackLogError}}</div>
 		<div class="list">
 			<!-- Attacks By You -->

@@ -1,7 +1,10 @@
 <ion-view view-title="Command Center">
 
   <ion-content style="background-color:black;">
-    <ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadBase()"></ion-refresher>
+    <ion-refresher
+			pulling-text="Pull to refresh..."
+			on-refresh="reloadBase()"
+			spinner="bubbles"></ion-refresher>
     <div ng-hide="!baseError.length" class="error center">{{baseError}}</div>
     <div class="list">
       <div ng-hide="!base.recentAttacksOnYou.length">

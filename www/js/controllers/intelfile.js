@@ -12,7 +12,8 @@ angular.module('koc.controllers')
 
       $scope.showIntelDetail = function(report_id) {
         if (isFinite(report_id) && report_id > 0) $state.go('app.inteldetail', {
-          report_id: report_id
+          report_id: report_id,
+          userid: asset_id,
         });
       };
 

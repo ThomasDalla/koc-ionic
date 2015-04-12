@@ -6,8 +6,8 @@ angular.module('koc.controllers')
     function ($scope, $timeout, $state, $ionicLoading, $ionicModal, $ionicPopup, $log, User, KoC) {
 
       // Otherwise Ionic Lab login at the same time on both screens
-      //if(ionic.Platform.platform()=="ios")
-      //  return;
+      if(ionic.Platform.platform()=="ios")
+        return;
 
       $log.debug("LoginCtrl");
 
@@ -39,7 +39,7 @@ angular.module('koc.controllers')
             $log.debug("Error retrieving index: ", err);
           });
       };
-      $timeout(getKoCAge, 750);
+      getKoCAge();
 
       var createModals = function () {
 
@@ -104,6 +104,7 @@ angular.module('koc.controllers')
             }
           }
         }).error(function (err) {
+          $log.error(err);
           $scope.loginError = "Error trying to login";
         }).
           finally(function () {
@@ -177,7 +178,7 @@ angular.module('koc.controllers')
 
       if ($scope.user.loggedIn) {
         // try to login
-        $timeout($scope.doLogin, 500);
+        $scope.doLogin();
       }
 
     }]);

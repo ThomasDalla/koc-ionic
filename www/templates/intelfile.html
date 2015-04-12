@@ -1,7 +1,7 @@
 <ion-view view-title="Intelligence on {{intelFile.username}}">
 
 	<ion-content style="background-color: #000000;">
-		<ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadIntelFile()"></ion-refresher>
+		<ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadIntelFile()" spinner="bubbles"></ion-refresher>
 		<div ng-hide="!intelFileError.length" class="error center">{{intelFileError}}</div>
 		<div class="list">
 			<div class="item item-dark"

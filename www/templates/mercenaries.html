@@ -5,8 +5,15 @@
 		Hire {{mercsHired|number:0}} ({{buyTotal|number:0}})
 	</button>
 
+	<button class="button btn-rectangle btn-float-left"
+					ng-hide="buyTotal<=0"
+					ng-click="emptyCart()"
+					ng-disabled="disableActions">
+		Reset
+	</button>
+
 	<ion-content style="background-color:black;">
-		<ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadMercenaries()"></ion-refresher>
+		<ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadMercenaries()" spinner="bubbles"></ion-refresher>
 		<div ng-hide="!mercsError.length" class="error center">{{mercsError}}</div>
 		<div class="list">
 			<div>
@@ -56,51 +63,51 @@
 				<div class="item item-text-wrap">
 					<div class="row">
 						<div class="col col-75">Trained Attack Soldiers</div>
-						<div class="col" style="text-align: right;">{{personnel['Trained Attack Soldiers']}}</div>
+						<div class="col" style="text-align: right;">{{personnel['Trained Attack Soldiers Text']}}</div>
 					</div>
 					<div class="row">
 						<div class="col col-75">Trained Attack Mercenaries</div>
-						<div class="col" style="text-align: right;">{{personnel['Trained Attack Mercenaries']}}</div>
+						<div class="col" style="text-align: right;">{{personnel['Trained Attack Mercenaries Text']}}</div>
 					</div>
 				</div>
 				<div class="item item-text-wrap">
 					<div class="row">
 						<div class="col col-75">Trained Defense Soldiers</div>
-						<div class="col" style="text-align: right;">{{personnel['Trained Defense Soldiers']}}</div>
+						<div class="col" style="text-align: right;">{{personnel['Trained Defense Soldiers Text']}}</div>
 					</div>
 					<div class="row">
 						<div class="col col-75">Trained Defense Mercenaries</div>
-						<div class="col" style="text-align: right;">{{personnel['Trained Defense Mercenaries']}}</div>
+						<div class="col" style="text-align: right;">{{personnel['Trained Defense Mercenaries Text']}}</div>
 					</div>
 				</div>
 				<div class="item item-text-wrap">
 					<div class="row">
 						<div class="col col-75">Untrained Soldiers</div>
-						<div class="col" style="text-align: right;">{{personnel['Untrained Soldiers']}}</div>
+						<div class="col" style="text-align: right;">{{personnel['Untrained Soldiers Text']}}</div>
 					</div>
 					<div class="row">
 						<div class="col col-75">Untrained Mercenaries</div>
-						<div class="col" style="text-align: right;">{{personnel['Untrained Mercenaries']}}</div>
+						<div class="col" style="text-align: right;">{{personnel['Untrained Mercenaries Text']}}</div>
 					</div>
 				</div>
 				<div class="item item-text-wrap">
 					<div class="row">
 						<div class="col col-75">Spies</div>
-						<div class="col" style="text-align: right;">{{personnel['Spies']}}</div>
+						<div class="col" style="text-align: right;">{{personnel['Spies Text']}}</div>
 					</div>
 					<div class="row">
 						<div class="col col-75">Sentries</div>
-						<div class="col" style="text-align: right;">{{personnel['Sentries']}}</div>
+						<div class="col" style="text-align: right;">{{personnel['Sentries Text']}}</div>
 					</div>
 				</div>
 				<div class="item item-text-wrap">
 					<div class="row">
 						<div class="col col-75">Army Morale</div>
-						<div class="col" style="text-align: right;">{{personnel['Army Morale']}}</div>
+						<div class="col" style="text-align: right;">{{personnel['Army Morale Text']}}</div>
 					</div>
 					<div class="row">
 						<div class="col col-75">Total Fighting Force</div>
-						<div class="col" style="text-align: right;">{{personnel['Total Fighting Force']}}</div>
+						<div class="col" style="text-align: right;">{{personnel['Total Fighting Force Text']}}</div>
 					</div>
 				</div>
 			</div>

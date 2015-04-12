@@ -8,6 +8,13 @@ angular.module('koc.controllers')
       $scope.disableActions = false;
       $scope.battlefieldError = "";
 
+      var retrieveLastPage = function() {
+        if ($stateParams.page === undefined || $stateParams.page == 0) {
+          $stateParams.page = ($rootScope.lastBattlefieldPage !== undefined) ? $rootScope.lastBattlefieldPage : 0;
+        }
+      };
+      retrieveLastPage();
+
       $scope.battlefield = {
         currentPage: $stateParams.page,
         maxPage: User.getBattlefieldMaxPage(),
@@ -23,8 +30,10 @@ angular.module('koc.controllers')
       };
 
       $scope.goToPage = function (page) {
-        if (isFinite(page) && page > 0)
-          $state.go( '.', { page: page } );
+        if (isFinite(page) && page > 0) {
+          $rootScope.lastBattlefieldPage = page;
+          $state.go('.', {page: page});
+        }
       };
 
       $scope.promptGoToPage = function () {
@@ -46,7 +55,7 @@ angular.module('koc.controllers')
         var data = {};
         var method = "GET";
         if (page === undefined || !isFinite(page) || page <= 0)
-          action = "/attack";
+          action = "/attackfield";
         else
           data = {
             page: page,
@@ -71,10 +80,11 @@ angular.module('koc.controllers')
           });
       };
 
-      $timeout(function(){
-        // If valid battlefield retrieved less than 10 seconds ago, re-use it, else, reload
-        $scope.cacheTimeInSeconds = 10;
+      $scope.$on('$ionicView.enter', function(){
+        retrieveLastPage();
+        // If valid battlefield retrieved less than 5 seconds ago, re-use it, else, reload
+        $scope.cacheTimeInSeconds = 5;
         $scope.getBattlefield($scope.cacheTimeInSeconds, $stateParams.page);
-      }, 500 );
+      });
 
     }]);

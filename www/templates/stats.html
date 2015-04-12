@@ -1,8 +1,16 @@
 <ion-view view-title="{{userStats.username}}">
   <ion-content style="background-color:black;">
-    <ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadStats()"></ion-refresher>
+    <ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadStats()" spinner="bubbles"></ion-refresher>
     <div ng-hide="!statsError.length" class="error center">{{statsError}}</div>
       <div class="list">
+
+
+				<div class="button-bar">
+					<button class="button button-outline button-small button-assertive" ng-disabled="disableActions" ng-click="attack()"><i class="ion-knife"></i>&nbsp;&nbsp;{{attackButtonText}}</button>
+					<button class="button button-outline button-small button-energized" ng-disabled="disableActions" ng-click="raid()"><i class="ion-knife"></i>&nbsp;&nbsp;{{raidButtonText}}</button>
+					<button class="button button-outline button-small button-royal" ng-disabled="disableActions" ng-click="recon()"><i class="ion-search"></i>&nbsp;{{reconButtonText}}</button>
+				</div>
+
         <div class="item item-divider item-dark">User Stats</div>
         <div class="item item-text-wrap">
           <div class="row">
@@ -51,6 +59,13 @@
             <div class="col col-50">{{userStats.buddyStatus}}</div>
           </div>
         </div>
+
+				<div class="button-bar">
+					<button class="button button-outline button-small button-assertive" ng-disabled="disableActions" ng-click="attack()"><i class="ion-knife"></i>&nbsp;&nbsp;{{attackButtonText}}</button>
+					<button class="button button-outline button-small button-energized" ng-disabled="disableActions" ng-click="raid()"><i class="ion-knife"></i>&nbsp;&nbsp;{{raidButtonText}}</button>
+					<button class="button button-outline button-small button-royal" ng-disabled="disableActions" ng-click="recon()"><i class="ion-search"></i>&nbsp;{{reconButtonText}}</button>
+				</div>
+
         <div class="item item-divider item-dark">Officers ({{userStats.totalOfficersNb}})</div>
         <div class="item item-text-wrap" ng-repeat="officer in userStats.officers" ng-click="showUserStats(officer.userid)">
           <div class="row">

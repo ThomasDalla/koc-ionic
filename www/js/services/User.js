@@ -70,6 +70,13 @@ angular.module('koc.services', [] )
       getEmail: function () {
         return window.localStorage['email'] || "";
       },
+      showBestWeaponsOnly: function (newValue) {
+        if(newValue===undefined) {
+          var val = window.localStorage['showBestWeaponsOnly'];
+          return (val===undefined) ? false : !!val;
+        }
+        window.localStorage['showBestWeaponsOnly'] = newValue;
+      },
       setAge: function (age) {
         if (age !== undefined && age.length)
           window.localStorage['kocAge'] = age;

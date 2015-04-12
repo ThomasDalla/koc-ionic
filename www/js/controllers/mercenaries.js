@@ -31,6 +31,14 @@ angular.module('koc.controllers')
         //recalcBuyTotal();
       }
 
+      $scope.emptyCart = function () {
+        for(var i=0; i<$scope.mercenaries.hire.length; i++){
+          $scope.mercenaries.hire[i].inputValue = 0;
+        }
+        $scope.buyTotal = 0;
+        $scope.mercsHired = 0;
+      };
+
       $scope.hireQuantity = function (index, delta) {
         var currentProgram = $scope.mercenaries.hire[index];
         var currentValue = Number(currentProgram.inputValue);
@@ -52,7 +60,7 @@ angular.module('koc.controllers')
             if (response.result.message.length)
               $ionicLoading.show({template: response.result.message, noBackdrop: true, duration: 2000});
             else
-              $ionicLoading.show({template: successMessage, noBackdrop: true, duration: 2000});
+              $ionicLoading.show({template: successMessage, noBackdrop: true, duration: 1000});
             $scope.stats = response.stats;
             recalcBuyTotal();
             $log.debug("retrieved the mercenaries");
@@ -105,8 +113,10 @@ angular.module('koc.controllers')
           });
       };
 
-      // If valid mercenaries retrieved less than 5 minutes ago, re-use it, else, reload
-      var cacheTimeInSeconds = 60 * 5;
-      $scope.reloadMercenaries(cacheTimeInSeconds);
+      $scope.$on('$ionicView.enter', function(){
+        // If valid mercenaries retrieved less than 5 minutes ago, re-use it, else, reload
+        var cacheTimeInSeconds = 60 * 5;
+        $scope.reloadMercenaries(cacheTimeInSeconds);
+      });
 
     }]);

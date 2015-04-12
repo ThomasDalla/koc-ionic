@@ -60,11 +60,10 @@ angular.module('koc.controllers')
           });
       };
 
-      $timeout(function(){
+      $scope.$on('$ionicView.enter', function(){
         // If valid attacklog retrieved less than a minute ago, re-use it, else, reload
         $scope.cacheTimeInSeconds = 60;
         $scope.reloadAttackLog($scope.b_start, $scope.o_start, $scope.cacheTimeInSeconds);
-      }, 500 );
-
+      });
 
     }]);

@@ -9,6 +9,7 @@ angular.module('koc.controllers')
       $scope.battleReportError = "Loading...";
 
       var attack_id = $stateParams.attack_id;
+      $scope.userid = $stateParams.userid;
 
       $scope.reloadBattleReport = function (cacheTimeInSeconds) {
         $log.debug("load the battle report, cacheTimeInSeconds=" + cacheTimeInSeconds);

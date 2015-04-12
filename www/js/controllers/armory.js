@@ -71,7 +71,7 @@ angular.module('koc.controllers')
             if ($scope.armory.error.length)
               $ionicLoading.show({template: $scope.armory.error, noBackdrop: true, duration: 2000});
             else
-              $ionicLoading.show({template: successMessage, noBackdrop: true, duration: 2000});
+              $ionicLoading.show({template: successMessage, noBackdrop: true, duration: 600});
             $scope.stats = response.stats;
             $scope.recalcBuyTotal();
             $log.debug("retrieved the armory");
@@ -127,6 +127,15 @@ angular.module('koc.controllers')
         $scope.buyTotal = total;
       };
 
+      $scope.emptyCart = function () {
+        $scope.weaponTypes.forEach(function (weaponType) {
+          for(var i=0;i<$scope.armory.buyWeapons[weaponType].length;i++){
+            $scope.armory.buyWeapons[weaponType][i].inputValue = 0;
+          }
+        });
+        $scope.buyTotal = 0;
+      };
+
       $scope.weaponsToBuy = function () {
         var weapons = [];
         $scope.weaponTypes.forEach(function (weaponType) {
@@ -172,8 +181,21 @@ angular.module('koc.controllers')
           });
       };
 
-      // If valid armory retrieved less than 5 minutes ago, re-use it, else, reload
-      var cacheTimeInSeconds = 60 * 5;
-      $scope.reloadArmory(cacheTimeInSeconds);
+      $scope.showBestWeaponsOnly = User.showBestWeaponsOnly();
+      $scope.filterWeaponByStrength = function(item) {
+        return !!(!$scope.showBestWeaponsOnly
+        || (item.strengthMax !== undefined && item.strengthMax >= 1000 )
+        || (item.price !== undefined && item.price >= 1e6) );
+      };
+      $scope.showBestWeaponsOnlyChange = function() {
+        $scope.showBestWeaponsOnly = !$scope.showBestWeaponsOnly;
+        User.showBestWeaponsOnly($scope.showBestWeaponsOnly);
+        $ionicScrollDelegate.scrollTop();
+      };
+
+      $scope.$on('$ionicView.enter', function(){
+        var cacheTimeInSeconds = 5;
+        $scope.reloadArmory(cacheTimeInSeconds);
+      });
 
     }]);

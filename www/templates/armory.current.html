@@ -1,7 +1,7 @@
 <ion-view view-title="Armory">
 
 	<ion-content>
-		<ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadArmory()"></ion-refresher>
+		<ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadArmory()" spinner="bubbles"></ion-refresher>
 		<div ng-hide="!armoryError.length" class="error center">{{armoryError}}</div>
 		<div class="list">
 			<!-- Current Inventory -->
@@ -23,12 +23,12 @@
 						</div>
 					</div>
 					<div class="item item-text-wrap"
-							 ng-repeat="weapon in armory.currentWeapons[weaponType]"
+							 ng-repeat="weapon in armory.currentWeapons[weaponType] | filter:filterWeaponByStrength"
 							 style="padding-left: 0; padding-right: 0;">
 						<div class="row">
 							<div class="col col-33">{{weapon.name}}</div>
 							<div class="col col-33">{{weapon.quantity}}</div>
-							<div class="col col-33">{{weapon.strength}}</div>
+							<div class="col col-33">{{weapon.strengthText}}</div>
 						</div>
 						<div class="row" ng-hide="weapon.repair===undefined">
 							<div class="col col-33" style="text-align:right;">
@@ -103,6 +103,16 @@
 						</button>
 					</div>
 				</div>
+			</div>
+
+			<div class="item item-toggle">
+				Show Best Weapons Only
+				<label class="toggle toggle-dark">
+					<input type="checkbox" ng-model="showBestWeaponsOnly" ng-change="showBestWeaponsOnlyChange()">
+					<div class="track">
+						<div class="handle"></div>
+					</div>
+				</label>
 			</div>
 
 		</div>

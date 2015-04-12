@@ -17,8 +17,11 @@ angular.module('koc.services')
             if (response !== undefined && typeof(response.data) == "object") {
               // Set the session (if present)
               User.setSession(response.data.session);
-              if ( // Special case of the battlefield where success can be true while logged off
-              response.data.loggedIn !== undefined && response.data.loggedIn === false
+              if (
+                // Special case of the battlefield where success can be true while logged off
+                typeof(response.data.result) == "object"
+                && response.data.result.loggedIn !== undefined
+                && response.data.result.loggedIn === false
               || (
               response.data.success === false &&
               response.config.loginAndRetry === true && User.hasLoggedIn()
@@ -65,8 +68,20 @@ angular.module('koc.services')
                 if (response.data.commanderChange !== undefined && response.data.commanderChange.success) {
                   $rootScope.$broadcast('kocChangeCommanderInfo', response.data.commanderChange);
                 }
+                if(response.data.location!==undefined
+                  &&response.data.location.indexOf("/inteldetail.php")==0
+                  &&response.data.result.reportId>0){
+                  location = "/inteldetail/" + response.data.result.reportId;
+                }
+                else if(response.data.location!==undefined
+                  &&response.data.location.indexOf("/detail.php")==0
+                  &&response.data.result.attackId>0){
+                  location = "/detail/" + response.data.result.attackId;
+                }
                 $log.debug("setting page retrieved: " + location);
+
                 User.setPageRetrieved(location, response.data);
+                $rootScope.$broadcast('showLoading', false);
                 return response;
               }
               else {
@@ -75,13 +90,14 @@ angular.module('koc.services')
               }
             }
             // propagate the response
+            $rootScope.$broadcast('showLoading', false);
             return response;
           }
         };
       }]);
   }])
 
-  .factory('KoC', ['$http', '$log', '$q', 'User', function ($http, $log, $q, User) {
+  .factory('KoC', ['$http', '$log', '$q', '$rootScope', 'User', function ($http, $log, $q, $rootScope, User) {
     return {
       getRaces: function (cacheTimeInSeconds) {
         return this.getPage("GET", "/races", {}, cacheTimeInSeconds);
@@ -161,6 +177,7 @@ angular.module('koc.services')
         }
 
         var session = User.getSession();
+        $rootScope.$broadcast('showLoading', true);
         return $http({
           method: method,
           url: apiPage(page),
@@ -209,6 +226,39 @@ angular.module('koc.services')
       },
       getIntelDetail: function(report_id, cacheTimeInSeconds) {
         return this.getPage("GET", "/inteldetail/" + report_id, {}, cacheTimeInSeconds, true);
+      },
+      getApiVersion: function() {
+        return this.getPage("GET", "/version", {}, 0, false);
+      },
+      recon: function(user_id, turing) {
+        if(turing===undefined||turing===null||!turing.length){
+          return this.getPage("GET", "/recon/" + user_id, {}, 0, true);
+        }
+        else{
+          return this.getPage("POST", "/recon/" + user_id, {
+            turing: turing,
+          }, 0, true);
+        }
+      },
+      attack: function(user_id, turing) {
+        if(turing===undefined||turing===null||!turing.length){
+          return this.getPage("GET", "/attack/" + user_id, {}, 0, true);
+        }
+        else{
+          return this.getPage("POST", "/attack/" + user_id, {
+            turing: turing,
+          }, 0, true);
+        }
+      },
+      raid: function(user_id, turing) {
+        if(turing===undefined||turing===null||!turing.length){
+          return this.getPage("GET", "/raid/" + user_id, {}, 0, true);
+        }
+        else{
+          return this.getPage("POST", "/raid/" + user_id, {
+            turing: turing,
+          }, 0, true);
+        }
       },
     };
   }]);

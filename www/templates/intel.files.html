@@ -1,7 +1,7 @@
 <ion-view view-title="Files">
 
 	<ion-content style="background-color: #000000;">
-		<ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadIntel(b_start,o_start,0)"></ion-refresher>
+		<ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadIntel(b_start,o_start,0)" spinner="bubbles"></ion-refresher>
 		<div ng-hide="!intelError.length" class="error center">{{intelError}}</div>
 		<div class="list">
 			<div ng-repeat="report in intel.files.reports">

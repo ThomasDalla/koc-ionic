@@ -1,7 +1,7 @@
 <ion-view title="Recruit" hide-back-button="true" style="background-color:black;">
 
   <ion-content style="background-color:black;">
-    <ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadRecruit()"></ion-refresher>
+    <ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadRecruit()" spinner="ripple"></ion-refresher>
     <div ng-hide="!recruitError.length" class="error center">{{recruitError}}</div>
     <div ng-hide="recruit.challenge_url!==undefined">
       <div style="text-align:center;">

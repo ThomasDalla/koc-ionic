@@ -5,11 +5,28 @@
 		Buy ({{buyTotal|number:0}})
 	</button>
 
+	<button class="button btn-rectangle btn-float-left"
+					ng-hide="buyTotal<=0"
+					ng-click="emptyCart()"
+					ng-disabled="disableActions">
+		Reset
+	</button>
+
 	<ion-content>
-		<ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadArmory()"></ion-refresher>
+		<ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadArmory()" spinner="bubbles"></ion-refresher>
 		<div ng-hide="!armoryError.length" class="error center">{{armoryError}}</div>
 		<div class="list">
+
+			<div ng-hide="armory.repairAll===undefined">
+				<div class="item item-divider item-stable">
+					<button class="button button-block button-dark" ng-disabled="disableActions" ng-click="repairAll()">Repair all
+						weapons for {{armory.repairAll.price|number:0}} Gold
+					</button>
+				</div>
+			</div>
+
 			<!-- Buy Weapons -->
+
 			<div ng-repeat="weaponType in weaponTypes">
 				<div ng-hide="!armory.buyWeapons[weaponType].length">
 					<div class="item item-divider item-dark">{{weaponType}}</div>
@@ -21,7 +38,7 @@
 						</div>
 					</div>
 					<div class="item item-text-wrap"
-							 ng-repeat="weapon in armory.buyWeapons[weaponType]"
+							 ng-repeat="weapon in armory.buyWeapons[weaponType] | filter:filterWeaponByStrength"
 							style="padding-left: 0; padding-right: 0;" >
 						<div class="row">
 							<div class="col col-33">{{weapon.name}}</div>
@@ -64,6 +81,17 @@
 								ng-disabled="buyTotal<1">Buy Weapons For {{buyTotal|number:0}} Gold
 				</button>
 			</div>
+
+			<div class="item item-toggle">
+				Show Best Weapons Only
+				<label class="toggle toggle-dark">
+					<input type="checkbox" ng-model="showBestWeaponsOnly" ng-change="showBestWeaponsOnlyChange()">
+					<div class="track">
+						<div class="handle"></div>
+					</div>
+				</label>
+			</div>
+
 		</div>
 	</ion-content>
 

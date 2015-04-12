@@ -49,11 +49,10 @@ angular.module('koc.controllers')
           });
       };
 
-      $timeout(function(){
+      $scope.$on('$ionicView.enter', function(){
         // If valid intel retrieved less than a minute ago, re-use it, else, reload
         $scope.cacheTimeInSeconds = 60;
         $scope.reloadIntel($scope.b_start, $scope.o_start, $scope.cacheTimeInSeconds);
-      }, 500 );
-
+      });
 
     }]);

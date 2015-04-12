@@ -1,7 +1,7 @@
 /*global angular, StatusBar, cordova*/
 
 // Ionic KoC App
-angular.module('koc.controllers', [ 'koc.services' ])
+angular.module('koc.controllers', [ 'ngCordova', 'koc.services' ])
 
   .run(['$rootScope', '$ionicPlatform', '$state', function ($rootScope, $ionicPlatform, $state) {
 
@@ -18,12 +18,11 @@ angular.module('koc.controllers', [ 'koc.services' ])
         navigator.app.backHistory();
       }
     }, 100);
-
   }]);
 
 angular.module('koc', ['ionic', 'koc.controllers'])
 
-  .run(function ($ionicPlatform) {
+  .run([ '$ionicPlatform', '$rootScope', function ($ionicPlatform) {
 
     $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -36,12 +35,12 @@ angular.module('koc', ['ionic', 'koc.controllers'])
         StatusBar.styleDefault();
       }
     });
-  })
+  } ] )
 
   .config(['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider', '$logProvider',
     function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, $logProvider) {
 
-      $logProvider.debugEnabled(false);
+      $logProvider.debugEnabled(true);
 
       $ionicConfigProvider.tabs.style('striped');
       $ionicConfigProvider.tabs.position('bottom');
@@ -79,6 +78,16 @@ angular.module('koc', ['ionic', 'koc.controllers'])
             'menuContent': {
               templateUrl: "templates/help.html",
               controller: 'HelpCtrl'
+            }
+          }
+        })
+
+        .state('app.about', {
+          url: "/about",
+          views: {
+            'menuContent': {
+              templateUrl: "templates/about.html",
+              controller: 'AboutCtrl'
             }
           }
         })
@@ -172,8 +181,8 @@ angular.module('koc', ['ionic', 'koc.controllers'])
           }
         })
 
-        .state('app.battefield', {
-          url: "/battlefield/:page",
+        .state('app.battlefield', {
+          url: "/battlefield/:page?",
           views: {
             'menuContent': {
               templateUrl: "templates/battlefield.html",
@@ -237,7 +246,7 @@ angular.module('koc', ['ionic', 'koc.controllers'])
         })
 
         .state('app.battlereport', {
-          url: '/battlereport/:attack_id',
+          url: '/battlereport/:attack_id/:userid?',
           views: {
             'menuContent': {
               templateUrl: 'templates/battlereport.html',
@@ -257,7 +266,7 @@ angular.module('koc', ['ionic', 'koc.controllers'])
         })
 
         .state('app.inteldetail', {
-          url: "/inteldetail/:report_id",
+          url: "/inteldetail/:report_id/:userid?",
           views: {
             'menuContent': {
               templateUrl: "templates/inteldetail.html",

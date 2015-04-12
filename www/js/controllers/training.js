@@ -39,6 +39,14 @@ function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform
     recalcBuyTotal();
   };
 
+  $scope.emptyCart = function () {
+    for(var i=0; i<$scope.training.train.length; i++){
+      $scope.training.train[i].inputValue = 0;
+    }
+    $scope.buyTotal = 0;
+    $scope.soldiersTrained = 0;
+  };
+
   var train = function(turing, inputNameValue, successMessage, actionMessage) {
     $scope.disableActions = true;
     KoC.trainTroops($scope.training.turing,inputNameValue).success(function(response) {
@@ -49,7 +57,7 @@ function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform
         if(response.result.message.length)
           $ionicLoading.show({ template: response.result.message, noBackdrop: true, duration: 2000 });
         else
-          $ionicLoading.show({ template: successMessage, noBackdrop: true, duration: 2000 });
+          $ionicLoading.show({ template: successMessage, noBackdrop: true, duration: 1000 });
         $scope.stats = response.stats;
         recalcBuyTotal();
         $log.debug("retrieved the training");
@@ -111,8 +119,10 @@ function($scope, $stateParams, $state, $ionicLoading, $rootScope, $ionicPlatform
     });
   };
 
-  // If valid training retrieved less than 5 minutes ago, re-use it, else, reload
-  var cacheTimeInSeconds = 60 * 5;
-  $scope.reloadTraining(cacheTimeInSeconds);
+  $scope.$on('$ionicView.enter', function(){
+    // If valid training retrieved less than 1 minute ago, re-use it, else, reload
+    var cacheTimeInSeconds = 60;
+    $scope.reloadTraining(cacheTimeInSeconds);
+  });
 
 }]);

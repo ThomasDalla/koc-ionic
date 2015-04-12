@@ -8,14 +8,7 @@ angular.module('koc.controllers')
       $log.debug("StatsCtrl");
       $scope.statsError = "Loading...";
       $scope.userStats = { username: "User Stats" };
-      //$cordovaToast.show('Here is a message', 'long', 'center');
-      //$ionicLoading.show({ template: 'MEssage', noBackdrop: true, duration: 2000 });
-
-      var vh = $ionicHistory.viewHistory();
-      if(vh !== null) {
-        $log.info("Views:", vh.views );
-        $log.info("Back:" , vh.backView );
-      }
+      $scope.disableActions = false;
 
       var userid = $stateParams.userid;
       $scope.nbTimesCanChangeCommander = $rootScope.nbTimesCanChangeCommander || 0;
@@ -23,7 +16,7 @@ angular.module('koc.controllers')
 
       $scope.showUserStats = function (userid) {
         if (isFinite(userid) && userid > 0) $state.go('app.stats', {
-          userid: userid
+          userid: userid,
         });
       };
 
@@ -42,6 +35,7 @@ angular.module('koc.controllers')
             //User.setBase(response.user);
             //$log.debug("$scope.userStats", response.user);
             $scope.userStats = response.result.user;
+            $scope.turing = response.turing;
             $scope.stats = response.stats;
             $rootScope.$broadcast('kocAdvisor', response.help);
             $log.debug("retrieved the stats");
@@ -66,12 +60,13 @@ angular.module('koc.controllers')
           });
       };
 
-      // If valid stats retrieved less than 5 minutes ago, re-use it
-      var cacheTimeInSeconds = 60 * 5;
-      var cache = User.getCache("/stats/" + userid, -1); // by default when opening, get it from the cache
-      if(cache!==null)
-        $scope.userStats = cache;
-      $scope.reloadStats(cacheTimeInSeconds); // but also reload if older than 5 minutes
+      $scope.$on('$ionicView.enter', function(){
+        var cache = User.getCache("/stats/" + userid, -1); // by default when opening, get it from the cache
+        if(cache!==null)
+          $scope.userStats = cache;
+        var cacheTimeInSeconds = 60;
+        $scope.reloadStats(cacheTimeInSeconds); // but also reload from cache if too old
+      });
 
       $scope.changeCommander = function () {
         // confirm first
@@ -102,6 +97,96 @@ angular.module('koc.controllers')
             $ionicLoading.show({template: 'Commander NOT Changed', noBackdrop: true, duration: 1000});
           }
         });
+      };
+
+      $scope.reconButtonText = "Recon";
+      $scope.recon = function(){
+        if(!$scope.disableActions){
+          $scope.reconButtonText = "Spying...";
+          $scope.disableActions = true;
+          $log.debug('Spying from stats.js...');
+          KoC.recon(userid, $scope.turing).success(function (response) {
+            if (response.success
+              && response.result !== undefined
+              && response.result.reportId !== undefined
+              && isFinite(response.result.reportId)
+              && response.result.reportId > 0 ) {
+              $log.debug('moving from stats to inteldetail...');
+              $state.go('app.inteldetail', {
+                report_id: response.result.reportId,
+                userid: userid,
+              });
+            } else {
+              $log.debug(response);
+              $ionicLoading.show({template: "Error: " + response.error, noBackdrop: true, duration: 2000});
+            }
+          }).error(function () {
+            $ionicLoading.show({template: 'An error occurred spying the enemy', noBackdrop: true, duration: 2000});
+          }).finally(function(){
+            $scope.disableActions = false;
+            $scope.reconButtonText = "Recon";
+          });
+        }
+      };
+
+      $scope.attackButtonText = "Attack";
+      $scope.attack = function() {
+        if(!$scope.disableActions){
+          $scope.attackButtonText = "Attacking...";
+          $scope.disableActions = true;
+          $log.debug('Attacking from stats.js...');
+          KoC.attack(userid, $scope.turing).success(function (response) {
+            if (response.success
+              && response.result !== undefined
+              && response.result.attackId !== undefined
+              && isFinite(response.result.attackId)
+              && response.result.attackId > 0 ) {
+              $log.debug('moving from stats to battlereport...');
+              $state.go('app.battlereport', {
+                attack_id: response.result.attackId,
+                userid: userid,
+              });
+            } else {
+              $log.debug(response);
+              $ionicLoading.show({template: "Error: " + response.error, noBackdrop: true, duration: 2000});
+            }
+          }).error(function () {
+            $ionicLoading.show({template: 'An error occurred attacking the enemy', noBackdrop: true, duration: 2000});
+          }).finally(function(){
+            $scope.disableActions = false;
+            $scope.attackButtonText = "Attack";
+          });
+        }
+      };
+
+      $scope.raidButtonText = "Raid";
+      $scope.raid = function() {
+        if(!$scope.disableActions){
+          $scope.raidButtonText = "Attacking...";
+          $scope.disableActions = true;
+          $log.debug('Raiding from stats.js...');
+          KoC.raid(userid, $scope.turing).success(function (response) {
+            if (response.success
+              && response.result !== undefined
+              && response.result.attackId !== undefined
+              && isFinite(response.result.attackId)
+              && response.result.attackId > 0 ) {
+              $log.debug('moving from stats to battlereport...');
+              $state.go('app.battlereport', {
+                attack_id: response.result.attackId,
+                userid: userid,
+              });
+            } else {
+              $log.debug(response);
+              $ionicLoading.show({template: "Error: " + response.error, noBackdrop: true, duration: 2000});
+            }
+          }).error(function () {
+            $ionicLoading.show({template: 'An error occurred attacking the enemy', noBackdrop: true, duration: 2000});
+          }).finally(function(){
+            $scope.disableActions = false;
+            $scope.attackButtonText = "Raid";
+          });
+        }
       };
 
     }]);
