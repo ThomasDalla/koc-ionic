@@ -13,6 +13,7 @@ angular.module('koc.controllers')
   $scope.speechRecognition = User.useSpeechRecognition();
   $rootScope.$broadcast('kocAdvisor', "");
   $scope.speechRecognitionSupported = ionic.Platform.platform() == "android";
+  $scope.isCordovaApp = !!window.cordova;
 
   $scope.onShowAdvisorChange = function() {
     $scope.showAdvisor = !$scope.showAdvisor;

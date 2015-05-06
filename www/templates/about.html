@@ -1,7 +1,7 @@
 <ion-view title="About">
 	<ion-content>
 		<div class="item item-text-wrap" style="font-size: small">
-			This application was created for me to have a look at HTML5/JS web development
+			This application was created for me to get handy with HTML5/JS web development
 			for mobile applications and is not an official KoC application.<br />
 			The application is free to use and the code is available open-source on
 			<button class="button button-small button-light" ng-click="openGitHub()">GitHub</button>,
@@ -10,20 +10,33 @@
 			If you find this app useful, you can buy me a beer :)<br/>
 			<button class="button button-small button-block button-light" ng-click="copyToClipboard('BTC', '12VL9oTrrnYwwoFkFUa35bXNWuasmNMU28')">BTC: 12VL9oTrrnYwwoFkFUa35bXNWuasmNMU28</button>
 			<button class="button button-small button-block button-light" ng-click="copyToClipboard('LTC', 'LTN8L4GxppDQ16sUtCawVPFhc8CoGzQLev')">LTC: LTN8L4GxppDQ16sUtCawVPFhc8CoGzQLev</button>
+			Kings of Chaos &reg; is a registered trademark of Kings of Chaos, LLC.
 		</div>
-		<div class="item item-divider item-dark">Versions</div>
+		<div class="item item-divider item-dark">Front-End</div>
 		<div class="item">
 			<div class="row">
-				<div class="col">Mobile App</div>
+				<div class="col">Ionic Mobile App</div>
 				<div class="col">{{appVersion}}</div>
 			</div>
-			<div class="row" ng-hide="apiVersion===null||apiVersion===undefined">
-				<div class="col">Web API</div>
-				<div class="col">{{apiVersion.api}}</div>
+		</div>
+		<div class="item item-divider item-dark">Back-End (Load Balancing)</div>
+		<div class="item item-stable" style="height:30px;padding:0">
+			<div class="row">
+				<div class="col-60">URL</div>
+				<div class="col-20">API</div>
+				<div class="col-20">KOC</div>
 			</div>
-			<div class="row" ng-hide="apiVersion===null||apiVersion===undefined">
-				<div class="col">KoC (NPM)</div>
-				<div class="col">{{apiVersion.koc}}</div>
+		</div>
+		<div class="item item-text-wrap" ng-hide="endpoints.length">
+			<div class="row">
+				<div class="col">Loading...</div>
+			</div>
+		</div>
+		<div class="item item-text-wrap" ng-repeat="endpoint in endpoints">
+			<div class="row">
+				<div class="col-60">{{endpoint.url}}</div>
+				<div class="col-20">{{endpoint.api}}</div>
+				<div class="col-20">{{endpoint.koc}}</div>
 			</div>
 		</div>
 	</ion-content>

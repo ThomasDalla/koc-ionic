@@ -39,6 +39,10 @@
                         {
                             "xml": "<feature name=\"InAppBrowser\"><param name=\"android-package\" value=\"org.apache.cordova.inappbrowser.InAppBrowser\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"KoC\"><param name=\"android-package\" value=\"com.thomasdalla.cordova.koc.KoC\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -85,6 +89,9 @@
             "PACKAGE_NAME": "com.thomasdalla.koc_ionic"
         },
         "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.thomasdalla.koc_ionic"
+        },
+        "com.thomasdalla.cordova.koc": {
             "PACKAGE_NAME": "com.thomasdalla.koc_ionic"
         }
     },

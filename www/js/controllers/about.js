@@ -2,11 +2,11 @@
 
 angular.module('koc.controllers')
 
-  .controller('AboutCtrl', ['$scope', '$ionicPlatform', '$log', '$cordovaClipboard', '$ionicLoading', 'KoC',
-    function ($scope, $ionicPlatform, $log, $cordovaClipboard, $ionicLoading, KoC) {
+  .controller('AboutCtrl', ['$scope', '$ionicPlatform', '$log', '$cordovaClipboard', '$ionicLoading', 'Config',
+    function ($scope, $ionicPlatform, $log, $cordovaClipboard, $ionicLoading, Config) {
 
       $log.debug("AboutCtrl");
-      $scope.appVersion = '0.0.0';
+      $scope.appVersion = 'local dev';
       $scope.apiVersion = null;
 
       $ionicPlatform.ready(function () {
@@ -17,6 +17,16 @@ angular.module('koc.controllers')
           });
         }
       });
+
+      $scope.endpoints = [];
+      Config.getEndpointsVersions()
+        .then(function(res){
+          $scope.endpoints = res;
+        },function(err){
+          $log.error('Error loading the endpoints versions', err);
+          $scope.endpoints = [];
+        });
+
 
       $scope.openGitHub = function(){
         window.open('http://github.com/ThomasDalla/koc-ionic', '_system', 'location=yes');
@@ -32,13 +42,5 @@ angular.module('koc.controllers')
             $ionicLoading.show({template: "Error copying " + type + " address...", noBackdrop: true, duration: 2000});
           });
       };
-
-      KoC.getApiVersion()
-        .success(function(res){
-          $scope.apiVersion = res;
-        })
-        .error(function(res){
-          $scope.apiVersion = null;
-        });
 
     }]);

@@ -71,6 +71,9 @@
             <!--</div>-->
           <!--</div>-->
         <!--</div>-->
+				<div class="button-bar bar-footer" ng-hide="!recruit.recruitPreference.length">
+						<a ng-disabled="disableActions" ng-repeat="pref in recruit.recruitPreferences" class="button" ng-class="{'button-dark': pref.checked}" ng-click="setRecruitPreference(pref)">{{pref.name}}</a>
+				</div>
       </div>
     </div>
     <div ng-hide="recruit.challenge_url===undefined">

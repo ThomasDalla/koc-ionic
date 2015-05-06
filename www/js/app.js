@@ -40,7 +40,8 @@ angular.module('koc', ['ionic', 'koc.controllers'])
   .config(['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider', '$logProvider',
     function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, $logProvider) {
 
-      $logProvider.debugEnabled(true);
+      var isCordovaApp = !!window.cordova;
+      $logProvider.debugEnabled(!isCordovaApp);
 
       $ionicConfigProvider.tabs.style('striped');
       $ionicConfigProvider.tabs.position('bottom');

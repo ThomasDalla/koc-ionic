@@ -1,17 +1,22 @@
 /*global angular*/
 
-const KOC_API = "https://koc-api.herokuapp.com/api";
-var apiPage = function (page) {
-  return KOC_API + page;
-};
-
 angular.module('koc.services')
   .config(['$httpProvider', function ($httpProvider) {
+
+    //$httpProvider.defaults.withCredentials = true;
 
     // HTTP interceptor
     $httpProvider.interceptors.push(['$q', '$injector', '$rootScope', '$log', 'User',
       function ($q, $injector, $rootScope, $log, User) {
         return {
+          'responseError': function (rejection) {
+            $rootScope.$broadcast('showLoading', false);
+            $log.warn('rejection:', rejection);
+            return {
+              success: false,
+              error: "Request rejected",
+            }
+          },
           'response': function (response) {
             // Middleware that catches responses from the API
             if (response !== undefined && typeof(response.data) == "object") {
@@ -51,8 +56,14 @@ angular.module('koc.services')
               else if (response.data.success === true) {
                 $log.debug("success!");
                 // Record that we retrieved that page
-                var split = response.config.url.split(KOC_API);
-                var location = split[split.length - 1];
+                var location;
+                if(response.config.page!==undefined)
+                  location = response.config.page;
+                else {
+                  var re = /:\/\/[^\/]+\/[api/]*(.*)/;
+                  var m  = re.exec(response.config.url);
+                  location = m !== null ? '/' + m[1] : response.config.url;
+                }
                 if (response.data.stats !== undefined
                   && response.data.stats.username !== undefined
                   && response.data.stats.goldText != "???"
@@ -84,7 +95,7 @@ angular.module('koc.services')
                 $rootScope.$broadcast('showLoading', false);
                 return response;
               }
-              else {
+              else if(response.data.success!==undefined&&response.data.location!='/bansuspend.php') {
                 $log.error("We seem to have failed loading the page correctly.");
                 $log.debug(response);
               }
@@ -97,8 +108,18 @@ angular.module('koc.services')
       }]);
   }])
 
-  .factory('KoC', ['$http', '$log', '$q', '$rootScope', 'User', function ($http, $log, $q, $rootScope, User) {
+  .factory('KoC', [
+      '$http', '$log', '$q', '$rootScope', '$timeout', '$cookies', 'User', 'Config',
+      function ($http, $log, $q, $rootScope, $timeout, $cookies, User, Config) {
     return {
+      kocApi : function() {
+        var endpoints = Config.getEndpoints();
+        var randomIndex = Math.floor(Math.random() * endpoints.length);
+        return endpoints[randomIndex];
+      },
+      apiPage: function(page) {
+        return this.kocApi() + page;
+      },
       getRaces: function (cacheTimeInSeconds) {
         return this.getPage("GET", "/races", {}, cacheTimeInSeconds);
       },
@@ -152,7 +173,13 @@ angular.module('koc.services')
           password: User.get().password
         }, 0, true);
       },
-      getPage: function (method, page, data, cacheTimeInSeconds, loginAndRetry) {
+      getPage: function (method, page, data, cacheTimeInSeconds, loginAndRetry, host) {
+
+        var kocService = this;
+        var url = kocService.apiPage(page);
+        if (host!==undefined && host.length > 0){
+          url = host + page;
+        }
 
         // cacheTime:
         //   -1 : return the cache if it exists, no matter how old it is
@@ -175,17 +202,17 @@ angular.module('koc.services')
             return p;
           }
         }
-
         var session = User.getSession();
         $rootScope.$broadcast('showLoading', true);
         return $http({
           method: method,
-          url: apiPage(page),
+          url: url,
           data: data,
           headers: {
-            'X-KoC-Session': session
+            'X-KoC-Session': session,
           },
-          loginAndRetry: loginAndRetry
+          loginAndRetry: loginAndRetry,
+          page: page,
         });
       },
       forgotLogin: function (username, email) {
@@ -195,10 +222,86 @@ angular.module('koc.services')
         });
       },
       login: function (username, password) {
-        return this.getPage("POST", "/login", {
-          username: username,
-          password: password
-        });
+        var isCordova = !!window.cordova;
+        if(!isCordova) {
+          // We must have a local instance of koc-api running so that we login locally
+          return this.getPage("POST", "/login", {
+            username: username,
+            password: password,
+          }, 0, false, "http://localhost:3000/api");
+        }
+        else if(ionic.Platform.platform() == "android") {
+          $log.debug("trying to login natively on android...");
+          var defer2 = $q.defer();
+          var p2 = defer2.promise;
+          // Login natively
+          $rootScope.$broadcast('showLoading', true);
+          window.cordova.plugins.koc.login(username, password, function(response){
+            $rootScope.$broadcast('showLoading', false);
+            $log.info("logged in natively", response);
+            defer2.resolve(response);
+          }, function(error) {
+            $rootScope.$broadcast('showLoading', false);
+            $log.info("error logging in natively", error);
+            defer2.resolve({
+              success: false,
+              error: "Error trying to login natively",
+              details: error,
+            });
+          });
+          return p2;
+        }
+        else if(ionic.Platform.platform() == "ios") {
+          $log.debug("trying to login directly on Android...");
+          var url = 'http://www.kingsofchaos.com/login.php';
+          var defer3 = $q.defer();
+          var p3 = defer3.promise;
+          $rootScope.$broadcast('showLoading', true);
+          $http({
+            method: 'POST',
+            url: url,
+            data: 'usrname='+username+'&peeword='+password,
+            headers: {
+              'Accept': 'text/html',
+              'Cookie': "country=XO; gsScrollPos=;", // unfortunately blocked...
+              'User-Agent' : 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36',
+              'Content-Type': 'application/x-www-form-urlencoded',
+              'Referer' : url,
+              'Access-Control-Allow-Credentials': true,
+            },
+            withCredentials: true,
+          }).success(function(response, status, headers){
+            $rootScope.$broadcast('showLoading', false);
+            $cookies.myTest1 = 'test1';
+            $log.info('cookies: ', $cookies); // Object {myTest1: "test1"}
+            $timeout(function(){
+              $cookies.myTest2 = 'test2';
+              $log.info('cookies after timeout: ', $cookies); // Object {myTest2: "test2"}, myTest1 has disappeared!
+              p3.resolve({
+                success: false,
+                error: $cookies.toString(),
+              });
+            });
+          }).error(function(error){
+            $rootScope.$broadcast('showLoading', false);
+            $log.warn("An error occurred during login", error);
+            p3.resolve({
+              success: false,
+              error: 'An error occurred during login',
+              details: error,
+            });
+          });
+          return p3;
+        }
+        else {
+          var defer = $q.defer();
+          var p = defer.promise;
+          defer.resolve({
+            success: false,
+            error: 'Login disabled until I write a native login',
+          });
+          return p;
+        }
       },
       logout: function () {
         return this.getPage("GET", "/logout", {});

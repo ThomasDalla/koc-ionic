@@ -5,11 +5,12 @@ angular.module('koc.controllers')
   .controller('LoginCtrl', ["$scope", "$timeout", "$state", "$ionicLoading", "$ionicModal", "$ionicPopup", '$log', "User", "KoC",
     function ($scope, $timeout, $state, $ionicLoading, $ionicModal, $ionicPopup, $log, User, KoC) {
 
-      // Otherwise Ionic Lab login at the same time on both screens
-      if(ionic.Platform.platform()=="ios")
-        return;
-
       $log.debug("LoginCtrl");
+
+      // If we're not on a device, don't auto-login on Android
+      // Otherwise Ionic Lab logins at the same time on Android AND iOS
+      var isCordovaApp = !!window.cordova;
+      var autoLoad = isCordovaApp || ionic.Platform.platform()=="ios";
 
       if ($state.current.name == "logout") {
         User.setLoggedIn(false);
@@ -39,7 +40,8 @@ angular.module('koc.controllers')
             $log.debug("Error retrieving index: ", err);
           });
       };
-      getKoCAge();
+      if(autoLoad)
+        getKoCAge();
 
       var createModals = function () {
 
@@ -91,16 +93,21 @@ angular.module('koc.controllers')
         User.setLoggedIn(false);
 
         KoC.login($scope.user.username, $scope.user.password).success(function (response) {
-          User.setSession(response.session);
-          if (response.success) {
-            //User.setBase(response.user);
-            User.setLoggedIn(true);
-            $state.go('app.base');
+          if(response===undefined) {
+            $scope.loginError = "Empty response...";
           }
           else {
-            $scope.loginError = response.error;
-            if (response.error.indexOf("verify your account") >= 0) {
-              $scope.openVerifyAccount();
+            User.setSession(response.session);
+            if (response.success) {
+              //User.setBase(response.user);
+              User.setLoggedIn(true);
+              $state.go('app.base');
+            }
+            else {
+              $scope.loginError = response.error;
+              if (response.error.indexOf("verify your account") >= 0) {
+                $scope.openVerifyAccount();
+              }
             }
           }
         }).error(function (err) {

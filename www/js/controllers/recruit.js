@@ -60,6 +60,14 @@ angular.module('koc.controllers')
         $scope.recruit.response = "";
       };
 
+      $scope.setRecruitPreference = function(newPref){
+        if(newPref.name!=$scope.recruit.recruitPreference){
+          var data = {};
+          data[$scope.recruit.recruitPreferencesInputName] = newPref.value;
+          updateRecruit(KoC.postRecruit(data));
+        }
+      };
+
       // speech
       $scope.startRecognition = function () {
         $scope.speechRecognitionEnabled = true;

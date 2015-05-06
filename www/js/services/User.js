@@ -1,6 +1,6 @@
 /*global angular*/
 
-angular.module('koc.services', [] )
+angular.module('koc.services', [ 'koc.constants', 'ngCookies' ] )
 
   .config(['$provide', function ($provide) {
 
@@ -195,6 +195,7 @@ angular.module('koc.services', [] )
         }
 
         return cache;
-      }
+      },
     };
-  }]);
+  }])
+;
