@@ -222,7 +222,8 @@ angular.module('koc.services')
         });
       },
       login: function (username, password) {
-        if(!$rootScope.isCordova) {
+        var isCordova = !!window.cordova;
+        if(isCordova) {
           // We must have a local instance of koc-api running so that we login locally
           return this.getPage("POST", "/login", {
             username: username,
