@@ -31,3 +31,6 @@ node_modules
 platforms
 
 www/lib
+
+resources/android
+resources/ios
