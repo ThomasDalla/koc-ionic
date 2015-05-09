@@ -9,6 +9,7 @@ var pluginlist = [
   "https://github.com/VersoSolutions/CordovaClipboard",
   "https://github.com/jcsmesquita/cordova-speechrecognition",
   "https://github.com/ThomasDalla/cordova-plugin-koc",
+  "https://github.com/whiteoctober/cordova-plugin-app-version.git",
 ];
 
 // no need to configure below
