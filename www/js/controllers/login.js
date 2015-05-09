@@ -2,8 +2,8 @@
 
 angular.module('koc.controllers')
 
-  .controller('LoginCtrl', ["$scope", "$timeout", "$state", "$ionicLoading", "$ionicModal", "$ionicPopup", '$log', "User", "KoC",
-    function ($scope, $timeout, $state, $ionicLoading, $ionicModal, $ionicPopup, $log, User, KoC) {
+  .controller('LoginCtrl', [ "$ionicPlatform", "$scope", "$timeout", "$state", "$ionicLoading", "$ionicModal", "$ionicPopup", '$log', "User", "KoC",
+    function ($ionicPlatform, $scope, $timeout, $state, $ionicLoading, $ionicModal, $ionicPopup, $log, User, KoC) {
 
       $log.debug("LoginCtrl");
 
@@ -184,8 +184,10 @@ angular.module('koc.controllers')
       };
 
       if ($scope.user.loggedIn) {
-        // try to login
-        $scope.doLogin();
+        // try to login when ionic is ready
+        $ionicPlatform.ready(function () {
+          $scope.doLogin();
+        } );
       }
 
     }]);

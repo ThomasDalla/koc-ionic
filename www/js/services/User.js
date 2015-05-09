@@ -1,6 +1,6 @@
 /*global angular*/
 
-angular.module('koc.services', [ 'koc.constants', 'ngCookies' ] )
+angular.module('koc.services', [ 'koc.constants' ] )
 
   .config(['$provide', function ($provide) {
 
@@ -53,7 +53,6 @@ angular.module('koc.services', [ 'koc.constants', 'ngCookies' ] )
       setSession: function (session) {
         if (session !== undefined && session !== null && session.length) {
           window.localStorage['session'] = session;
-          //$cookies.koc_session = session;
         }
       },
       setBattlefieldMaxPage: function (maxPage) {

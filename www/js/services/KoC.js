@@ -109,8 +109,8 @@ angular.module('koc.services')
   }])
 
   .factory('KoC', [
-      '$http', '$log', '$q', '$rootScope', '$timeout', '$cookies', 'User', 'Config',
-      function ($http, $log, $q, $rootScope, $timeout, $cookies, User, Config) {
+      '$http', '$log', '$q', '$rootScope', 'User', 'Config',
+      function ($http, $log, $q, $rootScope, User, Config) {
     return {
       kocApi : function() {
         var endpoints = Config.getEndpoints();
@@ -222,8 +222,7 @@ angular.module('koc.services')
         });
       },
       login: function (username, password) {
-        var isCordova = !!window.cordova;
-        if(!isCordova) {
+        if(!$rootScope.isCordova) {
           // We must have a local instance of koc-api running so that we login locally
           return this.getPage("POST", "/login", {
             username: username,
