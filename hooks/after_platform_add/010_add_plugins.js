@@ -19,6 +19,14 @@ var fs = require('fs');
 var path = require('path');
 var exec = require('child_process').exec;
 
+pluginlist.forEach( function(plug) {
+  exec("ionic plugin add " + plug, function (err, stdout, stderr) {
+    console.log(stdout);
+    console.log(stderr);
+    if(err) console.log(err);
+  });
+});
+
 pluginlist.forEach(function(plug) {
-  exec("ionic plugin add " + plug, console.log);
+  console.log("ionic plugin add " + plug)
 });
