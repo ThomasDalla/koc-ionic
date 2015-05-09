@@ -11,7 +11,7 @@ angular.module('koc.controllers')
 
       $ionicPlatform.ready(function () {
         $log.debug('Platform ready');
-        if(typeof cordova !== 'undefined') { // on device
+        if(!!window.cordova) { // on device
           cordova.getAppVersion(function (version) {
             $scope.appVersion = version;
           });

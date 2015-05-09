@@ -31,8 +31,10 @@ angular.module('koc.services')
           $http.get(ConfigUrl)
             .success(function (config) {
               $log.debug('Remote config loaded', config);
-              var configStr = JSON.stringify(config);
-              sessionStorage.setItem('remoteConfig', configStr);
+              if(config!==undefined){
+                var configStr = JSON.stringify(config);
+                sessionStorage.setItem('remoteConfig', configStr);
+              }
               sessionStorage.setItem('remoteConfigHttp','loaded');
             })
             .error(function (err) {

@@ -119,6 +119,7 @@ angular.module('koc.controllers')
             } else {
               $log.debug(response);
               $ionicLoading.show({template: "Error: " + response.error, noBackdrop: true, duration: 2000});
+              $scope.reconButtonText = "Recon";
             }
           }).error(function () {
             $ionicLoading.show({template: 'An error occurred spying the enemy', noBackdrop: true, duration: 2000});
@@ -184,7 +185,7 @@ angular.module('koc.controllers')
             $ionicLoading.show({template: 'An error occurred attacking the enemy', noBackdrop: true, duration: 2000});
           }).finally(function(){
             $scope.disableActions = false;
-            $scope.attackButtonText = "Raid";
+            $scope.raidButtonText = "Raid";
           });
         }
       };
