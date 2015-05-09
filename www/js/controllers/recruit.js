@@ -17,7 +17,7 @@ angular.module('koc.controllers')
         $scope.stopRecognition();
         promise.success(function (response) {
           $log.debug("got the recruit page:", response);
-          if (response.success === true) {
+          if (response !== undefined && response.success === true) {
             $log.debug("retrieved the recruit");
             $scope.recruit = response.result;
             $scope.recruit.response = "";
@@ -26,7 +26,7 @@ angular.module('koc.controllers')
             //$rootScope.$broadcast('kocAdvisor', response.help);
           }
           else {
-            $scope.recruitError = response.error;
+            $scope.recruitError = (response!==undefined) ? response.error : "Unknown Error";
           }
         }).error(function (error) {
           $scope.recruitError = "An error occurred retrieving the recruit";

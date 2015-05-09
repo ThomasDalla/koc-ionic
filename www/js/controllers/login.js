@@ -94,7 +94,7 @@ angular.module('koc.controllers')
 
         KoC.login($scope.user.username, $scope.user.password).success(function (response) {
           if(response===undefined) {
-            $scope.loginError = "Empty response...";
+            $scope.loginError = "Run the API locally";
           }
           else {
             User.setSession(response.session);

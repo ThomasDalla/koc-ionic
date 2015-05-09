@@ -109,7 +109,6 @@ angular.module('koc.controllers')
           }
         });
       };
-      $timeout(checkCommanderChange, 1000);
 
       $scope.ditchCommander = function () {
         // confirm first
@@ -161,6 +160,7 @@ angular.module('koc.controllers')
       $scope.$on('$ionicView.enter', function(){
         var cacheTimeInSeconds = 5;
         $scope.reloadBase(cacheTimeInSeconds);
+        $timeout(checkCommanderChange, 1000);
       });
 
     }]);

@@ -37,6 +37,7 @@ angular.module('koc.services')
               ) {
                 // try to reconnect, and reload the request
                 $log.debug("try to re-login and then retry the request before propagating");
+                $log.debug("page to retry", response.config);
                 var user = User.get();
                 var originalRequestConfig = response.config;
                 var KoC = $injector.get('KoC');
@@ -44,14 +45,22 @@ angular.module('koc.services')
                 var defer = $q.defer();
                 var p = defer.promise;
                 KoC.login(user.username, user.password).success(function (r) {
-                  $log.debug("we re-logged in", r);
                   if (r.success) {
-                    $log.debug("successfully, retrying initial request", originalRequestConfig);
+                    $log.debug("we re-logged in", r);
+                    originalRequestConfig.loginAndRetry = false; // retry only once
+                    $log.debug("retrying initial request", originalRequestConfig);
                     return defer.resolve($http(originalRequestConfig));
                   }
                   $log.debug("failed to login");
                   defer.resolve(r);
-                });
+                })
+                .error(function(err){
+                    defer.resolve({
+                      success: false,
+                      error: "Error at login",
+                      details: err,
+                    });
+                  });
                 return p;
               }
               else if (response.data.success === true) {
@@ -205,6 +214,7 @@ angular.module('koc.services')
         }
         var session = User.getSession();
         $rootScope.$broadcast('showLoading', true);
+        $log.debug("getting page " + page + " (" + url + ")" );
         return $http({
           method: method,
           url: url,
@@ -226,6 +236,7 @@ angular.module('koc.services')
       },
       login: function (username, password) {
         var isCordova = !!window.cordova;
+        var _koc = this;
         if(!isCordova) {
           // We must have a local instance of koc-api running so that we login locally
           return this.getPage("POST", "/login", {
@@ -244,6 +255,11 @@ angular.module('koc.services')
           window.cordova.plugins.koc.login(username, password, function(response){
             $rootScope.$broadcast('showLoading', false);
             $log.debug("logged in natively", response);
+            if(response!==undefined && response.success) {
+              User.setSession(response.session);
+              $log.debug("calling /setres");
+              _koc.getPage("GET", "/setres", {}, 0, false).success(function(){});
+            }
             defer2.resolve(response);
           }, function(error) {
             $rootScope.$broadcast('showLoading', false);
