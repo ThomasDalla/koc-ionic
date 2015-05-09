@@ -230,8 +230,10 @@ angular.module('koc.services')
             password: password,
           }, 0, false, "http://localhost:3000/api");
         }
-        else if(ionic.Platform.platform() == "android") {
-          $log.debug("trying to login natively on android...");
+        else if( ionic.Platform.platform() == "android"
+              || ionic.Platform.platform() == "ios" ) {
+          var platform = ionic.Platform.platform();
+          $log.debug("trying to login natively on "+platform+"...");
           var defer2 = $q.defer();
           var p2 = defer2.promise;
           // Login natively
@@ -250,48 +252,6 @@ angular.module('koc.services')
             });
           });
           return p2;
-        }
-        else if(ionic.Platform.platform() == "ios") {
-          $log.debug("trying to login directly on Android...");
-          var url = 'http://www.kingsofchaos.com/login.php';
-          var defer3 = $q.defer();
-          var p3 = defer3.promise;
-          $rootScope.$broadcast('showLoading', true);
-          $http({
-            method: 'POST',
-            url: url,
-            data: 'usrname='+username+'&peeword='+password,
-            headers: {
-              'Accept': 'text/html',
-              'Cookie': "country=XO; gsScrollPos=;", // unfortunately blocked...
-              'User-Agent' : 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36',
-              'Content-Type': 'application/x-www-form-urlencoded',
-              'Referer' : url,
-              'Access-Control-Allow-Credentials': true,
-            },
-            withCredentials: true,
-          }).success(function(response, status, headers){
-            $rootScope.$broadcast('showLoading', false);
-            $cookies.myTest1 = 'test1';
-            $log.info('cookies: ', $cookies); // Object {myTest1: "test1"}
-            $timeout(function(){
-              $cookies.myTest2 = 'test2';
-              $log.info('cookies after timeout: ', $cookies); // Object {myTest2: "test2"}, myTest1 has disappeared!
-              p3.resolve({
-                success: false,
-                error: $cookies.toString(),
-              });
-            });
-          }).error(function(error){
-            $rootScope.$broadcast('showLoading', false);
-            $log.warn("An error occurred during login", error);
-            p3.resolve({
-              success: false,
-              error: 'An error occurred during login',
-              details: error,
-            });
-          });
-          return p3;
         }
         else {
           var defer = $q.defer();
