@@ -99,6 +99,7 @@ angular.module('koc.controllers')
           else {
             User.setSession(response.session);
             if (response.success) {
+              $scope.loginError = "";
               //User.setBase(response.user);
               User.setLoggedIn(true);
               $state.go('app.base');

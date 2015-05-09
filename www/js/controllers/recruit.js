@@ -19,6 +19,7 @@ angular.module('koc.controllers')
           $log.debug("got the recruit page:", response);
           if (response !== undefined && response.success === true) {
             $log.debug("retrieved the recruit");
+            $scope.recruitError = "";
             $scope.recruit = response.result;
             $scope.recruit.response = "";
             if (response.result.challenge_url !== undefined)
