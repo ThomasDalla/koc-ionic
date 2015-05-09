@@ -215,6 +215,7 @@ angular.module('koc.services')
           loginAndRetry: loginAndRetry,
           page: page,
           cache: false,
+          timeout: 10*1000, // in ms
         });
       },
       forgotLogin: function (username, email) {
