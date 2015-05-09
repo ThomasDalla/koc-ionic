@@ -19,14 +19,18 @@ angular.module('koc.controllers')
       });
 
       $scope.endpoints = [];
-      Config.getEndpointsVersions()
-        .then(function(res){
-          $scope.endpoints = res;
-        },function(err){
-          $log.error('Error loading the endpoints versions', err);
-          $scope.endpoints = [];
-        });
-
+      $scope.refreshEndpoints = function() {
+        Config.getEndpointsVersions()
+          .then(function (res) {
+            $scope.endpoints = res;
+            $scope.$broadcast('scroll.refreshComplete');
+          }, function (err) {
+            $log.error('Error loading the endpoints versions', err);
+            $scope.endpoints = [];
+            $scope.$broadcast('scroll.refreshComplete');
+          });
+      };
+      $scope.refreshEndpoints();
 
       $scope.openGitHub = function(){
         window.open('http://github.com/ThomasDalla/koc-ionic', '_system', 'location=yes');
