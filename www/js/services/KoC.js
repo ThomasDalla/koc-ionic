@@ -240,11 +240,11 @@ angular.module('koc.services')
           $rootScope.$broadcast('showLoading', true);
           window.cordova.plugins.koc.login(username, password, function(response){
             $rootScope.$broadcast('showLoading', false);
-            $log.info("logged in natively", response);
+            $log.debug("logged in natively", response);
             defer2.resolve(response);
           }, function(error) {
             $rootScope.$broadcast('showLoading', false);
-            $log.info("error logging in natively", error);
+            $log.debug("error logging in natively", error);
             defer2.resolve({
               success: false,
               error: "Error trying to login natively",
