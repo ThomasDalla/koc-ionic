@@ -50,8 +50,9 @@ gulp.task('git-check', function(done) {
   done();
 });
 
-gulp.task('build-cleanup', function(){
-  rimraf('./plugins');
-  rimraf('./platforms');
+gulp.task('build-cleanup', function(done){
+  rimraf('./plugins', function(){});
+  rimraf('./platforms', function(){});
   console.log("Now run: ionic platform add android/ios");
+  done();
 });
