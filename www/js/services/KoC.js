@@ -4,6 +4,7 @@ angular.module('koc.services')
   .config(['$httpProvider', function ($httpProvider) {
 
     //$httpProvider.defaults.withCredentials = true;
+    $httpProvider.defaults.cache = false;
 
     // HTTP interceptor
     $httpProvider.interceptors.push(['$q', '$injector', '$rootScope', '$log', 'User',
@@ -213,6 +214,7 @@ angular.module('koc.services')
           },
           loginAndRetry: loginAndRetry,
           page: page,
+          cache: false,
         });
       },
       forgotLogin: function (username, email) {

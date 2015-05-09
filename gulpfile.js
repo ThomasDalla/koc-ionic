@@ -6,7 +6,7 @@ var sass = require('gulp-sass');
 var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
-var clean = require('gulp-clean');
+var rimraf = require('rimraf');
 
 var paths = {
   sass: ['./scss/**/*.scss']
@@ -51,7 +51,7 @@ gulp.task('git-check', function(done) {
 });
 
 gulp.task('build-cleanup', function(){
-  gulp.src('plugins', {read: false}).pipe(clean());
-  gulp.src('platforms', {read: false}).pipe(clean());
+  rimraf('./plugins');
+  rimraf('./platforms');
   console.log("Now run: ionic platform add android/ios");
 });
