@@ -22,5 +22,5 @@ function puts(error, stdout, stderr) {
 }
 
 pluginlist.forEach(function(plug) {
-  exec("cordova plugin add " + plug, puts);
+  exec("ionic plugin add " + plug, puts);
 });
