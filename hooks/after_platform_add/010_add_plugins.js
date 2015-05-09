@@ -7,6 +7,7 @@
 // or the URL
 var pluginlist = [
   "https://github.com/VersoSolutions/CordovaClipboard",
+  "https://github.com/jcsmesquita/cordova-speechrecognition",
   "https://github.com/ThomasDalla/cordova-plugin-koc",
 ];
 
