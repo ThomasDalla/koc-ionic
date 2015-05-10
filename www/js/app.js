@@ -49,7 +49,7 @@ angular.module('koc', ['ionic', 'koc.controllers'])
       $ionicAppProvider.identify({
         app_id: 'a3ef2052',
         api_key: 'b9deb2aa624107710c3b513cc77fda6e20bb77af46741a33',
-        gcm_id: 'AIzaSyApHhlWw46ATb3zPV3zNrRcnIhd1sUN53s',
+        gcm_id: '874531167757',
       });
 
       var isCordovaApp = !!window.cordova;
