@@ -2,7 +2,7 @@
 
 angular.module('koc.services')
 
-  .factory('Config', ['$log', '$http', '$q', 'DefaultConfig', 'ConfigUrl', function ($log, $http, $q, DefaultConfig, ConfigUrl) {
+  .factory('Config', ['$log', '$q', 'DefaultConfig', 'ConfigUrl', function ($log, $q, DefaultConfig, ConfigUrl) {
     return {
       /**
        * Get the config
@@ -14,13 +14,7 @@ angular.module('koc.services')
         if(remoteConfig!=null) {
           // we seem to have already loaded it, let's check what we have
           try {
-            var remoteConfigParsed = JSON.parse(remoteConfig);
-            if( typeof(remoteConfig)=="object"
-              && remoteConfig.hasOwnProperty('endpoints')
-              && remoteConfig['endpoints'].length) {
-              // looks like a valid config, we're good
-              return remoteConfigParsed;
-            }
+            return JSON.parse(remoteConfig);
           } catch(e) {
             $log.warn('An error occurred parsing the remote Config from the sessionStorage', remoteConfig, e);
           }
@@ -28,19 +22,26 @@ angular.module('koc.services')
         // load the config from remote
         if(sessionStorage.getItem('remoteConfigHttp')==null) {
           sessionStorage.setItem('remoteConfigHttp','loading');
-          $http.get(ConfigUrl)
-            .success(function (config) {
+          var firebaseRef = new Firebase(ConfigUrl);
+          firebaseRef.on("value", function(snapshot) {
+            if(snapshot!==undefined&&typeof(snapshot)=="object") {
+              var config = snapshot.val();
               $log.debug('Remote config loaded', config);
-              if(config!==undefined){
+              if (config !== undefined && typeof(config) == "object"
+                && config.hasOwnProperty('endpoints')
+                && config['endpoints'].length) {
                 var configStr = JSON.stringify(config);
                 sessionStorage.setItem('remoteConfig', configStr);
               }
-              sessionStorage.setItem('remoteConfigHttp','loaded');
-            })
-            .error(function (err) {
-              $log.warn('An error occured loading the remote config', err);
-              sessionStorage.setItem('remoteConfigHttp','loaded');
-            });
+            }
+            else {
+              $log.debug('Error loading remote config', snapshot);
+            }
+            sessionStorage.setItem('remoteConfigHttp','loaded');
+          }, function (err) {
+            $log.warn('An error occured loading the remote config', err);
+            sessionStorage.setItem('remoteConfigHttp','loaded');
+          });
         }
 
         // but meanwhile, return from the DefaultConfig for now

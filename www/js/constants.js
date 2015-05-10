@@ -1,6 +1,6 @@
 
 angular.module('koc.constants', [])
-  .constant('ConfigUrl', 'http://pastebin.com/raw.php?i=gF1RBXxQ')
+  .constant('ConfigUrl', 'https://koc-mobile.firebaseio.com/config')
   .constant('DefaultConfig',
   {
     endpoints: [

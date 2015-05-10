@@ -3,7 +3,10 @@
 // Ionic KoC App
 angular.module('koc.controllers', [ 'ngCordova', 'koc.services' ])
 
-  .run(['$rootScope', '$ionicPlatform', '$state', function ($rootScope, $ionicPlatform, $state) {
+  .run(['$rootScope', '$ionicPlatform', '$state', 'Config', function ($rootScope, $ionicPlatform, $state, Config) {
+
+    // Cache remote config at startup
+    Config.getConfig();
 
     // Disable BACK button on base
     $ionicPlatform.registerBackButtonAction(function (event) {
@@ -18,6 +21,9 @@ angular.module('koc.controllers', [ 'ngCordova', 'koc.services' ])
         navigator.app.backHistory();
       }
     }, 100);
+
+
+
   }]);
 
 angular.module('koc', ['ionic', 'koc.controllers'])
