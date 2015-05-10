@@ -43,8 +43,14 @@ angular.module('koc', ['ionic', 'koc.controllers'])
     });
   } ] )
 
-  .config(['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider', '$logProvider',
-    function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, $logProvider) {
+  .config(['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider', '$logProvider', '$ionicAppProvider',
+    function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, $logProvider, $ionicAppProvider) {
+
+      $ionicAppProvider.identify({
+        app_id: 'a3ef2052',
+        api_key: 'b9deb2aa624107710c3b513cc77fda6e20bb77af46741a33',
+        gcm_id: 'AIzaSyApHhlWw46ATb3zPV3zNrRcnIhd1sUN53s',
+      });
 
       var isCordovaApp = !!window.cordova;
       $logProvider.debugEnabled(!isCordovaApp);
