@@ -1,10 +1,4 @@
 {
   "name": "koc-ionic",
-  "app_id": "a3ef2052",
-  "proxies": [
-    {
-      "path": "/kocDirect",
-      "proxyUrl": "http://www.kingsofchaos.com/"
-    }
-  ]
+  "app_id": "a3ef2052"
 }

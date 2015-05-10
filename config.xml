@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.thomasdalla.koc-ionic" version="0.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.thomasdalla.koc-mobile-ionic" version="0.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>KoC</name>
   <description>
-        Mobile version of Kings Of Chaos
+        KoC Mobile Game
     </description>
   <author email="thomas.dallagnese@gmail.com" href="http://www.dallagnese.fr/">
       Thomas Dall'Agnese

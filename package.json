@@ -1,7 +1,7 @@
 {
   "name": "koc-ionic",
-  "version": "0.0.2",
-  "description": "Mobile UI for the online MMORPG game Kings of Chaos",
+  "version": "0.0.3",
+  "description": "KoC Mobile Game",
   "scripts": {
     "sass": "make sass"
   },
@@ -20,6 +20,10 @@
     "shelljs": "^0.3.0"
   },
   "cordovaPlugins": [
+		"https://github.com/VersoSolutions/CordovaClipboard",
+		"https://github.com/jcsmesquita/cordova-speechrecognition",
+		"https://github.com/ThomasDalla/cordova-plugin-koc",
+		"https://github.com/whiteoctober/cordova-plugin-app-version.git",
     "cordova-plugin-whitelist"
   ],
   "cordovaPlatforms": [

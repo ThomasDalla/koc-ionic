@@ -1,43 +1,44 @@
 <ion-view title="About">
 	<ion-content>
 		<ion-refresher pulling-text="Pull to refresh..." on-refresh="refreshEndpoints()" spinner="bubbles"></ion-refresher>
-		<div class="item item-text-wrap" style="font-size: small">
-			This application was created for me to get handy with HTML5/JS web development
-			for mobile applications and is not an official KoC application.<br />
-			The application is free to use and the code is available open-source on
-			<button class="button button-small button-light" ng-click="openGitHub()">GitHub</button>,
-			so if you notice a bug you can report issues there
-			or contribute yourself directly to improve the app!<br /><br />
-			If you find this app useful, you can buy me a beer :)<br/>
-			<button class="button button-small button-block button-light" ng-click="copyToClipboard('BTC', '12VL9oTrrnYwwoFkFUa35bXNWuasmNMU28')">BTC: 12VL9oTrrnYwwoFkFUa35bXNWuasmNMU28</button>
-			<button class="button button-small button-block button-light" ng-click="copyToClipboard('LTC', 'LTN8L4GxppDQ16sUtCawVPFhc8CoGzQLev')">LTC: LTN8L4GxppDQ16sUtCawVPFhc8CoGzQLev</button>
-			Kings of Chaos &reg; is a registered trademark of Kings of Chaos, LLC.
-		</div>
-		<div class="item item-divider item-dark">Front-End</div>
-		<div class="item">
-			<div class="row">
-				<div class="col">Ionic Mobile App</div>
-				<div class="col">{{appVersion}}</div>
+		<div class="list">
+			<div class="item item-text-wrap" style="font-size: small">
+				This application was created for me to get handy with HTML5/JS web development
+				for mobile applications.<br />
+				The application is free to use and the code is available open-source on
+				<button class="button button-small button-light" ng-click="openGitHub()">GitHub</button>,
+				so if you notice a bug you can report issues there
+				or contribute yourself directly to improve the app!<br /><br />
+				If you find this app useful, you can buy me a beer :)<br/>
+				<button class="button button-small button-block button-light" ng-click="copyToClipboard('BTC', '12VL9oTrrnYwwoFkFUa35bXNWuasmNMU28')">BTC: 12VL9oTrrnYwwoFkFUa35bXNWuasmNMU28</button>
+				<button class="button button-small button-block button-light" ng-click="copyToClipboard('LTC', 'LTN8L4GxppDQ16sUtCawVPFhc8CoGzQLev')">LTC: LTN8L4GxppDQ16sUtCawVPFhc8CoGzQLev</button>
 			</div>
-		</div>
-		<div class="item item-divider item-dark">Back-End (Load Balancing)</div>
-		<div class="item item-stable" style="height:30px;padding:0">
-			<div class="row">
-				<div class="col-60">URL</div>
-				<div class="col-20">API</div>
-				<div class="col-20">KOC</div>
+			<div class="item item-divider item-dark">Front-End</div>
+			<div class="item">
+				<div class="row">
+					<div class="col">Ionic Mobile App</div>
+					<div class="col">{{appVersion}}</div>
+				</div>
 			</div>
-		</div>
-		<div class="item item-text-wrap" ng-hide="endpoints.length">
-			<div class="row">
-				<div class="col">Loading...</div>
+			<div class="item item-divider item-dark">Back-End (Load Balancing)</div>
+			<div class="item item-stable" style="height:30px;padding:0">
+				<div class="row">
+					<div class="col-60">URL</div>
+					<div class="col-20">API</div>
+					<div class="col-20">KOC</div>
+				</div>
 			</div>
-		</div>
-		<div class="item item-text-wrap" ng-repeat="endpoint in endpoints">
-			<div class="row">
-				<div class="col-60">{{endpoint.url}}</div>
-				<div class="col-20">{{endpoint.api}}</div>
-				<div class="col-20">{{endpoint.koc}}</div>
+			<div class="item item-text-wrap" ng-hide="endpoints.length">
+				<div class="row">
+					<div class="col">Loading...</div>
+				</div>
+			</div>
+			<div class="item item-text-wrap" ng-repeat="endpoint in endpoints">
+				<div class="row">
+					<div class="col-60">{{endpoint.url}}</div>
+					<div class="col-20">{{endpoint.api}}</div>
+					<div class="col-20">{{endpoint.koc}}</div>
+				</div>
 			</div>
 		</div>
 	</ion-content>
