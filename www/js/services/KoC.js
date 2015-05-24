@@ -322,6 +322,9 @@ angular.module('koc.services')
           }, 0, true);
         }
       },
+      getLogoUrl: function() {
+        return this.kocApi() + "/logo.png";
+      },
       attack: function(user_id, turing) {
         if(turing===undefined||turing===null||!turing.length){
           return this.getPage("GET", "/attack/" + user_id, {}, 0, true);

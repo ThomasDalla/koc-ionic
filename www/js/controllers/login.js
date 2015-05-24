@@ -29,6 +29,8 @@ angular.module('koc.controllers')
 
       $scope.user = User.get();
 
+      $scope.logoUrl = KoC.getLogoUrl();
+
       $scope.age = User.getAge();
       var getKoCAge = function () {
         KoC.getPage("GET", "/index", {}, 60 * 60, false)

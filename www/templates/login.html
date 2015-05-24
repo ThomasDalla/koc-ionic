@@ -4,7 +4,7 @@
 </ion-nav-bar-->
 <ion-view title="KoC">
   <ion-content style="background-color:#333;">
-  <div class="koc_logo"><p align="center"><img src="./img/koc_logo_png24.png" /></p></div>
+  <div class="koc_logo"><p align="center"><img ng-src="{{logoUrl}}" ng-hide="!logoUrl.length" /></p></div>
   <div class="card">
     <form ng-submit="doLogin()" name="loginForm">
       <div class="list">
