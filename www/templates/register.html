@@ -13,7 +13,7 @@
                     ng-click="changeRace(race)">{{race.race}}</button>
                 </span>
                 <br />
-                <img ng-src="{{kocHost}}{{selectedRace.image}}" />
+                <img ng-hide="!selectedRace.image.length" ng-src="{{kocHost}}{{selectedRace.image}}" />
                 <br />
                 <b>{{selectedRace.description}}</b>
                 <br />

@@ -224,7 +224,7 @@
           </span>
           <div ng-hide="selectedRace===undefined">
             <br />
-            <img ng-src="{{kocHost}}{{selectedRace.image}}" />
+            <img ng-hide="!selectedRace.image.length" ng-src="{{kocHost}}{{selectedRace.image}}" />
             <br />
             <b>{{selectedRace.description}}</b>
             <br />
