@@ -24,7 +24,7 @@ angular.module('koc.controllers')
       // Challenge
       $scope.getNewChallenge = function () {
         $scope.captchaError = "Loading...";
-        loginData.challenge_response = "";
+        $scope.loginData.challenge_response = "";
         KoC.getPage("GET", "/captcha").success(function (response) {
           $scope.captchaError = "";
           if (response.success) {
