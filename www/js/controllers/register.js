@@ -6,6 +6,12 @@ angular.module('koc.controllers')
     function ($scope, $stateParams, $ionicNavBarDelegate, $ionicLoading, $ionicPopup, $state, $log, KoC, User) {
 
       $scope.loginData = {};
+      $scope.noErrors = true;
+
+      $scope.openWebsite = function(){
+        window.open('http://www.kingsofchaos.com/register.php', '_system', 'location=yes');
+        return false;
+      };
 
       var racesCacheTimeInSeconds = 60 * 60 * 24; // 1 day cache (doesn't change often)
       $scope.racesError = "Loading races...";
@@ -58,6 +64,7 @@ angular.module('koc.controllers')
           $ionicLoading.show({template: $scope.registerErrorMessage, noBackdrop: true, duration: 2000});
         }
         else {
+          $scope.noErrors = true;
           $ionicLoading.show({
             template: 'Registering...'
           });
@@ -87,11 +94,15 @@ angular.module('koc.controllers')
             else {
               $scope.registerErrorMessage = response.error;
               $ionicLoading.show({template: $scope.registerErrorMessage, noBackdrop: true, duration: 2000});
-              $scope.getNewChallenge();
-              document.getElementById("challenge_response_input").focus();
+              $scope.noErrors = false;
+              if(response.error.toLowerCase().indexOf("captcha")>=0) {
+                $scope.getNewChallenge();
+                document.getElementById("challenge_response_input").focus();
+              }
             }
           }).error(function (error) {
             $ionicLoading.hide();
+            $scope.noErrors = false;
             $log.debug("error!", error);
             $scope.captchaError = "Error retrieving the challenge";
           })
