@@ -24,6 +24,7 @@ angular.module('koc.controllers')
       // Challenge
       $scope.getNewChallenge = function () {
         $scope.captchaError = "Loading...";
+        loginData.challenge_response = "";
         KoC.getPage("GET", "/captcha").success(function (response) {
           $scope.captchaError = "";
           if (response.success) {
@@ -43,6 +44,7 @@ angular.module('koc.controllers')
         if ($scope.loginData.password !== undefined && $scope.loginData.password2 !== undefined) {
           if ($scope.loginData.password != $scope.loginData.password2) {
             $scope.registerErrorMessage = "Passwords are different...";
+            $ionicLoading.show({template: $scope.registerErrorMessage, noBackdrop: true, duration: 2000});
           }
           else {
             $scope.registerErrorMessage = "";
@@ -53,6 +55,7 @@ angular.module('koc.controllers')
       $scope.register = function () {
         if ($scope.loginData.password !== $scope.loginData.password2) {
           $scope.registerErrorMessage = "Passwords are different...";
+          $ionicLoading.show({template: $scope.registerErrorMessage, noBackdrop: true, duration: 2000});
         }
         else {
           $ionicLoading.show({
@@ -66,6 +69,8 @@ angular.module('koc.controllers')
             challenge: $scope.challenge,
             challenge_response: $scope.loginData.challenge_response
           }).success(function (response) {
+            $ionicLoading.hide();
+            $log.debug("resp+",response);
             $scope.registerErrorMessage = "";
             if (response.success) {
               $scope.registerErrorMessage = "";
@@ -81,13 +86,15 @@ angular.module('koc.controllers')
             }
             else {
               $scope.registerErrorMessage = response.error;
+              $ionicLoading.show({template: $scope.registerErrorMessage, noBackdrop: true, duration: 2000});
+              $scope.getNewChallenge();
+              document.getElementById("challenge_response_input").focus();
             }
           }).error(function (error) {
+            $ionicLoading.hide();
+            $log.debug("error!", error);
             $scope.captchaError = "Error retrieving the challenge";
           })
-            .finally(function () {
-              $ionicLoading.hide();
-            });
         }
       };
 
