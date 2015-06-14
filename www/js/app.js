@@ -26,11 +26,13 @@ angular.module('koc.controllers', [ 'ngCordova', 'koc.services' ])
 
   }]);
 
-angular.module('koc', ['ionic', 'ionic.service.core', 'ionic.service.deploy', 'koc.controllers'])
+angular.module('koc', ['ionic', 'ionic.service.core', 'koc.controllers'])
 
-  .run([ '$ionicPlatform', '$ionicDeploy', '$ionicLoading', '$log', function ($ionicPlatform, $ionicDeploy, $ionicLoading, $log) {
+  .run([ '$ionicPlatform', '$ionicLoading', '$log', function ($ionicPlatform, $ionicLoading, $log) {
 
+    $log.debug("Starting app...");
     $ionicPlatform.ready(function () {
+      $log.debug("Ionic platform ready");
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
       if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -41,43 +43,44 @@ angular.module('koc', ['ionic', 'ionic.service.core', 'ionic.service.deploy', 'k
         StatusBar.styleDefault();
       }
       // Check for updates
-      var isCordovaApp = !!window.cordova;
-      if(isCordovaApp){
-        $ionicDeploy.check().then(function(hasUpdate) {
-            // response will be true/false
-            if (hasUpdate) {
-              $ionicLoading.show({
-                template: "Newer version found, updating...",
-                noBackdrop: true,
-                duration: 2000,
-              });
-              $ionicDeploy.update().then(function(res) {
-                $log.debug('Ionic Deploy: Update Success! ', res);
-                $ionicDeploy.load();
-              }, function(err) {
-                $log.error('Ionic Deploy: Update error! ', err);
-                $ionicLoading.show({
-                  template: "Error updating the app...",
-                  noBackdrop: true,
-                  duration: 2000,
-                });
-              }, function(prog) {
-                $log.debug('Ionic Deploy: Progress... ', prog);
-              });
-            } else {
-              // No updates, load the most up to date version of the app
-              $ionicDeploy.load();
-            }
-          },
-          function(error) {
-            // Error checking for updates
-            $ionicLoading.show({
-              template: "Error checking for updates...",
-              noBackdrop: true,
-              duration: 2000,
-            });
-          });
-      }
+      //var isCordovaApp = !!window.cordova;
+      //if(isCordovaApp){
+      //  $log.debug("Checking for updates...");
+      //  $ionicDeploy.check().then(function(hasUpdate) {
+      //      // response will be true/false
+      //      if (hasUpdate) {
+      //        $ionicLoading.show({
+      //          template: "Newer version found, updating...",
+      //          noBackdrop: true,
+      //          duration: 2000,
+      //        });
+      //        $ionicDeploy.update().then(function(res) {
+      //          $log.debug('Ionic Deploy: Update Success! ', res);
+      //          $ionicDeploy.load();
+      //        }, function(err) {
+      //          $log.error('Ionic Deploy: Update error! ', err);
+      //          $ionicLoading.show({
+      //            template: "Error updating the app...",
+      //            noBackdrop: true,
+      //            duration: 2000,
+      //          });
+      //        }, function(prog) {
+      //          $log.debug('Ionic Deploy: Progress... ', prog);
+      //        });
+      //      } else {
+      //        // No updates, load the most up to date version of the app
+      //        $log.debug("We are running the latest version already");
+      //      }
+      //    },
+      //    function(error) {
+      //      // Error checking for updates
+      //      $ionicLoading.show({
+      //        template: "Error checking for updates...",
+      //        noBackdrop: true,
+      //        duration: 2000,
+      //      });
+      //    });
+      //}
     });
   } ] )
 
