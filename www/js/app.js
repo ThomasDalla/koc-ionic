@@ -46,6 +46,11 @@ angular.module('koc', ['ionic', 'ionic.service.core', 'ionic.service.deploy', 'k
         $ionicDeploy.check().then(function(hasUpdate) {
             // response will be true/false
             if (hasUpdate) {
+              $ionicLoading.show({
+                template: "Newer version found, updating...",
+                noBackdrop: true,
+                duration: 2000,
+              });
               $ionicDeploy.update().then(function(res) {
                 $log.debug('Ionic Deploy: Update Success! ', res);
                 $ionicDeploy.load();
