@@ -10,6 +10,7 @@ var pluginlist = [
   "https://github.com/jcsmesquita/cordova-speechrecognition",
   "https://github.com/ThomasDalla/cordova-plugin-koc",
   "https://github.com/whiteoctober/cordova-plugin-app-version.git",
+  "https://github.com/apache/cordova-plugin-inappbrowser.git",
   "cordova-plugin-whitelist",
 ];
 

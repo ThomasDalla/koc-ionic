@@ -19,50 +19,46 @@
                 <br />
                 <div ng-repeat="feature in selectedRace.features">{{feature}}</div>
             </div>
-            <div>
-                <form name="registerForm">
-                    <label class="item item-input">
-                        <span class="input-label">Username</span>
-                        <input type="text" name="username" ng-model="loginData.username"
-                        placeholder="Username" ng-required="true">
-                    </label>
-                    <label class="item item-input">
-                        <span class="input-label">Password</span>
-                        <input type="password" name="password" ng-model="loginData.password"
-                        placeholder="Password" ng-required="true">
-                    </label>
-                    <label class="item item-input">
-                        <span class="input-label">Password
-                            <br />(confirmation)</span>
-                        <input type="password" name="password2" ng-model="loginData.password2"
-                        placeholder="Password (confirmation)" ng-required="true" ng-blur="checkPasswords()">
-                    </label>
-                    <label class="item item-input">
-                        <span class="input-label">E-Mail</span>
-                        <input type="email" name="email" ng-model="loginData.email"
-                        placeholder="E-Mail" ng-required="true">
-                    </label>
-                    <label class="item center">
-                        <div class="center">Proove you're not a robot</div>
-                        <div class="center">{{captchaError}}</div>
-                        <img ng-src="{{challenge_image}}" ng-hide="captchaError.length" />
-                        <button class="button button-small" ng-click="getNewChallenge()">new image</button>
-                    </label>
-                    <label class="item center">
-                        <input style="text-align:center;width:100%" type="text" name="challenge_response"
-                            ng-model="loginData.challenge_response" placeholder="Enter the text shown in the picture"
-                            ng-required="true" autocorrect="off" autocomplete="off" autocapitalize="off"
-														id="challenge_response_input"
-												>
-                    </label>
-									<label class="item item-text-wrap center error" ng-hide="noErrors">
-										If it doesn't work, please try on the <button class="button button-small button-light" ng-click="openWebsite()">website</button>
-									</label>
-                    <label class="item">
-                        <button class="button button-block button-stable" ng-click="register()">Register</button>
-                    </label>
-                </form>
-            </div>
+						<div class="item item-input">
+								<span class="input-label">Username</span>
+								<input type="text" name="username" ng-model="loginData.username"
+								placeholder="Username" ng-required="true">
+						</div>
+						<div class="item item-input">
+								<span class="input-label">Password</span>
+								<input type="password" name="password" ng-model="loginData.password"
+								placeholder="Password" ng-required="true">
+						</div>
+						<div class="item item-input">
+								<span class="input-label">Password
+										<br />(confirmation)</span>
+								<input type="password" name="password2" ng-model="loginData.password2"
+								placeholder="Password (confirmation)" ng-required="true" ng-blur="checkPasswords()">
+						</div>
+						<div class="item item-input">
+								<span class="input-label">E-Mail</span>
+								<input type="email" name="email" ng-model="loginData.email"
+								placeholder="E-Mail" ng-required="true">
+						</div>
+						<div class="item center">
+								<div class="center">Proove you're not a robot</div>
+								<div class="center">{{captchaError}}</div>
+								<img ng-src="{{challenge_image}}" ng-hide="captchaError.length" />
+								<button class="button button-small" ng-click="getNewChallenge()">new image</button>
+						</div>
+						<div class="item center">
+								<input style="text-align:center;width:100%" type="text" name="challenge_response"
+										ng-model="loginData.challenge_response" placeholder="Enter the text shown in the picture"
+										ng-required="true" autocorrect="off" autocomplete="off" autocapitalize="off"
+										id="challenge_response_input"
+								>
+						</div>
+					<div class="item item-text-wrap center error" ng-hide="noErrors">
+						If it doesn't work, please try on the <button class="button button-small button-light" ng-click="openWebsite()">website</button>
+					</div>
+						<div class="item">
+								<button class="button button-block button-stable" ng-click="register()">Register</button>
+						</div>
         </div>
     </ion-content>
 </ion-view>

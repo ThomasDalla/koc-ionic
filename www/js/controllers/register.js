@@ -9,6 +9,7 @@ angular.module('koc.controllers')
       $scope.noErrors = true;
 
       $scope.openWebsite = function(){
+        $log.info("opening http://www.kingsofchaos.com/register.php");
         window.open('http://www.kingsofchaos.com/register.php', '_system', 'location=yes');
         return false;
       };
