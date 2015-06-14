@@ -41,35 +41,38 @@ angular.module('koc', ['ionic', 'ionic.service.core', 'ionic.service.deploy', 'k
         StatusBar.styleDefault();
       }
       // Check for updates
-      $ionicDeploy.check().then(function(hasUpdate) {
-          // response will be true/false
-          if (hasUpdate) {
-            $ionicDeploy.update().then(function(res) {
-              $log.debug('Ionic Deploy: Update Success! ', res);
-              $ionicDeploy.load();
-            }, function(err) {
-              $log.error('Ionic Deploy: Update error! ', err);
-              $ionicLoading.show({
-                template: "Error updating the app...",
-                noBackdrop: true,
-                duration: 2000,
+      var isCordovaApp = !!window.cordova;
+      if(isCordovaApp){
+        $ionicDeploy.check().then(function(hasUpdate) {
+            // response will be true/false
+            if (hasUpdate) {
+              $ionicDeploy.update().then(function(res) {
+                $log.debug('Ionic Deploy: Update Success! ', res);
+                $ionicDeploy.load();
+              }, function(err) {
+                $log.error('Ionic Deploy: Update error! ', err);
+                $ionicLoading.show({
+                  template: "Error updating the app...",
+                  noBackdrop: true,
+                  duration: 2000,
+                });
+              }, function(prog) {
+                $log.debug('Ionic Deploy: Progress... ', prog);
               });
-            }, function(prog) {
-              $log.debug('Ionic Deploy: Progress... ', prog);
+            } else {
+              // No updates, load the most up to date version of the app
+              $ionicDeploy.load();
+            }
+          },
+          function(error) {
+            // Error checking for updates
+            $ionicLoading.show({
+              template: "Error checking for updates...",
+              noBackdrop: true,
+              duration: 2000,
             });
-          } else {
-            // No updates, load the most up to date version of the app
-            $ionicDeploy.load();
-          }
-        },
-        function(error) {
-          // Error checking for updates
-          $ionicLoading.show({
-            template: "Error checking for updates...",
-            noBackdrop: true,
-            duration: 2000,
           });
-        })
+      }
     });
   } ] )
 
