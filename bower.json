@@ -3,7 +3,8 @@
   "private": "true",
   "devDependencies": {
     "ionic": "driftyco/ionic-bower",
-    "ionic-service-core": "~0.1.5"
+    "ionic-service-core": "~0.1.5",
+    "ionic-service-deploy": "~0.0.6"
   },
   "dependencies": {
     "angular-cookies": "~1.3.15",

@@ -26,9 +26,9 @@ angular.module('koc.controllers', [ 'ngCordova', 'koc.services' ])
 
   }]);
 
-angular.module('koc', ['ionic', 'koc.controllers'])
+angular.module('koc', ['ionic', 'ionic.service.core', 'ionic.service.deploy', 'koc.controllers'])
 
-  .run([ '$ionicPlatform', '$rootScope', function ($ionicPlatform) {
+  .run([ '$ionicPlatform', '$ionicDeploy', '$ionicLoading', '$log', function ($ionicPlatform, $ionicDeploy, $ionicLoading, $log) {
 
     $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -40,6 +40,36 @@ angular.module('koc', ['ionic', 'koc.controllers'])
         // org.apache.cordova.statusbar required
         StatusBar.styleDefault();
       }
+      // Check for updates
+      $ionicDeploy.check().then(function(hasUpdate) {
+          // response will be true/false
+          if (hasUpdate) {
+            $ionicDeploy.update().then(function(res) {
+              $log.debug('Ionic Deploy: Update Success! ', res);
+              $ionicDeploy.load();
+            }, function(err) {
+              $log.error('Ionic Deploy: Update error! ', err);
+              $ionicLoading.show({
+                template: "Error updating the app...",
+                noBackdrop: true,
+                duration: 2000,
+              });
+            }, function(prog) {
+              $log.debug('Ionic Deploy: Progress... ', prog);
+            });
+          } else {
+            // No updates, load the most up to date version of the app
+            $ionicDeploy.load();
+          }
+        },
+        function(error) {
+          // Error checking for updates
+          $ionicLoading.show({
+            template: "Error checking for updates...",
+            noBackdrop: true,
+            duration: 2000,
+          });
+        })
     });
   } ] )
 
