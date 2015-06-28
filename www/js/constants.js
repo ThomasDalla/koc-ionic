@@ -4,7 +4,7 @@ angular.module('koc.constants', [])
   .constant('DefaultConfig',
   {
     endpoints: [
-      "https://koc-api.herokuapp.com/api",
+      //"https://koc-api.herokuapp.com/api",
       "https://kocapi-thomasdalla.rhcloud.com/api",
     ],
   })
