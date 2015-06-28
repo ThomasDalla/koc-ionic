@@ -6,6 +6,7 @@ angular.module('koc.constants', [])
     endpoints: [
       //"https://koc-api.herokuapp.com/api",
       "https://kocapi-thomasdalla.rhcloud.com/api",
+      //"https://koc-api.scalingo.io/api",
     ],
   })
   .constant('KocUrl','http://www.kingsofchaos.com');
