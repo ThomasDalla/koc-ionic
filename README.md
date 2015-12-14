@@ -2,6 +2,10 @@
 Documentation to come.<br>
 Demo: https://vimeo.com/124733714
 
+This library is the UI component of a set of 3 libraries, as shown in the diagram below:
+
+![Relations between the libraries](http://i.imgur.com/pbDEWd2.png "Relations between the libraries")
+
 ### Pre-requisites
 
 You need NodeJS, cordova, ionic and bower
