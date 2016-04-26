@@ -1,0 +1,23 @@
+<ion-modal-view>
+	<ion-header-bar class="bar-dark">
+		<h1 class="title">Reply to {{message.from.username}}</h1>
+		<button class="button button-clear button-light" ng-click="closeReply()" ng-disabled="disableActions">Close</button>
+	</ion-header-bar>
+
+	<ion-content style="background-color:black;">
+
+		<div class="list list-inset">
+			<label class="item item-input item-dark">
+				<textarea placeholder="Your Message"></textarea>
+			</label>
+			<label class="item item-input item-dark" ng-hide="!replyError.length">
+				<div class="error center">{{replyError}}</div>
+			</label>
+			<label class="item item-input item-dark">
+				<button class="button button-block button-stable" ng-click="reply()" ng-disabled="disableActions">Send</button>
+			</label>
+		</div>
+
+	</ion-content>
+
+</ion-modal-view>

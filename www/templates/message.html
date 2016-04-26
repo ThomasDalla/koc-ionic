@@ -1,0 +1,17 @@
+<ion-modal-view>
+	<ion-header-bar class="bar-dark">
+		<button class="button button-clear button-light" ng-click="replyMessage()">Reply</button>
+		<h1 class="title">{{message.subject}}</h1>
+		<button class="button button-clear button-light" ng-click="closeMessage()">Close</button>
+	</ion-header-bar>
+
+	<ion-content style="background-color:black;">
+
+		<div
+			class="item item-dark item-text-wrap"
+			style="background-color: #000000; color: #ffffff"
+			ng-bind-html="message.content">
+		</div>
+	</ion-content>
+
+</ion-modal-view>

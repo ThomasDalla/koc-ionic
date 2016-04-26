@@ -1,6 +1,6 @@
 {
   "name": "koc-ionic",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "KoC Mobile Game",
   "scripts": {
     "sass": "make sass"
@@ -20,12 +20,17 @@
     "shelljs": "^0.3.0"
   },
   "cordovaPlugins": [
-		"https://github.com/VersoSolutions/CordovaClipboard",
-		"https://github.com/jcsmesquita/cordova-speechrecognition",
-		"https://github.com/ThomasDalla/cordova-plugin-koc",
-		"https://github.com/whiteoctober/cordova-plugin-app-version.git",
-		"https://github.com/apache/cordova-plugin-inappbrowser.git",
-    "cordova-plugin-whitelist"
+    "https://github.com/VersoSolutions/CordovaClipboard",
+    "https://github.com/jcsmesquita/cordova-speechrecognition",
+    "https://github.com/ThomasDalla/cordova-plugin-koc",
+    "https://github.com/whiteoctober/cordova-plugin-app-version.git",
+    "https://github.com/apache/cordova-plugin-inappbrowser.git",
+    "cordova-plugin-whitelist",
+    "ionic-plugin-deploy",
+    {
+      "locator": "https://github.com/ThomasDalla/cordova-plugin-koc.git",
+      "id": "com.thomasdalla.cordova.koc"
+    }
   ],
   "cordovaPlatforms": [
     "android"

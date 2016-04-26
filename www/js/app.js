@@ -26,7 +26,7 @@ angular.module('koc.controllers', [ 'ngCordova', 'koc.services' ])
 
   }]);
 
-angular.module('koc', ['ionic', 'ionic.service.core', 'koc.controllers'])
+angular.module('koc', ['ionic','ionic.service.core',  'koc.controllers'])
 
   .run([ '$ionicPlatform', '$ionicLoading', '$log', function ($ionicPlatform, $ionicLoading, $log) {
 
@@ -327,6 +327,16 @@ angular.module('koc', ['ionic', 'ionic.service.core', 'koc.controllers'])
             'menuContent': {
               templateUrl: "templates/inteldetail.html",
               controller: 'IntelDetailCtrl',
+            }
+          }
+        })
+
+        .state('app.inbox', {
+          url: "/inbox",
+          views: {
+            'menuContent': {
+              templateUrl: "templates/inbox.html",
+              controller: 'InboxCtrl'
             }
           }
         })

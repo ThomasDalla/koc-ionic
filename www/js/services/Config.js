@@ -2,7 +2,7 @@
 
 angular.module('koc.services')
 
-  .factory('Config', ['$log', '$q', 'DefaultConfig', 'ConfigUrl', function ($log, $q, DefaultConfig, ConfigUrl) {
+  .factory('Config', ['$log', '$q', '$http', 'DefaultConfig', 'ConfigUrl', function ($log, $q, $http, DefaultConfig, ConfigUrl) {
     return {
       /**
        * Get the config

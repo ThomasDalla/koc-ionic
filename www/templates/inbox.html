@@ -1,0 +1,22 @@
+<ion-view view-title="Messages" hide-back-button="true">
+
+	<ion-content
+		style="background-color: #000000" >
+		<ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadInbox()" spinner="bubbles"></ion-refresher>
+		<div ng-hide="!inboxError.length" class="error center">{{inboxError}}</div>
+		<div class="list">
+			<div ng-repeat="message in inbox.messages"
+					 class="item item-text-wrap item-dark"
+					 style="background-color: #000000; color: #ffffff"
+					 ng-click="showMessage(message)">
+				<div class="row">
+					<div class="col-30">{{message.from.username}}</div>
+					<div class="col-70">{{message.when}}</div>
+				</div>
+				<div class="row">
+					<div>{{message.subject}}</div>
+				</div>
+			</div>
+		</div>
+	</ion-content>
+</ion-view>

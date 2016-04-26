@@ -119,10 +119,13 @@ angular.module('koc.services')
   }])
 
   .factory('KoC', [
-      '$http', '$log', '$q', '$rootScope', 'User', 'Config',
-      function ($http, $log, $q, $rootScope, User, Config) {
+      '$http', '$log', '$q', '$rootScope', 'User', 'Config', 'LocalApi',
+      function ($http, $log, $q, $rootScope, User, Config, LocalApi) {
     return {
       kocApi : function() {
+        if(!window.cordova){
+            return LocalApi; // run locally for dev
+        }
         var endpoints = Config.getEndpoints();
         var randomIndex = Math.floor(Math.random() * endpoints.length);
         return endpoints[randomIndex];
@@ -344,6 +347,12 @@ angular.module('koc.services')
             turing: turing,
           }, 0, true);
         }
+      },
+      sendMessage: function(userid, subject, content) {
+        return this.getPage("POST", "/writemail/" + userid, {
+          subject: subject,
+          message: content
+        }, 0, true);
       },
     };
   }]);

@@ -4,7 +4,7 @@
 </ion-nav-bar-->
 <ion-view title="KoC">
   <ion-content style="background-color:#333;">
-  <div class="koc_logo"><p align="center"><img ng-src="{{logoUrl}}" ng-hide="!logoUrl.length" /></p></div>
+  <div class="koc_logo"><p align="center"><img src="img/koc_logo_png24.png" /></p></div>
   <div class="card">
     <form ng-submit="doLogin()" name="loginForm">
       <div class="list">
@@ -26,7 +26,7 @@
   </ion-content>
 </ion-view>
 <div class="bar bar-dark bar-footer hide-on-keyboard-open">
-  <button class="button button-small button-assertive" ui-sref="register">Register</button>
+  <button class="button button-small button-assertive" ng-click="openRegister()">Register</button>
   <div class="title" ng-hide="age<=0">Age {{age}}</div>
   <button class="button button-small button-assertive" ng-click="openForgotLogin()">Forgot Login?</button>
 </div>

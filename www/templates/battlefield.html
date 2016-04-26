@@ -5,7 +5,7 @@
 		on-swipe-left="goToPage(battlefield.currentPage+1)"
 		on-swipe-right="goToPage(battlefield.currentPage-1)">
 		<ion-refresher pulling-text="Pull to refresh..." on-refresh="reloadBattlefield()" spinner="bubbles"></ion-refresher>
-		<div ng-hide="!armoryError.length" class="error center">{{armoryError}}</div>
+		<div ng-hide="!battlefieldError.length" class="error center">{{battlefieldError}}</div>
 		<div class="list">
 			<div ng-repeat="player in battlefield.players"
 					 class="item item-text-wrap item-dark"
