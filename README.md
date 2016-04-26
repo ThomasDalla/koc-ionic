@@ -34,6 +34,7 @@ Note: if testing on a web browser, you need a local running instance of the back
 <pre>
 $ git clone https://github.com/ThomasDalla/koc-api
 $ cd koc-api
+$ npm install
 $ node server
 > Magic happens on port 3000
 </pre>
