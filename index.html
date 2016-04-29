@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>KoC Mobile Application by ThomasDalla</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/ThomasDalla/koc-ionic">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/ThomasDalla/koc-ionic/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/ThomasDalla/koc-ionic/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>KoC Mobile Application</h1>
+          <p>Mobile front-end to the online MMORPG Kings Of Chaos (built with Ionic)</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/ThomasDalla">ThomasDalla</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h1>
+<a id="koc-mobile-application" class="anchor" href="#koc-mobile-application" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>KoC Mobile Application</h1>
+
+<p>Documentation to come.<br>
+Demo: <a href="https://vimeo.com/124733714">https://vimeo.com/124733714</a></p>
+
+<p>This library is the UI component of a set of 3 libraries, as shown in the diagram below:</p>
+
+<p><a href="../../../koc-ionic">koc-ionic</a><br>
+<a href="../../../koc-api">koc-api</a><br>
+<a href="../../../node-koc">node-koc</a><br></p>
+
+<p><img src="http://i.imgur.com/pbDEWd2.png" alt="Relations between the libraries"></p>
+
+<h3>
+<a id="pre-requisites" class="anchor" href="#pre-requisites" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Pre-requisites</h3>
+
+<p>You need NodeJS, cordova, ionic and bower</p>
+
+<pre>
+$ npm install -g cordova
+$ npm install -g ionic
+$ npm install -g bower
+</pre>
+
+<h3>
+<a id="prepare" class="anchor" href="#prepare" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Prepare</h3>
+
+<pre>
+$ git clone https://github.com/ThomasDalla/koc-ionic
+$ cd koc-ionic
+$ npm install
+$ bower install
+</pre>
+
+<h3>
+<a id="test" class="anchor" href="#test" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Test</h3>
+
+<pre>$ ionic serve --lab</pre>
+
+<p>Note: if testing on a web browser, you need a local running instance of the back-end:</p>
+
+<pre>
+$ git clone https://github.com/ThomasDalla/koc-api
+$ cd koc-api
+$ npm install
+$ node server
+&gt; Magic happens on port 3000
+</pre>
+
+<p>You don't need it if running on iOS/Android, as per below.</p>
+
+<h4>
+<a id="ios" class="anchor" href="#ios" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>iOS</h4>
+
+<pre>
+$ ionic build ios
+$ ionic emulate ios -l -c # on emulator (fast)
+</pre>
+
+<h4>
+<a id="android" class="anchor" href="#android" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Android</h4>
+
+<pre>
+ionic build android
+ionic emulate android -l -c # on emulator (slow)
+ionic run android --device  # on device (fast)
+</pre>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
