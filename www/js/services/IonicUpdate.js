@@ -1,4 +1,4 @@
-/*global angular*/
+/*global angular,Ionic*/
 
 angular.module('koc.services')
 
@@ -8,8 +8,13 @@ angular.module('koc.services')
 				var self = this;
 				var isCordovaApp = !!window.cordova;
 				if(isCordovaApp){
-					if(!self.deploy)
-						self.deploy = IonicDeploy;
+					if(!self.deploy) {
+						if(Ionic === undefined){
+							$log.error("Ionic not defined!");
+							return null;
+						}
+						self.deploy = new Ionic.Deploy();
+					}
 					return self.deploy;
 				}
 				return null;
@@ -24,6 +29,10 @@ angular.module('koc.services')
 				}
 				else {
 					var deploy = this.getIonicDeploy();
+					if(deploy==null){
+						$log.error("Ionic not initialized...");
+						defer.resolve(false);
+					}
 					deploy.check().then(function (hasUpdate) {
 						$log.debug('Ionic Deploy: Update available: ' + hasUpdate);
 						defer.resolve(hasUpdate);
@@ -47,6 +56,10 @@ angular.module('koc.services')
 					return;
 				}
 				var deploy = this.getIonicDeploy();
+				if(deploy==null){
+					$log.error("Ionic not initialized...");
+					return;
+				}
 				deploy.update().then(function(res) {
 					$log.debug('Ionic Deploy: Update Success! ', res);
 					$ionicLoading.show({
