@@ -10,7 +10,8 @@ angular.module('koc.controllers')
       $scope.apiVersion = null;
 			$scope.newVersionAvailable = false;
 			$scope.checkingNewVersions = false;
-			
+			$scope.isUpdating = false;
+
 			var checkNewAppVersion = function(){
 				$scope.newVersionAvailable = false;
 				$scope.checkingNewVersions = true;
@@ -29,9 +30,29 @@ angular.module('koc.controllers')
 					checkNewAppVersion();
         }
       });
-			
+
 			$scope.doUpdate = function(){
-				IonicUpdate.doUpdate();
+				$scope.isUpdating = true;
+				$scope.updateProgress = true;
+				IonicUpdate.doUpdate().then(function(res) {
+					$scope.isUpdating = false;
+					$log.debug('Ionic Deploy: Update Success! ', res);
+					$ionicLoading.show({
+						template: "Application successfully updated",
+						noBackdrop: true,
+						duration: 1000
+					});
+				}, function(err) {
+					$scope.isUpdating = false;
+					$log.debug('Ionic Deploy: Update error! ', err);
+					$ionicLoading.show({
+						template: "Error updating the application...",
+						noBackdrop: true,
+						duration: 1000
+					});
+				}, function(prog) {
+					$scope.updateProgress = prog;
+				});
 			};
 
       $scope.endpoints = [];
@@ -46,10 +67,12 @@ angular.module('koc.controllers')
             $scope.$broadcast('scroll.refreshComplete');
           });
       };
-			
+
 			$scope.refreshPage = function(){
-				refreshEndpoints();
-				checkNewAppVersion();
+				if(!$scope.isUpdating) {
+					refreshEndpoints();
+					checkNewAppVersion();
+				}
 			};
 
       $scope.openGitHub = function(){

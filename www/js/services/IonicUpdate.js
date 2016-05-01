@@ -50,39 +50,45 @@ angular.module('koc.services')
 				return p;
 			},
 			doUpdate: function(){
+				var defer = $q.defer();
+				var p = defer.promise;
 				var isCordovaApp = !!window.cordova;
 				if(!isCordovaApp){
-					$log.debug("Not updating app because not on a device");
-					return;
+					var s = "Not updating app because not on a device";
+					$log.debug(s);
+					defer.reject(s);
+					return p;
 				}
 				var deploy = this.getIonicDeploy();
 				if(deploy==null){
-					$log.error("Ionic not initialized...");
-					return;
+					var s2 = "Ionic not initialized...";
+					$log.error(s2);
+					defer.reject(s2);
+					return p;
 				}
-				deploy.update().then(function(res) {
-					$log.debug('Ionic Deploy: Update Success! ', res);
-					$ionicLoading.show({
-						template: "Application successfully updated",
-						noBackdrop: true,
-						duration: 1000
-					});
-				}, function(err) {
-					$log.debug('Ionic Deploy: Update error! ', err);
-					$ionicLoading.show({
-						template: "Error updating the application...",
-						noBackdrop: true,
-						duration: 1000
-					});
-				}, function(prog) {
-					$log.debug('Ionic Deploy: Progress... ', prog);
-				});
+				return deploy.update();
 			},
 			updateIfNewerVersion: function(){
 				var self = this;
 				self.checkForUpdate().then(function(hasUpdate){
 					if(hasUpdate){
-						self.doUpdate();
+						self.doUpdate().then(function(res) {
+							$log.debug('Ionic Deploy: Update Success! ', res);
+							$ionicLoading.show({
+								template: "Application successfully updated",
+								noBackdrop: true,
+								duration: 1000
+							});
+						}, function(err) {
+							$log.debug('Ionic Deploy: Update error! ', err);
+							$ionicLoading.show({
+								template: "Error updating the application...",
+								noBackdrop: true,
+								duration: 1000
+							});
+						}, function(prog) {
+							$log.debug('Ionic Deploy: Progress... ', prog);
+						});
 					}
 				});
 			}

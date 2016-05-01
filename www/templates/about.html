@@ -25,8 +25,11 @@
 				<div class="row" ng-hide="checkingNewVersions||newVersionAvailable">
 					<div class="col">You have the latest version</div>
 				</div>
-				<div class="row" ng-hide="!newVersionAvailable">
-					<div class="col"><button class="button button-dark button-bar" ng-click="doUpdate()">New version available! Click to update.</button></div>
+				<div class="row" ng-hide="isUpdating||!newVersionAvailable">
+					<div class="col"><button class="button button-dark button-bar" ng-click="doUpdate()" ng-disabled="isUpdating">New version available! Click to update.</button></div>
+				</div>
+				<div class="row" ng-hide="!isUpdating">
+					<div class="col"><progress max="100" value="{{updateProgress}}"> </progress></div>
 				</div>
 			</div>
 			<div class="item item-divider item-dark">Back-End (Load Balancing)</div>
