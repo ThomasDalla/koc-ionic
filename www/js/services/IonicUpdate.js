@@ -92,6 +92,13 @@ angular.module('koc.services')
 								duration: 1000
 							});
 						}, function(prog) {
+							if(prog==50){
+								$ionicLoading.show({
+									template: "Download completed, installing new app...",
+									noBackdrop: true,
+									duration: 2000
+								});
+							}
 							$log.debug('Auto-update progress: ', prog);
 						});
 					}
