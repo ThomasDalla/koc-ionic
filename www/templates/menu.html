@@ -11,6 +11,7 @@
 				<button class="button button-icon button-clear ion-navicon" menu-toggle="left">
 				</button>
 			</ion-nav-buttons>
+
 			<ion-nav-buttons side="right">
 				<ion-spinner ng-hide="loading===undefined||!loading"></ion-spinner>
 				<button class="button-clear pull-right" ng-hide="!showAdvisor||!advisor.length" ng-click="showAdvisorHelp()"><i
@@ -37,19 +38,19 @@
 		</ion-header-bar>
 		<ion-content style="background-color:#444;">
 			<ion-list>
-				<ion-item class="item-dark" nav-clear menu-close ui-sref="app.base">Command Center</ion-item>
-				<ion-item class="item-dark" nav-clear menu-close ui-sref="app.battlefield">Attack</ion-item>
-				<ion-item class="item-dark" nav-clear menu-close ui-sref="app.attacklog.onYou">Attack Log</ion-item>
-				<ion-item class="item-dark" nav-clear menu-close ui-sref="app.armory.buy">Armory</ion-item>
-				<ion-item class="item-dark" nav-clear menu-close ui-sref="app.training">Training</ion-item>
-				<ion-item class="item-dark" nav-clear menu-close ui-sref="app.intel.intercepted">Intelligence</ion-item>
-				<ion-item class="item-dark" nav-clear menu-close ui-sref="app.recruit">Recruit</ion-item>
-				<ion-item class="item-dark" nav-clear menu-close ui-sref="app.mercenaries">Mercenaries</ion-item>
-				<ion-item class="item-dark" nav-clear menu-close ui-sref="app.inbox">Messages</ion-item>
-				<ion-item class="item-dark" nav-clear menu-close href="#/app/help">Help</ion-item>
-				<ion-item class="item-dark" nav-clear menu-close href="#/app/settings">Settings</ion-item>
-				<ion-item class="item-dark" nav-clear menu-close href="#/app/about">About</ion-item>
-				<ion-item class="item-dark" nav-clear menu-close href="#/logout">Logout</ion-item>
+				<ion-item class="item-dark" nav-clear menu-close ui-sref="app.base"><i class="icon ion-help-buoy"></i> Command Center</ion-item>
+				<ion-item class="item-dark" nav-clear menu-close ui-sref="app.battlefield"><i class="icon ion-hammer"></i> Attack</ion-item>
+				<ion-item class="item-dark" nav-clear menu-close ui-sref="app.attacklog.onYou"><i class="icon ion-arrow-swap"></i> Attack Log</ion-item>
+				<ion-item class="item-dark" nav-clear menu-close ui-sref="app.armory.buy"><i class="icon ion-settings"></i> Armory</ion-item>
+				<ion-item class="item-dark" nav-clear menu-close ui-sref="app.training"><i class="icon ion-person-stalker"></i> Training</ion-item>
+				<ion-item class="item-dark" nav-clear menu-close ui-sref="app.intel.intercepted"><i class="icon ion-eye"></i> Intelligence</ion-item>
+				<ion-item class="item-dark" nav-clear menu-close ui-sref="app.recruit"><i class="icon ion-person-add"></i> Recruit</ion-item>
+				<ion-item class="item-dark" nav-clear menu-close ui-sref="app.mercenaries"><i class="icon ion-ios-body"></i> Mercenaries</ion-item>
+				<ion-item class="item-dark" nav-clear menu-close ui-sref="app.inbox"><i class="icon ion-email"></i> Messages</ion-item>
+				<ion-item class="item-dark" nav-clear menu-close href="#/app/help"><i class="icon ion-help-circled"></i> Help</ion-item>
+				<ion-item class="item-dark" nav-clear menu-close href="#/app/settings"><i class="icon ion-gear-b"></i> Settings</ion-item>
+				<ion-item class="item-dark" nav-clear menu-close href="#/app/about"><i class="icon ion-information-circled"></i> About</ion-item>
+				<ion-item class="item-dark" nav-clear menu-close href="#/logout"><i class="icon ion-log-out"></i> Logout</ion-item>
 			</ion-list>
 		</ion-content>
 	</ion-side-menu>

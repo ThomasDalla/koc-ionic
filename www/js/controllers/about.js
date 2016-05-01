@@ -2,12 +2,23 @@
 
 angular.module('koc.controllers')
 
-  .controller('AboutCtrl', ['$scope', '$ionicPlatform', '$log', '$cordovaClipboard', '$ionicLoading', 'Config',
-    function ($scope, $ionicPlatform, $log, $cordovaClipboard, $ionicLoading, Config) {
+  .controller('AboutCtrl', ['$scope', '$ionicPlatform', '$log', '$cordovaClipboard', '$ionicLoading', 'Config', 'IonicUpdate',
+    function ($scope, $ionicPlatform, $log, $cordovaClipboard, $ionicLoading, Config, IonicUpdate) {
 
       $log.debug("AboutCtrl");
       $scope.appVersion = 'local dev';
       $scope.apiVersion = null;
+			$scope.newVersionAvailable = false;
+			$scope.checkingNewVersions = false;
+			
+			var checkNewAppVersion = function(){
+				$scope.newVersionAvailable = false;
+				$scope.checkingNewVersions = true;
+				IonicUpdate.checkForUpdate().then(function(hasUpdate){
+					$scope.newVersionAvailable = hasUpdate;
+					$scope.checkingNewVersions = false;
+				});
+			};
 
       $ionicPlatform.ready(function () {
         $log.debug('Platform ready');
@@ -15,11 +26,16 @@ angular.module('koc.controllers')
           window.cordova.getAppVersion(function (version) {
             $scope.appVersion = version;
           });
+					checkNewAppVersion();
         }
       });
+			
+			$scope.doUpdate = function(){
+				IonicUpdate.doUpdate();
+			};
 
       $scope.endpoints = [];
-      $scope.refreshEndpoints = function() {
+      var refreshEndpoints = function() {
         Config.getEndpointsVersions()
           .then(function (res) {
             $scope.endpoints = res;
@@ -30,21 +46,36 @@ angular.module('koc.controllers')
             $scope.$broadcast('scroll.refreshComplete');
           });
       };
-      $scope.refreshEndpoints();
+			
+			$scope.refreshPage = function(){
+				refreshEndpoints();
+				checkNewAppVersion();
+			};
 
       $scope.openGitHub = function(){
-        window.open('http://github.com/ThomasDalla/koc-ionic', '_system', 'location=yes');
+        window.open('http://thomasdalla.github.io/koc-ionic', '_system', 'location=yes');
         return false;
       };
 
       $scope.copyToClipboard = function(type, text){
-        $cordovaClipboard
-          .copy(text)
-          .then(function () {
-            $ionicLoading.show({template: type + " address copied", noBackdrop: true, duration: 500});
-          }, function () {
-            $ionicLoading.show({template: "Error copying " + type + " address...", noBackdrop: true, duration: 2000});
-          });
+				if(!!window.cordova)
+				{ // on device
+					$cordovaClipboard
+						.copy(text)
+						.then(function () {
+							$ionicLoading.show({template: type + " address copied", noBackdrop: true, duration: 500});
+						}, function () {
+							$ionicLoading.show({template: "Error copying " + type + " address...", noBackdrop: true, duration: 2000});
+						});
+				}
+				else
+				{
+					$ionicLoading.show({template: "Not supported on local dev", noBackdrop: true, duration: 500});
+				}
       };
+
+			$scope.$on('$ionicView.enter', function(){
+				refreshEndpoints();
+			});
 
     }]);

@@ -17,6 +17,13 @@
 					<div>{{message.subject}}</div>
 				</div>
 			</div>
+			<div class="item item-center item-dark"
+					 style="background-color: #000000; color: #ffffff"
+					 ng-hide="inbox.messages.length>0||inboxError.length>0">
+					<div class="row">
+						<div class="col col-center">No message</div>
+					</div>
+				</div>
 		</div>
 	</ion-content>
 </ion-view>

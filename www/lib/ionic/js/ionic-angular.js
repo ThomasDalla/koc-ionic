@@ -2,7 +2,7 @@
  * Copyright 2015 Drifty Co.
  * http://drifty.com/
  *
- * Ionic, v1.3.0
+ * Ionic, v1.3.0-nightly-3134
  * A powerful HTML5 mobile app framework.
  * http://ionicframework.com/
  *
@@ -897,6 +897,16 @@ function($rootScope, $state, $location, $window, $timeout, $ionicViewSwitcher, $
         // it's back view would be better represented using the current view as its back view
         tmp = getViewById(switchToView.backViewId);
         if (tmp && switchToView.historyId !== tmp.historyId) {
+          // the new view is being removed from it's old position in the history and being placed at the top,
+          // so we need to update any views that reference it as a backview, otherwise there will be infinitely loops
+          var viewIds = Object.keys(viewHistory.views);
+          viewIds.forEach(function(viewId) {
+            var view = viewHistory.views[viewId];
+            if ( view.backViewId === switchToView.viewId ) {
+              view.backViewId = null;
+            }
+          });
+
           hist.stack[hist.cursor].backViewId = currentView.viewId;
         }
 
@@ -975,7 +985,7 @@ function($rootScope, $state, $location, $window, $timeout, $ionicViewSwitcher, $
           viewId: viewId,
           index: hist.stack.length,
           historyId: hist.historyId,
-          backViewId: (currentView && currentView.viewId && (currentView.historyId === hist.historyId || currentView.historyId === hist.parentHistoryId) ? currentView.viewId : null),
+          backViewId: (currentView && currentView.viewId ? currentView.viewId : null),
           forwardViewId: null,
           stateId: currentStateId,
           stateName: this.currentStateName(),
@@ -3048,6 +3058,11 @@ IonicModule
           var q = $q.defer();
 
           ionic.Platform.ready(function() {
+
+            window.addEventListener('statusTap', function() {
+              $ionicScrollDelegate.scrollTop(true);
+            });
+
             q.resolve();
             cb && cb();
           });
@@ -3055,10 +3070,6 @@ IonicModule
           return q.promise;
         }
       };
-
-      window.addEventListener('statusTap', function() {
-        $ionicScrollDelegate.scrollTop(true);
-      });
 
       return self;
     }]
@@ -13797,10 +13808,10 @@ IonicModule
     replace: true,
     require: ['^ionTabs', '^ionTab'],
     template:
-    '<a ng-class="{\'has-badge\':badge, \'tab-hidden\':isHidden()}" ' +
+    '<a ng-class="{\'has-badge\':badge, \'tab-hidden\':isHidden(), \'tab-item-active\': isTabActive()}" ' +
       ' ng-disabled="disabled()" class="tab-item">' +
       '<span class="badge {{badgeStyle}}" ng-if="badge">{{badge}}</span>' +
-      '<i class="icon"></i>' +
+      '<i class="icon {{getIcon()}}" ng-if="getIcon()"></i>' +
       '<span class="tab-title" ng-bind-html="title"></span>' +
     '</a>',
     scope: {
@@ -13849,35 +13860,16 @@ IonicModule
         return tabsCtrl.selectedTab() === tabCtrl.$scope;
       };
 
-      $scope.$watch("icon", function() {
-        styleTab();
-      });
-
-      $scope.$watch("iconOff", function() {
-        styleTab();
-      });
-
-      $scope.$watch("iconOn", function() {
-        styleTab();
-      });
-
-      function styleTab() {
-        // check if tab if active
+      $scope.getIcon = function() {
         if ( tabsCtrl.selectedTab() === tabCtrl.$scope ) {
-          $element.addClass('tab-item-active');
-          $element.find('i').removeClass($scope.getIconOff());
-          $element.find('i').addClass($scope.getIconOn());
+          // active
+          return $scope.iconOn || $scope.icon;
         }
         else {
-          $element.removeClass('tab-item-active');
-          $element.find('i').removeClass($scope.getIconOn());
-          $element.find('i').addClass($scope.getIconOff());
+          // inactive
+          return $scope.iconOff || $scope.icon;
         }
-      }
-
-      $scope.$on("tabSelected", styleTab);
-
-      styleTab();
+      };
     }
   };
 }]);

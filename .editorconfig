@@ -1,5 +1,17 @@
 root = true
 
+[js/*.js]
+indent_style = tab
+indent_size = 2
+
+[js/*/*.js]
+indent_style = tab
+indent_size = 2
+
+[*.js]
+indent_style = tab
+indent_size = 2
+
 [lib/*.js]
 indent_style = tab
 indent_size = 2

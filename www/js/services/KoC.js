@@ -37,7 +37,7 @@ angular.module('koc.services')
               ) {
                 // try to reconnect, and reload the request
                 $log.debug("try to re-login and then retry the request before propagating");
-                $log.debug("page to retry", response.config);
+                $log.debug("page to retry: ", response.config.page);
                 var user = User.get();
                 var originalRequestConfig = response.config;
                 var KoC = $injector.get('KoC');
@@ -112,6 +112,11 @@ angular.module('koc.services')
             }
             // propagate the response
             $rootScope.$broadcast('showLoading', false);
+            if(response.data!==undefined && response.data!==null && typeof(response.data)=="object") {
+              var data = {};
+              angular.copy(response.data, data);
+              response.data.data = data;
+            }
             return response;
           }
         };
@@ -244,8 +249,8 @@ angular.module('koc.services')
           // We must have a local instance of koc-api running so that we login locally
           return this.getPage("POST", "/login", {
             username: username,
-            password: password,
-          }, 0, false, "http://localhost:3000/api");
+            password: password
+          }, 0, false, LocalApi);
         }
         else if( ionic.Platform.platform() == "android"
               || ionic.Platform.platform() == "ios" ) {

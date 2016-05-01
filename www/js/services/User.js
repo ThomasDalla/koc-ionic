@@ -72,7 +72,7 @@ angular.module('koc.services', [ 'koc.constants' ] )
       showBestWeaponsOnly: function (newValue) {
         if(newValue===undefined) {
           var val = window.localStorage['showBestWeaponsOnly'];
-          return (val===undefined) ? false : !!val;
+          return val == "true";
         }
         window.localStorage['showBestWeaponsOnly'] = newValue;
       },

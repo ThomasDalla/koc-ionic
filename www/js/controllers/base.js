@@ -20,7 +20,12 @@ angular.module('koc.controllers')
         $log.debug("load the base, cacheTimeInSeconds=" + cacheTimeInSeconds);
         $scope.baseError = "";
         KoC.getBase(cacheTimeInSeconds).success(function (response) {
-          if (response.success === true) {
+          if(response === undefined){
+            var errMsg = "Error retrieving the base";
+            $log.error(errMsg);
+            $scope.baseError = errMsg;
+          }
+          else if (response.success === true) {
             $scope.base = response.result.user;
             $log.debug("retrieved the base");
             $rootScope.$broadcast('kocAdvisor', response.help);

@@ -2,8 +2,8 @@
 
 angular.module('koc.controllers')
 
-  .controller('LoginCtrl', [ "$ionicPlatform", "$scope", "$timeout", "$state", "$ionicLoading", "$ionicModal", "$ionicPopup", '$log', "User", "KoC",
-    function ($ionicPlatform, $scope, $timeout, $state, $ionicLoading, $ionicModal, $ionicPopup, $log, User, KoC) {
+  .controller('LoginCtrl', [ "$ionicPlatform", "$scope", "$timeout", "$state", "$ionicLoading", "$ionicModal", "$ionicPopup", '$log', "User", "KoC", "IonicUpdate",
+    function ($ionicPlatform, $scope, $timeout, $state, $ionicLoading, $ionicModal, $ionicPopup, $log, User, KoC, IonicUpdate) {
 
       $log.debug("LoginCtrl");
 
@@ -24,6 +24,7 @@ angular.module('koc.controllers')
           }
         }).error(function (error) {
           $scope.loginError = "Error trying to logout...";
+					$log.error("Error signing out: ", error);
         });
       }
 
@@ -74,7 +75,6 @@ angular.module('koc.controllers')
           };
         });
       };
-      $timeout(createModals, 1000);
 
       //Cleanup the modals when we're done with them
       $scope.$on('$destroy', function () {
@@ -188,11 +188,18 @@ angular.module('koc.controllers')
         }
       };
 
-      if ($scope.user.loggedIn) {
-        // try to login when ionic is ready
-        $ionicPlatform.ready(function () {
-          $scope.doLogin();
-        } );
-      }
+			$scope.$on('$ionicView.enter', function(){
+
+				// Update the app
+				IonicUpdate.updateIfNewerVersion();
+
+				$timeout(createModals, 1000);
+				if ($scope.user.loggedIn) {
+					// try to login when ionic is ready
+					$ionicPlatform.ready(function () {
+						$scope.doLogin();
+					} );
+				}
+			});
 
     }]);

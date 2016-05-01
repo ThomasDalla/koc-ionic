@@ -2,7 +2,7 @@
   "name": "koc-ionic",
   "private": "true",
   "devDependencies": {
-    "ionic": "driftyco/ionic-bower#1.3.0",
+    "ionic": "driftyco/ionic-bower#1.3.0-nightly-3134",
     "ionic-service-core": "~0.1.5",
     "ionic-service-deploy": "~0.0.6",
     "ionic-platform-web-client": "^0.7.1"
@@ -11,6 +11,7 @@
     "angular-cookies": "~1.3.15",
     "ngCordova": "~0.1.15-alpha",
     "firebase": "~2.2.4",
-    "cordova-plugin-koc": "https://github.com/ThomasDalla/cordova-plugin-koc.git"
+    "cordova-plugin-koc": "https://github.com/ThomasDalla/cordova-plugin-koc.git",
+    "Ionicons": "ionicons#^2.0.1"
   }
 }

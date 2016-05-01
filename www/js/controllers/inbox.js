@@ -10,7 +10,7 @@ angular.module('koc.controllers')
       $scope.replyError = "";
 
       $scope.inbox = {
-        messages: [],
+        messages: []
       };
 
       $scope.reloadInbox = function () {
@@ -30,23 +30,32 @@ angular.module('koc.controllers')
         var method = "GET";
         KoC.getPage(method, action, data, cacheTimeInSeconds, true)
           .success(function (response) {
-            if (response.success === true) {
+            if(response===undefined){
+              var errMsg = "Could not retrieve the inbox (logout and retry?)";
+              $scope.inboxError = errMsg;
+              $log.error(errMsg);
+            }
+            else if (response.success === true) {
               $scope.inbox = response.result.inbox;
               $log.debug("retrieved the inbox");
             }
             else {
               $scope.inboxError = response.error;
+              $log.error(response.error);
             }
-          }).error(function (error) {
-            $scope.inboxError = "An error occurred retrieving the inbox";
-          }).
-          finally(function () {
+          })
+          .error(function (error) {
+              var errMsg = "An error occurred retrieving the inbox";
+              $scope.inboxError = errMsg;
+              $log.error(errMsg);
+          })
+          .finally(function () {
             $log.debug("finished processing inbox");
             $scope.disableActions = false;
             $scope.$broadcast('scroll.refreshComplete');
           });
       };
-      
+
       $scope.messageModal = null;
       $scope.replyModal = null;
       var createModals = function () {
