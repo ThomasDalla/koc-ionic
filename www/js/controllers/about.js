@@ -11,6 +11,7 @@ angular.module('koc.controllers')
 			$scope.newVersionAvailable = false;
 			$scope.checkingNewVersions = false;
 			$scope.isUpdating = false;
+			$scope.updateProgress = 0;
 
 			var checkNewAppVersion = function(){
 				$scope.newVersionAvailable = false;
@@ -33,7 +34,7 @@ angular.module('koc.controllers')
 
 			$scope.doUpdate = function(){
 				$scope.isUpdating = true;
-				$scope.updateProgress = true;
+				$scope.updateProgress = 0;
 				IonicUpdate.doUpdate().then(function(res) {
 					$scope.isUpdating = false;
 					$log.debug('Ionic Deploy: Update Success! ', res);
@@ -51,7 +52,7 @@ angular.module('koc.controllers')
 						duration: 1000
 					});
 				}, function(prog) {
-					$scope.updateProgress = prog;
+					$scope.updateProgress = prog*100;
 				});
 			};
 
