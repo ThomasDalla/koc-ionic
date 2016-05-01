@@ -37,7 +37,7 @@ angular.module('koc.controllers')
 				$scope.updateProgress = 0;
 				IonicUpdate.doUpdate().then(function(res) {
 					$scope.isUpdating = false;
-					$log.debug('Ionic Deploy: Update Success! ', res);
+					$log.debug('Update success from About!', res);
 					$ionicLoading.show({
 						template: "Application successfully updated",
 						noBackdrop: true,
@@ -45,14 +45,23 @@ angular.module('koc.controllers')
 					});
 				}, function(err) {
 					$scope.isUpdating = false;
-					$log.debug('Ionic Deploy: Update error! ', err);
+					$log.debug('Update error from About! ', err);
 					$ionicLoading.show({
 						template: "Error updating the application...",
 						noBackdrop: true,
 						duration: 1000
 					});
 				}, function(prog) {
-					$scope.updateProgress = prog*100;
+					if($scope.updateProgress<50&&prog>=50){
+						$ionicLoading.show({
+							template: "Download completed, installing new app...",
+							noBackdrop: true,
+							duration: 2000
+						});
+					}
+					$scope.updateProgress = Math.trunc(prog);
+					$log.debug('Update from About: ', $scope.updateProgress);
+					$scope.$apply();
 				});
 			};
 

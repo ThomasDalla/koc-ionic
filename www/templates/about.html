@@ -29,10 +29,10 @@
 					<div class="col"><button class="button button-dark button-bar" ng-click="doUpdate()" ng-disabled="isUpdating">New version available! Click to update.</button></div>
 				</div>
 				<div class="row row-center" ng-hide="!isUpdating">
-					<div class="col col-center">Downloading...</div>
+					<div class="col col-center">Downloading... {{ updateProgress }}%</div>
 				</div>
 				<div class="row" ng-hide="!isUpdating">
-					<div class="col"><progress max="100" value="{{updateProgress}}"></progress></div>
+					<div class="col"><progress max="100" value="{{ updateProgress }}"></progress></div>
 				</div>
 			</div>
 			<div class="item item-divider item-dark">Back-End (Load Balancing)</div>

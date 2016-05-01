@@ -34,7 +34,7 @@ angular.module('koc.services')
 						defer.resolve(false);
 					}
 					deploy.check().then(function (hasUpdate) {
-						$log.debug('Ionic Deploy: Update available: ' + hasUpdate);
+						$log.debug('Update available: ' + hasUpdate);
 						defer.resolve(hasUpdate);
 					}, function (err) {
 						var errMsg = 'Failed checking for app updates...';
@@ -72,22 +72,27 @@ angular.module('koc.services')
 				var self = this;
 				self.checkForUpdate().then(function(hasUpdate){
 					if(hasUpdate){
+						$ionicLoading.show({
+							template: "New app version found, updating...",
+							noBackdrop: true,
+							duration: 3000
+						});
 						self.doUpdate().then(function(res) {
-							$log.debug('Ionic Deploy: Update Success! ', res);
+							$log.debug('Auto-update success! ', res);
 							$ionicLoading.show({
 								template: "Application successfully updated",
 								noBackdrop: true,
 								duration: 1000
 							});
 						}, function(err) {
-							$log.debug('Ionic Deploy: Update error! ', err);
+							$log.debug('Auto-update error!', err);
 							$ionicLoading.show({
 								template: "Error updating the application...",
 								noBackdrop: true,
 								duration: 1000
 							});
 						}, function(prog) {
-							$log.debug('Ionic Deploy: Progress... ', prog);
+							$log.debug('Auto-update progress: ', prog);
 						});
 					}
 				});
