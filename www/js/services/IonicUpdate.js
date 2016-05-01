@@ -9,7 +9,7 @@ angular.module('koc.services')
 				var isCordovaApp = !!window.cordova;
 				if(isCordovaApp){
 					if(!self.deploy)
-						self.deploy = new Ionic.Deploy();
+						self.deploy = IonicDeploy;
 					return self.deploy;
 				}
 				return null;
