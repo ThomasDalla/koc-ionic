@@ -28,7 +28,9 @@ angular.module('koc.services')
                 typeof(response.data.result) == "object"
                 && response.data.result.loggedIn !== undefined
                 && response.data.result.loggedIn === false
-              || (
+								&& response.data.location.indexOf("battlefield.php") >= 0
+								&& response.config.loginAndRetry === true // otherwise infinite loop
+							|| (
               response.data.success === false &&
               response.config.loginAndRetry === true && User.hasLoggedIn()
               && response.data.location !== undefined && response.data.location.indexOf("error.php") >= 0
@@ -39,7 +41,8 @@ angular.module('koc.services')
                 $log.debug("try to re-login and then retry the request before propagating");
                 $log.debug("page to retry: ", response.config.page);
                 var user = User.get();
-                var originalRequestConfig = response.config;
+                var originalRequestConfig = {};
+							  angular.copy(response.config, originalRequestConfig);
                 var KoC = $injector.get('KoC');
                 var $http = $injector.get('$http');
                 var defer = $q.defer();
@@ -49,10 +52,12 @@ angular.module('koc.services')
                     $log.debug("we re-logged in", r);
                     originalRequestConfig.loginAndRetry = false; // retry only once
                     $log.debug("retrying initial request", originalRequestConfig);
-                    return defer.resolve($http(originalRequestConfig));
+                    defer.resolve($http(originalRequestConfig));
                   }
-                  $log.debug("failed to login");
-                  defer.resolve(r);
+									else {
+										$log.debug("failed to login");
+										defer.resolve(r);
+									}
                 })
                 .error(function(err){
                     defer.resolve({
@@ -264,11 +269,18 @@ angular.module('koc.services')
             $rootScope.$broadcast('showLoading', false);
             $log.debug("logged in natively", response);
             if(response!==undefined && response.success) {
-              User.setSession(response.session);
+							User.setSession(response.session);
+							defer2.resolve(response);
               $log.debug("calling /setres");
-              _koc.getPage("GET", "/setres", {}, 0, false).success(function(){});
+              _koc.getPage("GET", "/setres", {}, 0, false).success(function(){}).error(function(){});
             }
-            defer2.resolve(response);
+						else{
+							defer2.resolve({
+								success: false,
+								error: "Failed to login",
+								details: response,
+							});
+						}
           }, function(error) {
             $rootScope.$broadcast('showLoading', false);
             $log.debug("error logging in natively", error);
