@@ -82,6 +82,34 @@
 				</button>
 			</div>
 
+			<div class="item item-divider item-dark">Fortification</div>
+			<div class="item item-stable">
+				<div class="row">
+					<div class="col center">{{armory.upgrades.fortification.current}}</div>
+				</div>
+				<div class="row">
+					<div class="col center">
+						<button class="button button-small button-dark" ng-disabled="disableActions"
+										ng-click="upgradeFortification()">{{armory.upgrades.fortification.next}}
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="item item-divider item-dark">Siege Technology</div>
+			<div class="item item-stable">
+				<div class="row">
+					<div class="col center">{{armory.upgrades.siegeTechnology.current}}</div>
+				</div>
+				<div class="row">
+					<div class="col center">
+						<button class="button button-small button-dark" ng-disabled="disableActions"
+										ng-click="upgradeSiegeTechnology()">{{armory.upgrades.siegeTechnology.next}}
+						</button>
+					</div>
+				</div>
+			</div>
+
 			<div class="item item-toggle">
 				Show Best Weapons Only
 				<label class="toggle toggle-dark">
