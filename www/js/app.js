@@ -26,13 +26,14 @@ angular.module('koc.controllers', [ 'ngCordova', 'koc.services' ])
 
   }]);
 
-angular.module('koc', ['ionic','ionic.service.core',  'koc.controllers'])
+angular.module('koc', ['ionic','ionic.service.core', 'ionic.service.analytics', 'koc.controllers'])
 
-  .run([ '$ionicPlatform', '$ionicLoading', '$log', function ($ionicPlatform, $ionicLoading, $log) {
+  .run([ '$ionicPlatform', '$ionicAnalytics', '$ionicLoading', '$log', function ($ionicPlatform, $ionicAnalytics, $ionicLoading, $log) {
 
     $log.debug("Starting app...");
     $ionicPlatform.ready(function () {
       $log.debug("Ionic platform ready");
+			$ionicAnalytics.register();
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
       if (window.cordova && window.cordova.plugins.Keyboard) {

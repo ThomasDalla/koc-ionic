@@ -2,7 +2,7 @@
 
 angular.module('koc.services')
 
-.factory('IonicUpdate', ['$log', '$q', '$ionicLoading', function ($log, $q, $ionicLoading) {
+.factory('IonicUpdate', ['$log', '$q', '$ionicLoading', 'User', function ($log, $q, $ionicLoading, User) {
 		return {
 			getIonicDeploy: function(){
 				var self = this;
@@ -14,6 +14,7 @@ angular.module('koc.services')
 							return null;
 						}
 						self.deploy = new Ionic.Deploy();
+						self.deploy.setChannel(User.getChannel());
 					}
 					return self.deploy;
 				}
