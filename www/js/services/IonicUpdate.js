@@ -100,7 +100,6 @@ angular.module('koc.services')
 									duration: 2000
 								});
 							}
-							$log.debug('Auto-update progress: ', prog);
 						});
 					}
 				});

@@ -61,7 +61,6 @@ angular.module('koc.controllers')
 						});
 					}
 					$scope.updateProgress = Math.trunc(prog);
-					$log.debug('Update from About: ', $scope.updateProgress);
 					$scope.$apply();
 				});
 			};
