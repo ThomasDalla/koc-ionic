@@ -199,11 +199,9 @@ angular.module('koc.services', [ 'koc.constants' ] )
 				window.localStorage["channel"] = newValue;
 			},
 			getChannel: function(){
-				if(newValue===undefined){
-					var channel = window.localStorage["channel"];
-					if(channel!==undefined && channel!==null && channel.length>0)
-						return channel;
-				}
+				var channel = window.localStorage["channel"];
+				if(channel!==undefined && channel!==null && channel.length>0)
+					return channel;
 				return "production";
 			}
     };

@@ -16,11 +16,9 @@
 			<div class="item item-divider item-dark">Front-End</div>
 			<div class="item">
 				<div class="row">
-					<div class="col">Ionic Mobile App</div>
-					<div class="col">{{appVersion}}</div>
-				</div>
-				<div class="row" ng-hide="!checkingNewVersions">
-					<div class="col">Checking new app versions...</div>
+					<div class="col col-34">koc-ionic</div>
+					<div class="col col-33">{{appVersion}}</div>
+					<div class="col col-33">{{channel}}</div>
 				</div>
 				<div class="row" ng-hide="checkingNewVersions||newVersionAvailable">
 					<div class="col">You have the latest version</div>
@@ -38,9 +36,9 @@
 			<div class="item item-divider item-dark">Back-End (Load Balancing)</div>
 			<div class="item item-stable" style="height:30px;padding:0">
 				<div class="row">
-					<div class="col-60">URL</div>
-					<div class="col-20">API</div>
-					<div class="col-20">KOC</div>
+					<div class="col col-60">URL</div>
+					<div class="col col-20">API</div>
+					<div class="col col-20">KOC</div>
 				</div>
 			</div>
 			<div class="item item-text-wrap" ng-hide="endpoints.length">
@@ -50,9 +48,9 @@
 			</div>
 			<div class="item item-text-wrap" ng-repeat="endpoint in endpoints">
 				<div class="row">
-					<div class="col-60">{{endpoint.url}}</div>
-					<div class="col-20">{{endpoint.api}}</div>
-					<div class="col-20">{{endpoint.koc}}</div>
+					<div class="col col-60">{{endpoint.url}}</div>
+					<div class="col col-20">{{endpoint.api}}</div>
+					<div class="col col-20">{{endpoint.koc}}</div>
 				</div>
 			</div>
 		</div>

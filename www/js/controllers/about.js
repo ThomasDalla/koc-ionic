@@ -2,8 +2,8 @@
 
 angular.module('koc.controllers')
 
-  .controller('AboutCtrl', ['$scope', '$ionicPlatform', '$log', '$cordovaClipboard', '$ionicLoading', 'Config', 'IonicUpdate',
-    function ($scope, $ionicPlatform, $log, $cordovaClipboard, $ionicLoading, Config, IonicUpdate) {
+  .controller('AboutCtrl', ['$scope', '$ionicPlatform', '$log', '$cordovaClipboard', '$ionicLoading', 'Config', 'IonicUpdate', 'User',
+    function ($scope, $ionicPlatform, $log, $cordovaClipboard, $ionicLoading, Config, IonicUpdate, User) {
 
       $log.debug("AboutCtrl");
       $scope.appVersion = 'local dev';
@@ -12,6 +12,7 @@ angular.module('koc.controllers')
 			$scope.checkingNewVersions = false;
 			$scope.isUpdating = false;
 			$scope.updateProgress = 0;
+			$scope.channel = User.getChannel();
 
 			var checkNewAppVersion = function(){
 				$scope.newVersionAvailable = false;

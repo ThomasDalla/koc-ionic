@@ -38,7 +38,7 @@ angular.module('koc.services')
               )
               ) {
                 // try to reconnect, and reload the request
-                $log.debug("try to re-login and then retry the request before propagating");
+                $log.warn("try to re-login and then retry the request before propagating");
                 $log.debug("page to retry: ", response.config.page);
                 var user = User.get();
                 var originalRequestConfig = {};
@@ -49,9 +49,9 @@ angular.module('koc.services')
                 var p = defer.promise;
                 KoC.login(user.username, user.password).success(function (r) {
                   if (r.success) {
-                    $log.debug("we re-logged in", r);
+                    $log.info("we logged in back", r);
                     originalRequestConfig.loginAndRetry = false; // retry only once
-                    $log.debug("retrying initial request", originalRequestConfig);
+                    $log.info("retrying initial request", originalRequestConfig);
                     defer.resolve($http(originalRequestConfig));
                   }
 									else {
@@ -260,7 +260,7 @@ angular.module('koc.services')
         else if( ionic.Platform.platform() == "android"
               || ionic.Platform.platform() == "ios" ) {
           var platform = ionic.Platform.platform();
-          $log.debug("trying to login natively on "+platform+"...");
+          $log.info("trying to login natively on "+platform+"...");
           var defer2 = $q.defer();
           var p2 = defer2.promise;
           // Login natively
@@ -270,9 +270,12 @@ angular.module('koc.services')
             $log.debug("logged in natively", response);
             if(response!==undefined && response.success) {
 							User.setSession(response.session);
-							defer2.resolve(response);
               $log.debug("calling /setres");
-              _koc.getPage("GET", "/setres", {}, 0, false).success(function(){}).error(function(){});
+              _koc.getPage("GET", "/setres", {}, 0, false).success(function(){
+								defer2.resolve(response);
+							}).error(function(){
+								defer2.resolve(response);
+							});
             }
 						else{
 							defer2.resolve({
