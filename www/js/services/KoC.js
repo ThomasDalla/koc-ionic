@@ -50,6 +50,9 @@ angular.module('koc.services')
                 KoC.login(user.username, user.password).success(function (r) {
                   if (r.success) {
                     $log.info("we logged in back", r);
+                    originalRequestConfig.headers = {
+                        'X-KoC-Session': r.session
+                    };
                     originalRequestConfig.loginAndRetry = false; // retry only once
                     $log.info("retrying initial request", originalRequestConfig);
                     defer.resolve($http(originalRequestConfig));
