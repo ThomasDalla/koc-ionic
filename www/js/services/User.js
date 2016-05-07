@@ -1,4 +1,4 @@
-/*global angular*/
+/*global angular,Ionic*/
 
 angular.module('koc.services', [ 'koc.constants' ] )
 
@@ -29,7 +29,7 @@ angular.module('koc.services', [ 'koc.constants' ] )
 
   }])
 
-  .factory('User', ['$q', '$rootScope', '$log', function ($q, $rootScope, $log) {
+  .factory('User', ['$q', '$rootScope', '$log', '$ionicAnalytics', function ($q, $rootScope, $log, $ionicAnalytics) {
     return {
       get: function () {
         return {
@@ -85,10 +85,10 @@ angular.module('koc.services', [ 'koc.constants' ] )
       },
       getCacheSize: function () {
         var total = 0;
-        for (var x in localStorage) {
-          if (x.indexOf("cache_") >= 0)
-            total += localStorage[x].length;
-        }
+        localStorage.forEach(function (x) {
+					if (x.indexOf("cache_") >= 0)
+						total += localStorage[x].length;
+				});
         total = total * 2 / 1024;
         return total;
       },
@@ -96,6 +96,17 @@ angular.module('koc.services', [ 'koc.constants' ] )
         var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(email);
       },
+			getIonicUser: function(){
+				var currentUser =  null;
+				try {
+					currentUser = Ionic.User.current();
+				}
+				catch(e){
+					$log.error("Error getting current Ionic user:", e);
+					currentUser = null;
+				}
+				return currentUser;
+			},
       // setBase: function(user) {
       //   window.localStorage['base'] = JSON.stringify(user);
       // },
@@ -104,7 +115,36 @@ angular.module('koc.services', [ 'koc.constants' ] )
       // },
       setLoggedIn: function (loggedIn) {
         window.localStorage['loggedIn'] = !!loggedIn;
+				if(!!loggedIn){
+					try {
+						// Save the user
+						var user = this.getIonicUser();
+						if(user!=null) {
+							user.id = this.get().username;
+							user.save().then(function () {
+								$log.debug("Saved user: " + user.id);
+							}, function (err) {
+								$log.error("Failed saving user " + user.id, err);
+							});
+						}
+					}
+					catch(e){
+						$log.error("An error occurred saving the user:", e);
+					}
+					// Send a login event
+					this.track('User Login'); // username is always injected
+				}
       },
+			track: function(actionName, data){
+				try {
+					if(data==null||data==undefined||typeof(data)!="object")
+						data = {};
+					data.username = this.get().username;
+					$ionicAnalytics.track(actionName, data);
+				} catch(ex){
+					$log.error("Error tracking the event [" + actionName +"]", ex);
+				}
+			},
       hasLoggedIn: function () {
         return window.localStorage['loggedIn'] == "true" || false;
       },
@@ -120,6 +160,9 @@ angular.module('koc.services', [ 'koc.constants' ] )
           if (data.timestamp === undefined || typeof(data.timestamp) != "number")
             data.timestamp = +new Date(); // if the server didn't provide a timestamp, set it
           window.localStorage[localStorageKey] = JSON.stringify(data);
+					this.track('Page Retrieved', {
+						location: page
+					});
         }
       },
       getPageRetrievedTime: function (page) {

@@ -1,4 +1,4 @@
-/*global angular*/
+/*global angular,Ionic*/
 
 angular.module('koc.controllers')
 
@@ -106,7 +106,7 @@ angular.module('koc.controllers')
               $scope.loginError = "";
               //User.setBase(response.user);
               User.setLoggedIn(true);
-              $state.go('app.base');
+							$state.go('app.base');
             }
             else {
               $scope.loginError = response.error;
@@ -137,7 +137,7 @@ angular.module('koc.controllers')
                 title: 'E-Mail sent',
                 template: response.result.message,
                 okType: "button-dark"
-              }).then(function (res) {
+              }).then(function () {
                 $scope.closeVerifyAccount();
               });
             }
@@ -146,6 +146,7 @@ angular.module('koc.controllers')
             }
           }).error(function (err) {
             $scope.verifyAccountError = "Error trying to verify your e-mail";
+						$log.error("Error trying to verify e-mail:", err);
           });
         }
       };
@@ -174,7 +175,7 @@ angular.module('koc.controllers')
                 title: 'Credentials sent',
                 template: response.result.message,
                 okType: "button-dark"
-              }).then(function (res) {
+              }).then(function () {
                 $scope.forgotLoginModal.hide();
               });
             }
@@ -189,6 +190,13 @@ angular.module('koc.controllers')
       };
 
 			$scope.$on('$ionicView.enter', function(){
+
+				try {
+					Ionic.io();
+					$log.debug("Ionic.io() initialized");
+				} catch(e){
+					$log.error("An error occurred initializing Ionic.io():", e);
+				}
 
 				// Update the app
 				IonicUpdate.updateIfNewerVersion();

@@ -70,8 +70,10 @@ angular.module('koc.controllers')
             $scope.armory = response.result.armory;
             if ($scope.armory.error.length)
               $ionicLoading.show({template: $scope.armory.error, noBackdrop: true, duration: 2000});
-            else
-              $ionicLoading.show({template: successMessage, noBackdrop: true, duration: 600});
+            else {
+							$ionicLoading.show({template: successMessage, noBackdrop: true, duration: 600});
+							User.track('Weapons bought', inputNameValue);
+						}
             $scope.stats = response.stats;
             $scope.recalcBuyTotal();
             $log.debug("retrieved the armory");

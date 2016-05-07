@@ -25,6 +25,7 @@ angular.module('koc.controllers')
             if (response.result.challenge_url !== undefined)
               $scope.challengeImage = response.result.image;
             //$rootScope.$broadcast('kocAdvisor', response.help);
+						User.track('Recruit Page Loaded');
           }
           else {
             $scope.recruitError = (response!==undefined) ? response.error : "Unknown Error";
