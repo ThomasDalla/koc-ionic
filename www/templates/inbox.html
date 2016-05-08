@@ -19,11 +19,19 @@
 			</div>
 			<div class="item item-center item-dark"
 					 style="background-color: #000000; color: #ffffff"
-					 ng-hide="inbox.messages.length>0||inboxError.length>0">
+					 ng-hide="inbox.messages.length>0||inboxError.length>0||disableActions">
 					<div class="row">
 						<div class="col col-center">No message</div>
 					</div>
 				</div>
+			</div>
+			<div class="item item-center item-dark"
+					 style="background-color: #000000; color: #ffffff"
+					 ng-hide="!disableActions">
+					<div class="row row-center">
+						<div class="col col-center">Loading...</div>
+					</div>
+			</div>
 		</div>
 	</ion-content>
 </ion-view>

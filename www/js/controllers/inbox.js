@@ -81,6 +81,9 @@ angular.module('koc.controllers')
           $scope.replyModal = modal;
           $scope.replyMessage = function () {
             $scope.messageModal.hide();
+            $scope.replyContent = "";
+            $scope.replyTitle = "Reply to " + $scope.message.from.username;
+            $scope.replySubject = "RE: " + $scope.message.subject;
             $scope.replyModal.show();
           };
           $scope.closeReply = function () {
@@ -90,14 +93,22 @@ angular.module('koc.controllers')
       };
       $timeout(createModals, 1000);
 
+      //Cleanup the modals when we're done with them
+      $scope.$on('$destroy', function () {
+        if ($scope.messageModal !== undefined) $scope.messageModal.remove();
+        if ($scope.replyModal   !== undefined) $scope.replyModal.remove();
+      });
+
       $scope.replyContent = "";
-      $scope.reply = function() {
+      $scope.reply = function(subject, content) {
         $scope.disableActions = true;
-        KoC.sendMessage($scope.message.from.userid, "RE: " + $scope.message.subject, $scope.replyContent)
+        KoC.sendMessage($scope.message.from.userid, subject, content)
             .success(function(response){
                 if (response.success === true) {
                   $scope.inbox = response.result.inbox;
                   $log.debug("sent the message and refreshed the inbox");
+                  $scope.replyModal.hide();
+                  $ionicLoading.show({template: 'Message sent', noBackdrop: true, duration: 1000});
                 }
                 else {
                   $scope.replyError = response.error;

@@ -10,7 +10,7 @@ angular.module('koc.controllers')
 
       var retrieveLastPage = function() {
         if ($stateParams.page === undefined || $stateParams.page == 0) {
-          $stateParams.page = ($rootScope.lastBattlefieldPage !== undefined) ? $rootScope.lastBattlefieldPage : 0;
+          $stateParams.page = ($rootScope.lastBattlefieldPage !== undefined) ? Number.parseInt($rootScope.lastBattlefieldPage) : 0;
         }
       };
       retrieveLastPage();
@@ -57,9 +57,12 @@ angular.module('koc.controllers')
         if (page === undefined || !isFinite(page) || page <= 0)
           action = "/attackfield";
         else
+        {
           data = {
             page: page,
           };
+          $rootScope.lastBattlefieldPage = page;
+        }
         KoC.getPage(method, action, data, cacheTimeInSeconds, true)
           .success(function (response) {
             if (response.success === true) {

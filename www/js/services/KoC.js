@@ -372,6 +372,17 @@ angular.module('koc.services')
         }
       },
       sendMessage: function(userid, subject, content) {
+        if(userid===undefined||userid===null)
+        {
+          var defer = $q.defer();
+          var p = defer.promise;
+          defer.resolve({
+            success: false,
+            error: "I don't know who to send the message to.",
+          });
+          return p;
+        }
+        $log.debug("Sending a message to " + userid + ": " + subject, content);
         return this.getPage("POST", "/writemail/" + userid, {
           subject: subject,
           message: content

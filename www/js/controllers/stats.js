@@ -2,8 +2,8 @@
 
 angular.module('koc.controllers')
 
-  .controller('StatsCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', '$ionicHistory', '$rootScope', '$ionicPopup', '$log', 'User', 'KoC',
-    function ($scope, $stateParams, $state, $ionicLoading, $ionicHistory, $rootScope, $ionicPopup, $log, User, KoC) {
+  .controller('StatsCtrl', ['$scope', '$stateParams', '$state', '$ionicLoading', '$ionicHistory', '$ionicModal', '$timeout', '$rootScope', '$ionicPopup', '$log', 'User', 'KoC',
+    function ($scope, $stateParams, $state, $ionicLoading, $ionicHistory, $ionicModal, $timeout, $rootScope, $ionicPopup, $log, User, KoC) {
 
       $log.debug("StatsCtrl");
       $scope.statsError = "Loading...";
@@ -188,6 +188,55 @@ angular.module('koc.controllers')
             $scope.raidButtonText = "Raid";
           });
         }
+      };
+
+      // Send message from Stats
+      $scope.replyModal = null;
+      var createModals = function () {
+        $ionicModal.fromTemplateUrl('templates/reply.html', {
+          scope: $scope,
+          animation: 'slide-in-up'
+        }).then(function (modal) {
+          $scope.replyModal = modal;
+          $scope.sendMessage = function () {
+            $scope.replyTitle = "Message to " + $scope.userStats.username;
+            $scope.replySubject = "";
+            $scope.replyContent = "";
+            $scope.replyModal.show();
+          };
+          $scope.closeReply = function () {
+            $scope.replyModal.hide();
+          };
+        });
+      };
+      $timeout(createModals, 1000);
+
+      //Cleanup the modals when we're done with them
+      $scope.$on('$destroy', function () {
+        if ($scope.replyModal   !== undefined) $scope.replyModal.remove();
+      });
+
+      $scope.replyContent = "";
+      $scope.reply = function(subject, content) {
+        $scope.disableActions = true;
+        KoC.sendMessage(userid, subject, content)
+            .success(function(response){
+                if (response.success === true) {
+                  $scope.inbox = response.result.inbox;
+                  $log.debug("sent the message and refreshed the inbox");
+                  $scope.replyModal.hide();
+                  $ionicLoading.show({template: 'Message sent', noBackdrop: true, duration: 1000});
+                }
+                else {
+                  $scope.replyError = response.error;
+                }
+            })
+            .error(function(error){
+                $scope.replyError = "An error occurred sending the message";
+            })
+            .finally(function(){
+                $scope.disableActions = false;
+            });
       };
 
     }]);
