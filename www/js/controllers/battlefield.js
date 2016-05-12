@@ -9,15 +9,15 @@ angular.module('koc.controllers')
       $scope.battlefieldError = "";
 
       var retrieveLastPage = function() {
-        if ($stateParams.page === undefined || $stateParams.page == 0) {
+        if ($stateParams.page === undefined || $stateParams.page == "0" || $stateParams.page == 0) {
           $stateParams.page = ($rootScope.lastBattlefieldPage !== undefined) ? Number.parseInt($rootScope.lastBattlefieldPage) : 0;
         }
       };
       retrieveLastPage();
 
       $scope.battlefield = {
-        currentPage: $stateParams.page,
-        maxPage: User.getBattlefieldMaxPage(),
+        currentPage: Number.parseInt($stateParams.page),
+        maxPage: Number.parseInt(User.getBattlefieldMaxPage())
       };
 
       $scope.reloadBattlefield = function () {
@@ -59,7 +59,7 @@ angular.module('koc.controllers')
         else
         {
           data = {
-            page: page,
+            page: page
           };
           $rootScope.lastBattlefieldPage = page;
         }
@@ -67,7 +67,7 @@ angular.module('koc.controllers')
           .success(function (response) {
             if (response.success === true) {
               $scope.battlefield = response.result;
-              User.setBattlefieldMaxPage($scope.battlefield.maxPage);
+              User.setBattlefieldMaxPage(Number.parseInt($scope.battlefield.maxPage));
               $log.debug("retrieved the battlefield");
             }
             else {

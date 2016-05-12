@@ -9,7 +9,7 @@ angular.module('koc.controllers', [ 'ngCordova', 'koc.services' ])
     Config.getConfig();
 
     // Disable BACK button on base
-    $ionicPlatform.registerBackButtonAction(function (event) {
+    $ionicPlatform.registerBackButtonAction(function () {
       if ($state.current.name == "app.base") {
         navigator.app.exitApp();
       }
@@ -21,8 +21,6 @@ angular.module('koc.controllers', [ 'ngCordova', 'koc.services' ])
         navigator.app.backHistory();
       }
     }, 100);
-
-
 
   }]);
 
@@ -43,45 +41,6 @@ angular.module('koc', ['ionic','ionic.service.core', 'ionic.service.analytics', 
         // org.apache.cordova.statusbar required
         StatusBar.styleDefault();
       }
-      // Check for updates
-      //var isCordovaApp = !!window.cordova;
-      //if(isCordovaApp){
-      //  $log.debug("Checking for updates...");
-      //  $ionicDeploy.check().then(function(hasUpdate) {
-      //      // response will be true/false
-      //      if (hasUpdate) {
-      //        $ionicLoading.show({
-      //          template: "Newer version found, updating...",
-      //          noBackdrop: true,
-      //          duration: 2000,
-      //        });
-      //        $ionicDeploy.update().then(function(res) {
-      //          $log.debug('Ionic Deploy: Update Success! ', res);
-      //          $ionicDeploy.load();
-      //        }, function(err) {
-      //          $log.error('Ionic Deploy: Update error! ', err);
-      //          $ionicLoading.show({
-      //            template: "Error updating the app...",
-      //            noBackdrop: true,
-      //            duration: 2000,
-      //          });
-      //        }, function(prog) {
-      //          $log.debug('Ionic Deploy: Progress... ', prog);
-      //        });
-      //      } else {
-      //        // No updates, load the most up to date version of the app
-      //        $log.debug("We are running the latest version already");
-      //      }
-      //    },
-      //    function(error) {
-      //      // Error checking for updates
-      //      $ionicLoading.show({
-      //        template: "Error checking for updates...",
-      //        noBackdrop: true,
-      //        duration: 2000,
-      //      });
-      //    });
-      //}
     });
   } ] )
 
