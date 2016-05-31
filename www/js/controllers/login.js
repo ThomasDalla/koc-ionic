@@ -210,4 +210,6 @@ angular.module('koc.controllers')
 				}
 			});
 
+			User.cleanupOldCache();
+
     }]);

@@ -121,9 +121,11 @@ angular.module('koc.services')
             // propagate the response
             $rootScope.$broadcast('showLoading', false);
             if(response.data!==undefined && response.data!==null && typeof(response.data)=="object") {
-              var data = {};
-              angular.copy(response.data, data);
-              response.data.data = data;
+							if(response.data.constructor===Object) {
+								var data = {};
+								angular.copy(response.data, data);
+								response.data.data = data;
+							}
             }
             return response;
           }

@@ -85,13 +85,43 @@ angular.module('koc.services', [ 'koc.constants' ] )
       },
       getCacheSize: function () {
         var total = 0;
-        localStorage.forEach(function (x) {
-					if (x.indexOf("cache_") >= 0)
-						total += localStorage[x].length;
-				});
+				for(var i=0; i<localStorage.length; i++) {
+					var key = localStorage.key(i);
+					if(key.indexOf("cache_")>=0){
+						total += localStorage.getItem(key).length;
+					}
+				}
         total = total * 2 / 1024;
         return total;
       },
+			cleanupOldCache : function(seconds) {
+				if(seconds==null||seconds==undefined){
+					seconds = 60*60*24*7; //1w
+				}
+				var now = +new Date();
+				var cachesToDelete = [];
+				for(var i=0; i<localStorage.length; i++) {
+					var key = localStorage.key(i);
+					if(key.indexOf("cache_")>=0){
+						try {
+							var cache = JSON.parse(localStorage[key]);
+							var cacheTime = cache.timestamp;
+							if ((now - cacheTime) > seconds) {
+								cachesToDelete.push(key);
+							}
+						}
+						catch (e){
+							$log.error("Error checking cache " + key);
+						}
+					}
+				}
+				if(cachesToDelete.length>0) {
+					$log.debug("Deleting " + cachesToDelete.length + " old caches");
+					cachesToDelete.forEach(function (key) {
+						localStorage.removeItem(key);
+					});
+				}
+			},
       validateEmail: function (email) {
         var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(email);
@@ -116,21 +146,21 @@ angular.module('koc.services', [ 'koc.constants' ] )
       setLoggedIn: function (loggedIn) {
         window.localStorage['loggedIn'] = !!loggedIn;
 				if(!!loggedIn){
-					try {
-						// Save the user
-						var user = this.getIonicUser();
-						if(user!=null) {
-							user.id = this.get().username;
-							user.save().then(function () {
-								$log.debug("Saved user: " + user.id);
-							}, function (err) {
-								$log.error("Failed saving user " + user.id, err);
-							});
-						}
-					}
-					catch(e){
-						$log.error("An error occurred saving the user:", e);
-					}
+					// try {
+					// 	// Save the user
+					// 	var user = this.getIonicUser();
+					// 	if(user!=null) {
+					// 		user.id = this.get().username;
+					// 		user.save().then(function () {
+					// 			$log.debug("Saved user: " + user.id);
+					// 		}, function (err) {
+					// 			$log.error("Failed saving user " + user.id, err);
+					// 		});
+					// 	}
+					// }
+					// catch(e){
+					// 	$log.error("An error occurred saving the user:", e);
+					// }
 					// Send a login event
 					this.track('User Login'); // username is always injected
 				}
@@ -160,8 +190,13 @@ angular.module('koc.services', [ 'koc.constants' ] )
           if (data.timestamp === undefined || typeof(data.timestamp) != "number")
             data.timestamp = +new Date(); // if the server didn't provide a timestamp, set it
           window.localStorage[localStorageKey] = JSON.stringify(data);
+					var location = page;
+					var pageSplit = page.split("/");
+					if(pageSplit.length>1){
+						location = pageSplit[1];
+					}
 					this.track('Page Retrieved', {
-						location: page
+						location: location
 					});
         }
       },
@@ -186,7 +221,7 @@ angular.module('koc.services', [ 'koc.constants' ] )
       },
       clearCache: function (pattern) {
         for (var key in localStorage) {
-          if (key.indexOf("cache_") === 0 // starts by cache_ and either no pattern or matches the pattern
+					if (key.indexOf("cache_") === 0 // starts by cache_ and either no pattern or matches the pattern
             && ( pattern === undefined || pattern === null || ( pattern.length && key.indexOf(pattern) >= 0 ) )) {
             window.localStorage.removeItem(key);
           }
