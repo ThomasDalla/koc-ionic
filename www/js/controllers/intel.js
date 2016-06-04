@@ -28,17 +28,22 @@ angular.module('koc.controllers')
 
         KoC.getIntel(b_start, o_start, cacheTimeInSeconds)
           .success(function (response) {
-            if (response.success === true) {
-              $scope.intelError = "";
-              $scope.intel = response.result;
-              $log.debug("retrieved the intel log");
-              $scope.b_start = b_start;
-              $scope.o_start = o_start;
-              $scope.cacheTimeInSeconds = cacheTimeInSeconds;
-            }
-            else {
-              $scope.intelError = response.error;
-            }
+            if (response != undefined && response != null ) {
+							if (response.success === true) {
+								$scope.intelError = "";
+								$scope.intel = response.result;
+								$log.debug("retrieved the intel log");
+								$scope.b_start = b_start;
+								$scope.o_start = o_start;
+								$scope.cacheTimeInSeconds = cacheTimeInSeconds;
+							}
+							else {
+								$scope.intelError = response.error;
+							}
+						}
+						else {
+							$scope.intelError = "No logs yet";
+						}
           }).error(function (error) {
             $scope.intelError = "An error occurred retrieving the intel log";
           }).

@@ -38,18 +38,23 @@ angular.module('koc.controllers')
 
         KoC.getAttackLog(b_start, o_start, cacheTimeInSeconds)
           .success(function (response) {
-            if (response.success === true) {
-              $log.debug("retrieved the attack log");
-              $scope.attackLogError = "";
-              $scope.attacklog = response.result;
-              $scope.b_start = b_start;
-              $scope.o_start = o_start;
-              $scope.cacheTimeInSeconds = cacheTimeInSeconds;
-            }
-            else {
-              $log.debug("Error loading the attack log: ", response);
-              $scope.attackLogError = response.error;
-            }
+						if(response!=null) {
+							if (response.success === true) {
+								$log.debug("retrieved the attack log");
+								$scope.attackLogError = "";
+								$scope.attacklog = response.result;
+								$scope.b_start = b_start;
+								$scope.o_start = o_start;
+								$scope.cacheTimeInSeconds = cacheTimeInSeconds;
+							}
+							else {
+								$log.debug("Error loading the attack log: ", response);
+								$scope.attackLogError = response.error;
+							}
+						}
+						else {
+							$scope.attackLogError = "No logs yet";
+						}
           }).error(function (error) {
             $scope.attackLogError = "An error occurred retrieving the attack log";
           }).
