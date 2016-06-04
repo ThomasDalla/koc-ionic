@@ -1,6 +1,8 @@
 /*global angular, StatusBar, cordova*/
 
 // Ionic KoC App
+angular.module('koc.services', [ 'koc.constants' ]);
+
 angular.module('koc.controllers', [ 'ngCordova', 'koc.services' ])
 
   .run(['$rootScope', '$ionicPlatform', '$state', 'Config', function ($rootScope, $ionicPlatform, $state, Config) {

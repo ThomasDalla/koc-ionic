@@ -9,12 +9,18 @@ angular.module('koc.services')
 				var isCordovaApp = !!window.cordova;
 				if(isCordovaApp){
 					if(!self.deploy) {
-						if(Ionic === undefined){
-							$log.error("Ionic not defined!");
+						try {
+							if (Ionic === undefined) {
+								$log.error("Ionic not defined!");
+								return null;
+							}
+							self.deploy = new Ionic.Deploy();
+							self.deploy.setChannel(User.getChannel());
+						}
+						catch (e){
+							$log.error("Error initializing Ionic Deploy");
 							return null;
 						}
-						self.deploy = new Ionic.Deploy();
-						self.deploy.setChannel(User.getChannel());
 					}
 					return self.deploy;
 				}

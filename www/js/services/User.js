@@ -1,6 +1,6 @@
 /*global angular,Ionic*/
 
-angular.module('koc.services', [ 'koc.constants' ] )
+angular.module('koc.services' )
 
   .config(['$provide', function ($provide) {
 

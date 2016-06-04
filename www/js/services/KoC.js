@@ -7,8 +7,8 @@ angular.module('koc.services')
     $httpProvider.defaults.cache = false;
 
     // HTTP interceptor
-    $httpProvider.interceptors.push(['$q', '$injector', '$rootScope', '$log', 'User',
-      function ($q, $injector, $rootScope, $log, User) {
+    $httpProvider.interceptors.push(['$q', '$injector', '$rootScope', '$log',
+      function ($q, $injector, $rootScope, $log) {
         return {
           'responseError': function (rejection) {
             $rootScope.$broadcast('showLoading', false);
@@ -22,7 +22,8 @@ angular.module('koc.services')
             // Middleware that catches responses from the API
             if (response !== undefined && typeof(response.data) == "object") {
               // Set the session (if present)
-              User.setSession(response.data.session);
+							var user = $injector.get('User');
+              user.setSession(response.data.session);
               if (
                 // Special case of the battlefield where success can be true while logged off
                 typeof(response.data.result) == "object"
@@ -32,7 +33,7 @@ angular.module('koc.services')
 								&& response.config.loginAndRetry === true // otherwise infinite loop
 							|| (
               response.data.success === false &&
-              response.config.loginAndRetry === true && User.hasLoggedIn()
+              response.config.loginAndRetry === true && user.hasLoggedIn()
               && response.data.location !== undefined && response.data.location.indexOf("error.php") >= 0
               && response.data.error.indexOf("Please login to view that page") >= 0
               )
@@ -40,7 +41,7 @@ angular.module('koc.services')
                 // try to reconnect, and reload the request
                 $log.warn("try to re-login and then retry the request before propagating");
                 $log.debug("page to retry: ", response.config.page);
-                var user = User.get();
+                var user = user.get();
                 var originalRequestConfig = {};
 							  angular.copy(response.config, originalRequestConfig);
                 var KoC = $injector.get('KoC');
@@ -88,7 +89,7 @@ angular.module('koc.services')
                 ) {
                   $log.debug("broadcasting kocStats");
                   $rootScope.$broadcast('kocStats', response.data.stats);
-                  User.setPageRetrieved("stats", response.data.stats);
+                  user.setPageRetrieved("stats", response.data.stats);
                 }
                 if (response.data.help !== undefined) {
                   $log.debug("broadcasting kocAdvisor");
@@ -109,7 +110,7 @@ angular.module('koc.services')
                 }
                 $log.debug("setting page retrieved: " + location);
 
-                User.setPageRetrieved(location, response.data);
+                user.setPageRetrieved(location, response.data);
                 $rootScope.$broadcast('showLoading', false);
                 return response;
               }
