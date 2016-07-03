@@ -83,9 +83,9 @@ angular.module('koc.controllers')
       });
 
       $scope.openRegister = function () {
-        //$state.go('register');
-        window.open('http://www.kingsofchaos.com', '_system', 'location=yes');
-        return false;
+        $state.go('register');
+        //window.open('http://www.kingsofchaos.com', '_system', 'location=yes');
+        //return false;
       };
 
       // Perform the login action when the user submits the login form
