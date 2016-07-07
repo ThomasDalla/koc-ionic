@@ -1,49 +1,41 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
     <title>KoC Mobile Application by ThomasDalla</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/github-dark.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/respond.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!--[if lt IE 8]>
-    <link rel="stylesheet" href="stylesheets/ie.css">
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-
   </head>
+
   <body>
-      <div id="header">
-        <nav>
-          <li class="fork"><a href="https://github.com/ThomasDalla/koc-ionic">View On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/ThomasDalla/koc-ionic/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/ThomasDalla/koc-ionic/tarball/master">TAR</a></li>
-          <li class="title">DOWNLOADS</li>
-        </nav>
-      </div><!-- end header -->
 
-    <div class="wrapper">
+    <header>
+      <div class="container">
+        <h1>KoC Mobile Application</h1>
+        <h2>Mobile front-end to the online MMORPG Kings Of Chaos (built with Ionic)</h2>
 
-      <section>
-        <div id="title">
-          <h1>KoC Mobile Application</h1>
-          <p>Mobile front-end to the online MMORPG Kings Of Chaos (built with Ionic)</p>
-          <hr>
-          <span class="credits left">Project maintained by <a href="https://github.com/ThomasDalla">ThomasDalla</a></span>
-          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
-        </div>
+        <section id="downloads">
+          <a href="https://github.com/ThomasDalla/koc-ionic/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/ThomasDalla/koc-ionic/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/ThomasDalla/koc-ionic" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
 
+    <div class="container">
+      <section id="main_content">
         <h1>
 <a id="koc-mobile-application" class="anchor" href="#koc-mobile-application" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>KoC Mobile Application</h1>
 
 <p>Demo: <a href="https://vimeo.com/124733714">https://vimeo.com/124733714</a>
 <br>
-<a href="https://play.google.com/store/apps/details?id=com.thomasdalla.koc_mobile_ionic">Get it on Android</a></p>
+<a href="https://play.google.com/store/apps/details?id=com.thomasdalla.koc_mobile_ionic">Get it on Android</a>
+<br>
+<a href="https://itunes.apple.com/us/app/mobile-app-for-kings-of-chaos/id1120891840">Get it on iOS</a></p>
 
 <p>This library is the UI component of a set of 3 libraries, as shown in the diagram below:</p>
 
@@ -108,9 +100,8 @@ ionic emulate android -l -c # on emulator (slow)
 ionic run android --device  # on device (fast)
 </pre>
       </section>
-
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+
     
   </body>
 </html>
