@@ -2,7 +2,7 @@
 
 Demo: https://vimeo.com/124733714 <br>
 Android: https://play.google.com/store/apps/details?id=com.thomasdalla.koc_mobile_ionic <br>
-iOS: https://itunes.apple.com/us/app/mobile-app-for-kings-of-chaos/id1120891840
+iOS (iPhone/iPad): https://itunes.apple.com/us/app/mobile-app-for-kings-of-chaos/id1120891840
 
 This library is the UI component of a set of 3 libraries, as shown in the diagram below:
 
