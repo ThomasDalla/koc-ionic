@@ -114,8 +114,12 @@ angular.module('koc.services')
                 $rootScope.$broadcast('showLoading', false);
                 return response;
               }
+              else if(response.data.success!==undefined&&response.data.location!='/newage.php') {
+                $log.error("Please login to the website to start the new age.");
+                $log.debug(response);
+              }
               else if(response.data.success!==undefined&&response.data.location!='/bansuspend.php') {
-                $log.error("We seem to have failed loading the page correctly.");
+                $log.error("You have been banned!");
                 $log.debug(response);
               }
             }
@@ -284,9 +288,12 @@ angular.module('koc.services')
 							});
             }
 						else{
+							var errMsg = "Failed to login";
+							if(response.error != undefined && response.error.length)
+								errMsg = response.error;
 							defer2.resolve({
 								success: false,
-								error: "Failed to login",
+								error: errMsg,
 								details: response,
 							});
 						}

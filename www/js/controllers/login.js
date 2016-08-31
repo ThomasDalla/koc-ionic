@@ -189,27 +189,31 @@ angular.module('koc.controllers')
         }
       };
 
-			$scope.$on('$ionicView.enter', function(){
+			// Check for updates when Ionic is ready
+			$ionicPlatform.ready(function () {
+
+				$log.debug("[login.js] Ionic Platform ready");
+
+				$timeout(createModals, 500);
 
 				try {
 					Ionic.io();
-					$log.debug("Ionic.io() initialized");
+					$log.debug("[login.js] Ionic.io() initialized");
 				} catch(e){
-					$log.error("An error occurred initializing Ionic.io():", e);
+					$log.error("[login.js] An error occurred initializing Ionic.io():", e);
 				}
 
 				// Update the app
 				IonicUpdate.updateIfNewerVersion();
 
-				$timeout(createModals, 1000);
-				if ($scope.user.loggedIn) {
-					// try to login when ionic is ready
-					$ionicPlatform.ready(function () {
-						$scope.doLogin();
-					} );
-				}
+				// if ($scope.user.loggedIn) {
+				// 	$scope.doLogin();
+				// }
+
 			});
 
 			User.cleanupOldCache();
+
+			$log.debug("[login.js] End of initialization");
 
     }]);
